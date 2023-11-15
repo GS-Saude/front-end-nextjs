@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 16px;
+    height: calc(100vh - 100px);
+    background-color: rgb(20, 20, 20);
+}
+
+.title {
+    color: #ffffff;
+    font-size: 2rem;
+    text-align: center;
+}
