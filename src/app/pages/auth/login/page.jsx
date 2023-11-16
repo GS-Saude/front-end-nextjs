@@ -27,7 +27,7 @@ export default function Login() {
             <div className={styles.login_container}>
                 <div className={styles.image_container}>
                     <h1 className={styles.title}>VivaBem</h1>
-                    <Image src="/illustration_login.svg" width={200} height={200} alt="Ilustração de Login" />
+                    <Image src="/illustration_login.svg" priority={true} width={200} height={200} alt="Ilustração de Login" />
                     <p className={styles.description}>Seja uma pessoa mais saudável</p>
                 </div>
                 <form className={styles.form_box}>
