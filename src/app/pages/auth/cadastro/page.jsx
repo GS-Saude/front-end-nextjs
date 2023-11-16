@@ -3,6 +3,7 @@ import styles from "./style.module.css"
 import Button from "@/components/Button/variants/primary"
 import ButtonLink from "@/components/Button/variants/link"
 import ButtonSecondary from "@/components/Button/variants/secondary"
+import ButtonSuccess from "@/components/Button/variants/success"
 import Input from "@/components/Input/page"
 import React, { useState, useEffect, useMemo } from "react"
 import Image from "next/image"
@@ -50,6 +51,7 @@ export default function Cadastro() {
     const icons = useMemo(() => ({
         next: renderIcon({ name: "next", size: 18, color: "#fff" }),
         back: renderIcon({ name: "back", size: 18, color: "#fff" }),
+        check: renderIcon({ name: "check", size: 18, color: "#fff" }),
     }), []);
 
     const handleClienteChange = (value, fieldName) => {
@@ -61,25 +63,54 @@ export default function Cadastro() {
     }
 
     const calcularMetabolismoBasal = () => {
+        if (!cliente.idade || !cliente.genero || !metabolismo.peso || !metabolismo.altura || !metabolismo.nivelAtividade) {
+            return "Dados Incompletos";
+        }
+
         if (cliente.genero.toLowerCase() === "masculino") {
             const calculo = (66.5 + (13.75 * metabolismo.peso) + (5.003 * metabolismo.altura) - (6.75 * cliente.idade)) * metabolismo.nivelAtividade;
-            return calculo;
-        } else if (cliente.genero.toLowerCase() === "feminino") {
+            return parseInt(calculo);
+        }
+        if (cliente.genero.toLowerCase() === "feminino") {
             const calculo = (655.1 + (9.563 * metabolismo.peso) + (1.850 * metabolismo.altura) - (4.676 * cliente.idade)) * metabolismo.nivelAtividade
-            return calculo;
-        } else {
-            throw new Error("Gênero inválido");
+            return parseInt(calculo);
         }
     };
 
+
     const onSubmit = () => {
         if (!cliente.nome || !cliente.email || !cliente.idade || !cliente.genero || !cliente.senha) {
-            alert("Preencha todos os campos")
+            alert("Preencha todos os campos do cliente")
+            return;
+        }
+        if (!metabolismo.peso || !metabolismo.altura || !metabolismo.nivelAtividade) {
+            alert("Preencha todos os campos do metabolismo")
+            return;
+        }
+        if (!biotipo.nm_biotipo || !biotipo.desc_biotipo) {
+            alert("Selecione um biotipo")
+            return;
+        }
+        if (!treino.nm_treino || !treino.desc_treino) {
+            alert("Selecione um treino")
+            return;
+        }
+        if (!tipoTreino.nm_tipo_treino || !tipoTreino.desc_tipo_treino) {
+            alert("Selecione um tipo de treino")
+            return;
+        }
+        if (!dieta.nm_dieta || !dieta.desc_dieta) {
+            alert("Selecione uma dieta")
             return;
         }
 
         try {
             console.log(cliente);
+            console.log(metabolismo);
+            console.log(biotipo);
+            console.log(treino);
+            console.log(tipoTreino);
+            console.log(dieta);
         } catch (error) {
             console.log(error);
         }
@@ -402,7 +433,6 @@ export default function Cadastro() {
                         <Button onClick={() => setStep(5)}>{icons.next}</Button>
                     </div>
                 </div>
-
                 <div className={step == 5 ? styles.dieta_container : styles.display_none}>
                     <h1>Selecione sua Dieta</h1>
                     <div className={styles.dieta_box}>
@@ -422,7 +452,7 @@ export default function Cadastro() {
                             title="Dieta Completa"
                             color="#fff"
                             onClick={() => {
-                                setDieta({ nm_dieta: "Dieta Completa", desc_dieta: "A dieta ideal para manter o corpo nutrido e saudável, com frutas, verduras, legumes, com proteínas e carboidratos" })
+                                setDieta({ nm_dieta: "Dieta Completa", desc_dieta: "A dieta ideal para manter o corpo nutrido e saudável, com frutas, verduras, legumes, proteínas e carboidratos" })
                                 setTimeout(() => {
                                     setStep(6)
                                 }, 500)
@@ -437,7 +467,46 @@ export default function Cadastro() {
                     )}
                     <div className={styles.divButton}>
                         <Button onClick={() => setStep(4)}>{icons.back}</Button>
-                        <Button onClick={() => setStep(6)}>{icons.next}</Button>
+                        <Button onClick={() => setStep(6)}>Finalizar {icons.check}</Button>
+                    </div>
+                </div>
+                <div className={step == 6 ? styles.fim_container : styles.display_none}>
+                    <h1>Finalizar Cadastro</h1>
+                    <div className={styles.fim_box}>
+                        <div className={styles.box_left}>
+                            <div className={styles.fim_boxes}>
+                                <h2>Seus Dados</h2>
+                                <h4><h3>Nome:</h3> {cliente?.nome}</h4>
+                                <h4><h3>Email:</h3> {cliente?.email}</h4>
+                                <h4><h3>Idade:</h3> {cliente?.idade}</h4>
+                                <h4><h3>Gênero:</h3> {cliente?.genero}</h4>
+                                <h4><h3>Senha:</h3> {cliente.senha}</h4>
+                            </div>
+
+                            <div className={styles.fim_boxes}>
+                                <h2>Seu Metabolismo</h2>
+                                <h4><h3>Peso:</h3> {metabolismo?.peso} kg</h4>
+                                <h4><h3>Altura:</h3> {metabolismo?.altura} cm</h4>
+                                <h4><h3>Metabolismo Basal:</h3> {calcularMetabolismoBasal() == "Dados Incompletos" ? "" : parseInt(calcularMetabolismoBasal()) + " calorias"}</h4>
+                            </div>
+                        </div>
+                        <div className={styles.box_right}>
+                            <div className={styles.fim_boxes}>
+                                <h2>Sua Dieta</h2>
+                                <h4><h3>Dieta:</h3> {dieta?.nm_dieta}</h4>
+                                <h4><h3>Descrição:</h3> {dieta?.desc_dieta}</h4>
+                            </div>
+
+                            <div className={styles.fim_boxes}>
+                                <h2>Seu Treino</h2>
+                                <h4><h3>Treino:</h3> {treino?.nm_treino}</h4>
+                                <h4><h3>Tipo de Treino:</h3> {tipoTreino?.nm_tipo_treino}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div className={styles.divButton}>
+                        <Button onClick={() => setStep(5)}>{icons.back}</Button>
+                        <ButtonSuccess onClick={() => onSubmit()}>Cadastrar</ButtonSuccess>
                     </div>
                 </div>
             </main>
