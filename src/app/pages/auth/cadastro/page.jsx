@@ -12,7 +12,10 @@ import Card from "@/components/Card/page"
 import Modal from "@/components/Modal/page"
 
 export default function Cadastro() {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalBiotipoOpen, setIsModalBiotipoOpen] = useState(false);
+    const [isModalTreinoBasicoOpen, setIsModalTreinoBasicoOpen] = useState(false);
+    const [isModalTreinoIntermediarioOpen, setIsModalTreinoIntermediarioOpen] = useState(false);
+    const [isModalTreinoAvancadoOpen, setIsModalTreinoAvancadoOpen] = useState(false);
     const [step, setStep] = useState(1);
     const [cliente, setCliente] = useState({
         nome: "",
@@ -33,6 +36,10 @@ export default function Cadastro() {
     const [treino, setTreino] = useState({
         nm_treino: "",
         desc_treino: "",
+    })
+    const [tipoTreino, setTipoTreino] = useState({
+        nm_tipo_treino: "",
+        desc_tipo_treino: "",
     })
     const [dieta, setDieta] = useState({
         nm_dieta: "",
@@ -148,7 +155,6 @@ export default function Cadastro() {
                         <Button onClick={() => setStep(3)}>{icons.next}</Button>
                     </div>
                 </div>
-
                 <div className={step == 3 ? styles.biotipo_container : styles.display_none}>
                     <h1>Selecione seu Biotipo</h1>
                     <div className={styles.biotipo_box}>
@@ -197,52 +203,198 @@ export default function Cadastro() {
                     )}
                     <div className={styles.divButton}>
                         <Button onClick={() => setStep(2)}>{icons.back}</Button>
-                        <ButtonSecondary onClick={() => setIsModalOpen(true)}>Descobrir Biotipo</ButtonSecondary>
+                        <ButtonSecondary onClick={() => setIsModalBiotipoOpen(true)}>Descobrir Biotipo</ButtonSecondary>
                         <Button onClick={() => setStep(4)}>{icons.next}</Button>
                     </div>
                 </div>
-
                 <div className={step == 4 ? styles.treino_container : styles.display_none}>
                     <h1>Selecione seu Treino</h1>
                     <div className={styles.treino_box}>
                         <Card
-                            backgroundImage="/treino_basico.jpg"
+                            backgroundImage="/treino_iniciante.jpg"
                             title="Treino Básico"
                             color="#fff"
                             onClick={() => {
                                 setTreino({ nm_treino: "Treino Básico", desc_treino: "Treino básico para iniciantes, com exercícios simples, para começar a ter uma vida mais saudável." })
-                                setTimeout(() => {
-                                    setStep(5)
-                                }, 500)
+                                setIsModalTreinoBasicoOpen(true);
                             }}
                         />
+                        {isModalTreinoBasicoOpen && (
+                            <Modal title="Treinos Básicos" closeModal={() => setIsModalTreinoBasicoOpen(false)}>
+                                <div className={styles.modal_treino}>
+                                    <Card
+                                        title="Foco em Superiores"
+                                        color="#fff"
+                                        cardSize="vertical"
+                                        backgroundImage="/treino_superiores.jpg"
+                                        onClick={() => {
+                                            setTipoTreino({ nm_tipo_treino: "Superiores", desc_tipo_treino: "Treino focado em superiores" })
+                                            setIsModalTreinoBasicoOpen(false);
+                                            setTimeout(() => {
+                                                setStep(5)
+                                            }, 500)
+                                        }}
+                                    />
+                                    <Card
+                                        title="Foco em Inferiores"
+                                        color="#fff"
+                                        cardSize="vertical"
+                                        backgroundImage="/treino_inferiores.jpg"
+                                        onClick={() => {
+                                            setTipoTreino({ nm_tipo_treino: "Inferiores", desc_tipo_treino: "Treino focado em inferiores" })
+                                            setIsModalTreinoBasicoOpen(false);
+                                            setTimeout(() => {
+                                                setStep(5)
+                                            }, 500)
+                                        }}
+                                    />
+                                    <Card
+                                        title="Full Body"
+                                        color="#fff"
+                                        cardSize="vertical"
+                                        backgroundImage="/treino_fullbody.jpg"
+                                        onClick={() => {
+                                            setTipoTreino({ nm_tipo_treino: "Full Body", desc_tipo_treino: "Treino focado no todo o corpo" })
+                                            setIsModalTreinoBasicoOpen(false);
+                                            setTimeout(() => {
+                                                setStep(5)
+                                            }, 500)
+                                        }}
+                                    />
+                                </div>
+                            </Modal>
+                        )}
+
                         <Card
                             backgroundImage="/treino_intermediario.jpg"
                             title="Treino Intermediário"
                             color="#fff"
                             onClick={() => {
                                 setTreino({ nm_treino: "Treino Intermediário", desc_treino: "Treino intermediário para quem já tem uma certa experiência com exercícios físicos, com exercícios mais complexos." })
-                                setTimeout(() => {
-                                    setStep(5)
-                                }, 500)
+                                setIsModalTreinoIntermediarioOpen(true);
                             }}
                         />
+                        {isModalTreinoIntermediarioOpen && (
+                            <Modal title="Treinos Intermediários" closeModal={() => setIsModalTreinoIntermediarioOpen(false)}>
+                                <div className={styles.modal_treino}>
+                                    <Card
+                                        title="Foco em Peitoral"
+                                        color="#fff"
+                                        cardSize="vertical"
+                                        backgroundImage="/treino_peitoral.jpg"
+                                        onClick={() => {
+                                            setTipoTreino({ nm_tipo_treino: "Peitoral", desc_tipo_treino: "Treino focado em peitoral" })
+                                            setIsModalTreinoIntermediarioOpen(false);
+                                            setTimeout(() => {
+                                                setStep(5)
+                                            }, 500)
+                                        }}
+                                    />
+                                    <Card
+                                        title="Foco em Costas"
+                                        color="#fff"
+                                        cardSize="vertical"
+                                        backgroundImage="/treino_costas.jpg"
+                                        onClick={() => {
+                                            setTipoTreino({ nm_tipo_treino: "Costas", desc_tipo_treino: "Treino focado em costas" })
+                                            setIsModalTreinoIntermediarioOpen(false);
+                                            setTimeout(() => {
+                                                setStep(5)
+                                            }, 500)
+                                        }}
+                                    />
+                                    <Card
+                                        title="Foco em Pernas"
+                                        color="#fff"
+                                        cardSize="vertical"
+                                        backgroundImage="/treino_pernas.jpg"
+                                        onClick={() => {
+                                            setTipoTreino({ nm_tipo_treino: "Pernas", desc_tipo_treino: "Treino focado em pernas" })
+                                            setIsModalTreinoIntermediarioOpen(false);
+                                            setTimeout(() => {
+                                                setStep(5)
+                                            }, 500)
+                                        }}
+                                    />
+                                </div>
+                            </Modal>
+                        )}
+
                         <Card
-                            backgroundImage="/treino_avancado.jpg"
+                            backgroundImage="/treino_avancado.png"
                             title="Treino Avançado"
                             color="#fff"
                             onClick={() => {
                                 setTreino({ nm_treino: "Treino Avançado", desc_treino: "Treino avançado para quem já tem uma boa experiência com exercícios físicos, com exercícios complexos." })
-                                setTimeout(() => {
-                                    setStep(5)
-                                }, 500)
+                                setIsModalTreinoAvancadoOpen(true);
                             }}
                         />
+                        {isModalTreinoAvancadoOpen && (
+                            <Modal title="Treinos Avançados" closeModal={() => setIsModalTreinoAvancadoOpen(false)}>
+                                <div className={styles.modal_treino}>
+                                    <Card
+                                        title="Foco em Peitoral"
+                                        color="#fff"
+                                        cardSize="vertical"
+                                        backgroundImage="/treino_peitoral.jpg"
+                                        onClick={() => {
+                                            setTipoTreino({ nm_tipo_treino: "Peitoral", desc_tipo_treino: "Treino focado em peitoral" })
+                                            setIsModalTreinoAvancadoOpen(false);
+                                            setTimeout(() => {
+                                                setStep(5)
+                                            }, 500)
+                                        }}
+                                    />
+                                    <Card
+                                        title="Foco em Costas"
+                                        color="#fff"
+                                        cardSize="vertical"
+                                        backgroundImage="/treino_costas.jpg"
+                                        onClick={() => {
+                                            setTipoTreino({ nm_tipo_treino: "Costas", desc_tipo_treino: "Treino focado em costas" })
+                                            setIsModalTreinoAvancadoOpen(false);
+                                            setTimeout(() => {
+                                                setStep(5)
+                                            }, 500)
+                                        }}
+                                    />
+                                    <Card
+                                        title="Foco em Pernas"
+                                        color="#fff"
+                                        cardSize="vertical"
+                                        backgroundImage="/treino_pernas.jpg"
+                                        onClick={() => {
+                                            setTipoTreino({ nm_tipo_treino: "Pernas", desc_tipo_treino: "Treino focado em pernas" })
+                                            setIsModalTreinoAvancadoOpen(false);
+                                            setTimeout(() => {
+                                                setStep(5)
+                                            }, 500)
+                                        }}
+                                    />
+                                    <Card
+                                        title="Foco em Braços"
+                                        color="#fff"
+                                        cardSize="vertical"
+                                        backgroundImage="/treino_bracos.jpg"
+                                        onClick={() => {
+                                            setTipoTreino({ nm_tipo_treino: "Braços", desc_tipo_treino: "Treino focado em braços" })
+                                            setIsModalTreinoAvancadoOpen(false);
+                                            setTimeout(() => {
+                                                setStep(5)
+                                            }, 500)
+                                        }}
+                                    />
+                                </div>
+                            </Modal>
+                        )}
                     </div>
-                    {treino.nm_treino && (
+                    {treino.nm_treino && tipoTreino.nm_tipo_treino && (
                         <div className={styles.selected_treino}>
-                            <h5>Treino selecionado:</h5>
-                            <h4>{treino.nm_treino.toUpperCase()}</h4>
+                            <div>
+                                <h5>Treino selecionado:</h5>
+                                <h4>{treino.nm_treino.toUpperCase()}</h4>
+                                <h4>{tipoTreino.nm_tipo_treino.toUpperCase()}</h4>
+                            </div>
                         </div>
                     )}
                     <div className={styles.divButton}>
@@ -289,8 +441,8 @@ export default function Cadastro() {
                     </div>
                 </div>
             </main>
-            {isModalOpen && (
-                <Modal title="Descubra seu biotipo" closeModal={() => setIsModalOpen(false)}>
+            {isModalBiotipoOpen && (
+                <Modal title="Descubra seu biotipo" closeModal={() => setIsModalBiotipoOpen(false)}>
                     <div className={styles.modal_container_biotipo}>
                         <Image src="/teste_biotipo.png" width={500} height={300} alt="Ilustração do teste de biotipo" />
                     </div>
