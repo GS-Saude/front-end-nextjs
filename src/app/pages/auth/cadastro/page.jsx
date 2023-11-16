@@ -152,17 +152,18 @@ export default function Cadastro() {
                             onChange={(e) => handleClienteChange(e.target.value, "senha")}
                         />
                         <Button onClick={() => {
-                            // if (!cliente.nome || !cliente.email || !cliente.idade || !cliente.genero || !cliente.senha) {
-                            //     alert("Preencha todos os campos")
-                            //     return;
-                            // }
+                            if (!cliente.nome || !cliente.email || !cliente.idade || !cliente.genero || !cliente.senha) {
+                                alert("Preencha todos os campos")
+                                return;
+                            }
                             setStep(2)
-                        }}>Próximo {icons.next}</Button>
+                        }}>Continuar {icons.next}</Button>
                         <ButtonLink redirect="/pages/auth/login">Já Possui Cadastro ?</ButtonLink>
                     </form>
                 </div>
                 <div className={step == 2 ? styles.metabolismo_container : styles.display_none}>
-                    <div>
+                    <h2>Calcule seu Metabolismo Basal</h2>
+                    <div className={styles.metabolismo_box}>
                         <Input
                             label="Peso (kg)"
                             placeholder="Digite seu peso em kg"
@@ -182,8 +183,14 @@ export default function Cadastro() {
                         />
                     </div>
                     <div className={styles.divButton}>
-                        <Button onClick={() => setStep(1)}>{icons.back}</Button>
-                        <Button onClick={() => setStep(3)}>{icons.next}</Button>
+                        <Button onClick={() => setStep(1)}>{icons.back} Voltar</Button>
+                        <Button onClick={() => {
+                            if(!metabolismo.peso || !metabolismo.altura || !metabolismo.nivelAtividade){
+                                alert("Preencha todos os campos do metabolismo")
+                                return;
+                            }
+                            setStep(3)
+                        }}>Próxima Etapa {icons.next}</Button>
                     </div>
                 </div>
                 <div className={step == 3 ? styles.biotipo_container : styles.display_none}>
@@ -233,9 +240,8 @@ export default function Cadastro() {
                         </div>
                     )}
                     <div className={styles.divButton}>
-                        <Button onClick={() => setStep(2)}>{icons.back}</Button>
+                        <Button onClick={() => setStep(2)}>{icons.back}Voltar</Button>
                         <ButtonSecondary onClick={() => setIsModalBiotipoOpen(true)}>Descobrir Biotipo</ButtonSecondary>
-                        <Button onClick={() => setStep(4)}>{icons.next}</Button>
                     </div>
                 </div>
                 <div className={step == 4 ? styles.treino_container : styles.display_none}>
@@ -429,8 +435,7 @@ export default function Cadastro() {
                         </div>
                     )}
                     <div className={styles.divButton}>
-                        <Button onClick={() => setStep(3)}>{icons.back}</Button>
-                        <Button onClick={() => setStep(5)}>{icons.next}</Button>
+                        <Button onClick={() => setStep(3)}>{icons.back}Voltar</Button>
                     </div>
                 </div>
                 <div className={step == 5 ? styles.dieta_container : styles.display_none}>
