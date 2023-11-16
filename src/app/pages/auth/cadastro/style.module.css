@@ -96,6 +96,11 @@
     align-items: center;
     gap: 24px;
 }
+.selected_biotipo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
 .modal_container_biotipo{
     display: flex;
@@ -124,6 +129,11 @@
     gap: 24px;
 }
 
+.selected_dieta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
 
 

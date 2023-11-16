@@ -30,7 +30,10 @@ export default function Cadastro() {
         nm_biotipo: "",
         desc_biotipo: "",
     });
-
+    const [treino, setTreino] = useState({
+        nm_treino: "",
+        desc_treino: "",
+    })
     const [dieta, setDieta] = useState({
         nm_dieta: "",
         desc_dieta: "",
@@ -151,7 +154,7 @@ export default function Cadastro() {
                     <div className={styles.biotipo_box}>
                         <Card
                             backgroundImage="/ectomorfo.png"
-                            title="Endomorfo"
+                            title="Ectomorfo"
                             color="#000"
                             cardSize="vertical"
                             onClick={() => {
@@ -163,7 +166,7 @@ export default function Cadastro() {
                         />
                         <Card
                             backgroundImage="/mesomorfo.png"
-                            title="Endomorfo"
+                            title="Mesomorfo"
                             color="#000"
                             cardSize="vertical"
                             onClick={() => {
@@ -186,6 +189,12 @@ export default function Cadastro() {
                             }}
                         />
                     </div>
+                    {biotipo.nm_biotipo && (
+                        <div className={styles.selected_biotipo}>
+                            <h5>Biotipo selecionado:</h5>
+                            <h4>{biotipo.nm_biotipo.toUpperCase()}</h4>
+                        </div>
+                    )}
                     <div className={styles.divButton}>
                         <Button onClick={() => setStep(2)}>{icons.back}</Button>
                         <ButtonSecondary onClick={() => setIsModalOpen(true)}>Descobrir Biotipo</ButtonSecondary>
@@ -193,49 +202,90 @@ export default function Cadastro() {
                     </div>
                 </div>
 
-                <div className={step == 4 ? styles.dieta_container : styles.display_none}>
-                    <h1>Selecione sua Dieta</h1>
-                    <div className={styles.dieta_box}>
+                <div className={step == 4 ? styles.treino_container : styles.display_none}>
+                    <h1>Selecione seu Treino</h1>
+                    <div className={styles.treino_box}>
                         <Card
-                            backgroundImage="/dieta_ectomorfo.png"
-                            title="Dieta Básica"
-                            color="#000"
-                            cardSize="horizontal"
+                            backgroundImage="/treino_basico.jpg"
+                            title="Treino Básico"
+                            color="#fff"
                             onClick={() => {
-                                setDieta({ nm_dieta: "Dieta Ectomorfo", desc_dieta: "A dieta para ectomorfo deve ser rica em carboidratos e proteínas, pois são os nutrientes que ajudam no ganho de massa muscular e peso." })
+                                setTreino({ nm_treino: "Treino Básico", desc_treino: "Treino básico para iniciantes, com exercícios simples, para começar a ter uma vida mais saudável." })
                                 setTimeout(() => {
                                     setStep(5)
                                 }, 500)
                             }}
                         />
                         <Card
-                            backgroundImage="/dieta_mesomorfo.png"
-                            title="Dieta Intermediária"
-                            color="#000"
-                            cardSize="horizontal"
+                            backgroundImage="/treino_intermediario.jpg"
+                            title="Treino Intermediário"
+                            color="#fff"
                             onClick={() => {
-                                setDieta({ nm_dieta: "Dieta Mesomorfo", desc_dieta: "A dieta para mesomorfo deve ser rica em proteínas e carboidratos, pois são os nutrientes que ajudam no ganho de massa muscular e peso." })
+                                setTreino({ nm_treino: "Treino Intermediário", desc_treino: "Treino intermediário para quem já tem uma certa experiência com exercícios físicos, com exercícios mais complexos." })
                                 setTimeout(() => {
                                     setStep(5)
                                 }, 500)
                             }}
                         />
                         <Card
-                            backgroundImage="/dieta_mesomorfo.png"
-                            title="Dieta Avançada"
-                            color="#000"
-                            cardSize="horizontal"
+                            backgroundImage="/treino_avancado.jpg"
+                            title="Treino Avançado"
+                            color="#fff"
                             onClick={() => {
-                                setDieta({ nm_dieta: "Dieta Mesomorfo", desc_dieta: "A dieta para mesomorfo deve ser rica em proteínas e carboidratos, pois são os nutrientes que ajudam no ganho de massa muscular e peso." })
+                                setTreino({ nm_treino: "Treino Avançado", desc_treino: "Treino avançado para quem já tem uma boa experiência com exercícios físicos, com exercícios complexos." })
                                 setTimeout(() => {
                                     setStep(5)
                                 }, 500)
                             }}
                         />
                     </div>
+                    {treino.nm_treino && (
+                        <div className={styles.selected_treino}>
+                            <h5>Treino selecionado:</h5>
+                            <h4>{treino.nm_treino.toUpperCase()}</h4>
+                        </div>
+                    )}
                     <div className={styles.divButton}>
                         <Button onClick={() => setStep(3)}>{icons.back}</Button>
                         <Button onClick={() => setStep(5)}>{icons.next}</Button>
+                    </div>
+                </div>
+
+                <div className={step == 5 ? styles.dieta_container : styles.display_none}>
+                    <h1>Selecione sua Dieta</h1>
+                    <div className={styles.dieta_box}>
+                        <Card
+                            backgroundImage="/dieta_basica.jpg"
+                            title="Dieta Básica"
+                            color="#fff"
+                            onClick={() => {
+                                setDieta({ nm_dieta: "Dieta Básica", desc_dieta: "A dieta básica para iniciar uma alimentação saudável, evitando produtos industrializados e processados" })
+                                setTimeout(() => {
+                                    setStep(6)
+                                }, 500)
+                            }}
+                        />
+                        <Card
+                            backgroundImage="/dieta_completa.jpg"
+                            title="Dieta Completa"
+                            color="#fff"
+                            onClick={() => {
+                                setDieta({ nm_dieta: "Dieta Completa", desc_dieta: "A dieta ideal para manter o corpo nutrido e saudável, com frutas, verduras, legumes, com proteínas e carboidratos" })
+                                setTimeout(() => {
+                                    setStep(6)
+                                }, 500)
+                            }}
+                        />
+                    </div>
+                    {dieta.nm_dieta && (
+                        <div className={styles.selected_dieta}>
+                            <h5>Dieta selecionada:</h5>
+                            <h4>{dieta.nm_dieta.toUpperCase()}</h4>
+                        </div>
+                    )}
+                    <div className={styles.divButton}>
+                        <Button onClick={() => setStep(4)}>{icons.back}</Button>
+                        <Button onClick={() => setStep(6)}>{icons.next}</Button>
                     </div>
                 </div>
             </main>
