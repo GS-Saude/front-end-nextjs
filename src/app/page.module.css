@@ -7,21 +7,27 @@
 }
 
 .first_section {
-  background-image: url("/home_bg.jpg");
-  background-position: top;
+  background-image: url("/man_trainning.jpg");
+  background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
-  height: calc(100vh - 50px);
+  height: 105vh;
   display: flex;
-  justify-content: end;
+  justify-content: flex-start;
   align-items: center;
-  padding-right: 64px;
+  padding-left: 64px;
+  position: relative;
+}
+
+.background_info {
+  border-radius: 12px;
+  padding: 32px;
 }
 
 .first_title {
   color: #fff;
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 700;
   margin-bottom: 32px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -33,9 +39,20 @@
   font-weight: 400;
   margin-bottom: 32px;
   font-family: Arial, Helvetica, sans-serif;
-  width: 450px;
+  width: 500px;
   text-align: justify;
 }
+
+.cards {
+  display: flex;
+  gap: 48px;
+  position: absolute;
+  bottom: -70px;
+  left: 19.5vw;
+}
+
+
+
 
 
 
