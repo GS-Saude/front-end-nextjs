@@ -17,6 +17,7 @@ export default function Cadastro() {
     const [isModalTreinoBasicoOpen, setIsModalTreinoBasicoOpen] = useState(false);
     const [isModalTreinoIntermediarioOpen, setIsModalTreinoIntermediarioOpen] = useState(false);
     const [isModalTreinoAvancadoOpen, setIsModalTreinoAvancadoOpen] = useState(false);
+    const [smallerImage, setSmallerImage] = useState(false);
     const [step, setStep] = useState(1);
     const [cliente, setCliente] = useState({
         nome: "",
@@ -47,7 +48,6 @@ export default function Cadastro() {
         desc_dieta: "",
     })
 
-
     const icons = useMemo(() => ({
         next: renderIcon({ name: "next", size: 18, color: "#fff" }),
         back: renderIcon({ name: "back", size: 18, color: "#fff" }),
@@ -76,6 +76,7 @@ export default function Cadastro() {
             return parseInt(calculo);
         }
     };
+    
 
 
     const onSubmit = () => {
@@ -115,6 +116,7 @@ export default function Cadastro() {
             console.log(error);
         }
     };
+    
 
     return (
         <>
@@ -241,7 +243,15 @@ export default function Cadastro() {
                     )}
                     <div className={styles.divButton}>
                         <Button onClick={() => setStep(2)}>{icons.back}Voltar</Button>
-                        <ButtonSecondary onClick={() => setIsModalBiotipoOpen(true)}>Descobrir Biotipo</ButtonSecondary>
+                        <ButtonSecondary onClick={() => {
+                            if(window.innerWidth < 768){
+                                setSmallerImage(true)
+                                setIsModalBiotipoOpen(true)
+                            } else {
+                                setSmallerImage(false)
+                                setIsModalBiotipoOpen(true)
+                            }
+                        }}>Descobrir Biotipo</ButtonSecondary>
                     </div>
                 </div>
                 <div className={step == 4 ? styles.treino_container : styles.display_none}>
@@ -472,7 +482,7 @@ export default function Cadastro() {
                     )}
                     <div className={styles.divButton}>
                         <Button onClick={() => setStep(4)}>{icons.back}</Button>
-                        <Button onClick={() => setStep(6)}>Finalizar {icons.check}</Button>
+                        {dieta.nm_dieta && <Button onClick={() => setStep(6)}>Finalizar {icons.check}</Button>}
                     </div>
                 </div>
                 <div className={step == 6 ? styles.fim_container : styles.display_none}>
@@ -492,7 +502,7 @@ export default function Cadastro() {
                                 <h2>Seu Metabolismo</h2>
                                 <h4><h3>Peso:</h3> {metabolismo?.peso} kg</h4>
                                 <h4><h3>Altura:</h3> {metabolismo?.altura} cm</h4>
-                                <h4><h3>Metabolismo Basal:</h3> {calcularMetabolismoBasal() == "Dados Incompletos" ? "" : parseInt(calcularMetabolismoBasal()) + " calorias"}</h4>
+                                <h4><h3>Gasto Calórico:</h3> {calcularMetabolismoBasal() == "Dados Incompletos" ? "" : parseInt(calcularMetabolismoBasal()) + " calorias"}</h4>
                             </div>
                         </div>
                         <div className={styles.box_right}>
@@ -518,7 +528,11 @@ export default function Cadastro() {
             {isModalBiotipoOpen && (
                 <Modal title="Descubra seu biotipo" closeModal={() => setIsModalBiotipoOpen(false)}>
                     <div className={styles.modal_container_biotipo}>
-                        <Image src="/teste_biotipo.png" width={500} height={300} alt="Ilustração do teste de biotipo" />
+                        {smallerImage ? (
+                            <Image src="/teste_biotipo.png" priority={true} width={300} height={150} alt="Ilustração do teste de biotipo" />
+                        ) : (
+                            <Image src="/teste_biotipo.png" priority={true} width={500} height={300} alt="Ilustração do teste de biotipo" />
+                        )}
                     </div>
                 </Modal>
             )}

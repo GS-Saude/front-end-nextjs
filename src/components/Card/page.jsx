@@ -3,14 +3,14 @@ import styles from "./style.module.css"
 import renderIcon from "@/utils/iconGallery"
 import { useMemo } from "react";
 
-export default function Card({ 
-    icon = "user", 
-    iconSize = 18, 
-    iconColor = "#fff", 
+export default function Card({
+    icon = "user",
+    iconSize = 18,
+    iconColor = "#fff",
     backgroundImage,
     title,
     children,
-    cardSize, 
+    cardSize,
     onClick,
     color,
 }) {
@@ -23,7 +23,7 @@ export default function Card({
             backgroundPosition: "center",
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
-            minWidth: "350px",
+            minWidth: "250px",
             minHeight: "150px",
             filter: "drop-shadow(0px 0px 10px rgba(11, 45, 93, 0.434))",
         };
@@ -35,9 +35,9 @@ export default function Card({
             backgroundPosition: "center",
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
-            minWidth: "200px",
+            minWidth: "160px",
             maxWidth: "200px",
-            minHeight: "200px",
+            minHeight: "175px",
             maxHeight: "200px",
             filter: "drop-shadow(0px 0px 10px rgba(11, 45, 93, 0.434))",
         };

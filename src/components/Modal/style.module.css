@@ -30,6 +30,7 @@
     border-radius: 12px;
     position: relative;
     z-index: 1001;
+    margin: 12px;
 }
 
 .modal_content header{
