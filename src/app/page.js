@@ -26,24 +26,34 @@ export default function Home() {
           <Card icon='comida' iconSize={64} backgroundImage="/diet.jpg">
             <p style={({ fontWeight: "700", fontSize: "18px" })}>Dietas Exclusivas</p>
           </Card>
-          <Card icon='longevidade' iconSize={64} backgroundImage="longevity.jpg">
-            <p style={({ fontWeight: "700", fontSize: "18px" })}>Longevidade</p>
-          </Card>
         </div>
       </section>
 
-      
-
       <section className={styles.second_section}>
-        <Image className={styles.healthy_food} src="/healthy_food.jpg" width={450} height={650} alt='Comida Saudável' />
-        
-        <div className={styles.information}>
-          <h2 className={styles.second_title}>Dietas</h2>
-          <p className={styles.second_description}>
-            Crie dietas personalizadas de acordo com
-            seus objetivos e necessidades.
-          </p>
+        <div className={styles.second_body}>
+          <div className={styles.second_description}>
+            <h6>corpo</h6>
+            <h3 className={styles.decorated_text}>FORTE</h3>
+          </div>
+
+          <Image
+            priority={true}
+            quality={40}
+            style={({ clipPath: "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)" })}
+            src="/halter_bg.jpg"
+            width={300}
+            height={300}
+            alt="Musculação com Halter" />
+
+          <div className={styles.second_description_right}>
+            <h6>corpo</h6>
+            <h3 className={styles.decorated_text}>SAUDÁVEL</h3>
+          </div>
         </div>
+      </section>
+
+      <section className={styles.last_section}>
+        
       </section>
     </main>
   )
