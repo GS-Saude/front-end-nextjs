@@ -124,7 +124,7 @@ export default function Cadastro() {
                 <div className={step == 1 ? styles.cadastro_container : styles.display_none}>
                     <div className={styles.image_container}>
                         <h1 className={styles.title}>Crie sua conta</h1>
-                        <Image src="/personal_trainer.svg" width={200} height={200} alt="Ilustração de Login" />
+                        <Image src="/personal_trainer.svg" priority={true} width={200} height={200} alt="Ilustração de Login" />
                         <p className={styles.description}>Seja um de nós, para ser melhor a cada dia</p>
                     </div>
                     <form className={styles.form_box}>
@@ -491,31 +491,31 @@ export default function Cadastro() {
                         <div className={styles.box_left}>
                             <div className={styles.fim_boxes}>
                                 <h2>Seus Dados</h2>
-                                <h4><h3>Nome:</h3> {cliente?.nome}</h4>
-                                <h4><h3>Email:</h3> {cliente?.email}</h4>
-                                <h4><h3>Idade:</h3> {cliente?.idade}</h4>
-                                <h4><h3>Gênero:</h3> {cliente?.genero}</h4>
-                                <h4><h3>Senha:</h3> {cliente.senha}</h4>
+                                <div className={styles.informacao}><h4>Nome:</h4> {cliente?.nome}</div>
+                                <div className={styles.informacao}><h4>Email:</h4> {cliente?.email}</div>
+                                <div className={styles.informacao}><h4>Idade:</h4> {cliente?.idade}</div>
+                                <div className={styles.informacao}><h4>Gênero:</h4> {cliente?.genero}</div>
+                                <div className={styles.informacao}><h4>Senha:</h4> {cliente.senha}</div>
                             </div>
 
                             <div className={styles.fim_boxes}>
                                 <h2>Seu Metabolismo</h2>
-                                <h4><h3>Peso:</h3> {metabolismo?.peso} kg</h4>
-                                <h4><h3>Altura:</h3> {metabolismo?.altura} cm</h4>
-                                <h4><h3>Gasto Calórico:</h3> {calcularMetabolismoBasal() == "Dados Incompletos" ? "" : parseInt(calcularMetabolismoBasal()) + " calorias"}</h4>
+                                <div className={styles.informacao}><h4>Peso:</h4> {metabolismo?.peso} kg</div>
+                                <div className={styles.informacao}><h4>Altura:</h4> {metabolismo?.altura} cm</div>
+                                <div className={styles.informacao}><h4>Gasto Calórico:</h4> {calcularMetabolismoBasal() == "Dados Incompletos" ? "" : parseInt(calcularMetabolismoBasal()) + " calorias"}</div>
                             </div>
                         </div>
                         <div className={styles.box_right}>
                             <div className={styles.fim_boxes}>
                                 <h2>Sua Dieta</h2>
-                                <h4><h3>Dieta:</h3> {dieta?.nm_dieta}</h4>
-                                <h4><h3>Descrição:</h3> {dieta?.desc_dieta}</h4>
+                                <div className={styles.informacao}><h4>Dieta:</h4> {dieta?.nm_dieta}</div>
+                                <div className={styles.informacao}><h4>Descrição:</h4> {dieta?.desc_dieta}</div>
                             </div>
 
                             <div className={styles.fim_boxes}>
                                 <h2>Seu Treino</h2>
-                                <h4><h3>Treino:</h3> {treino?.nm_treino}</h4>
-                                <h4><h3>Tipo de Treino:</h3> {tipoTreino?.nm_tipo_treino}</h4>
+                                <div className={styles.informacao}><h4>Treino:</h4> {treino?.nm_treino}</div>
+                                <div className={styles.informacao}><h4>Tipo de Treino:</h4> {tipoTreino?.nm_tipo_treino}</div>
                             </div>
                         </div>
                     </div>
