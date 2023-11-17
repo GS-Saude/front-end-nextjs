@@ -1,4 +1,4 @@
-import { FaBox, FaX, FaCirclePlay, FaCheck, FaDumbbell, FaPersonRunning, FaBowlFood, FaPaperPlane, FaTruckArrowRight, FaPencil, FaInfinity, FaGithub, FaHandshakeSimple, FaUsers, FaGear, FaRocket, FaChevronLeft, FaEye, FaEyeSlash, FaBars, FaUserCheck, FaMessage, FaCircleInfo, FaPlus, FaCreditCard, FaUserLock, FaRightFromBracket, FaLinkedinIn, FaChevronRight } from 'react-icons/fa6';
+import { FaBox, FaX, FaCirclePlay, FaCheck, FaDumbbell, FaPerson, FaBolt, FaPersonRunning, FaBowlFood, FaPaperPlane, FaTruckArrowRight, FaPencil, FaInfinity, FaGithub, FaHandshakeSimple, FaUsers, FaGear, FaRocket, FaChevronLeft, FaEye, FaEyeSlash, FaBars, FaUserCheck, FaMessage, FaCircleInfo, FaPlus, FaCreditCard, FaUserLock, FaRightFromBracket, FaLinkedinIn, FaChevronRight } from 'react-icons/fa6';
 import { MdOutlineSos } from 'react-icons/md';
 
 const iconGallery = {
@@ -32,6 +32,8 @@ const iconGallery = {
     halter: (color, size, onClick) => <FaDumbbell fill={color} size={size} onClick={onClick} />, 
     comida: (color, size, onClick) => <FaBowlFood fill={color} size={size} onClick={onClick} />,
     longevidade: (color, size, onClick) => <FaPersonRunning fill={color} size={size} onClick={onClick} />,
+    energia: (color, size, onClick) => <FaBolt fill={color} size={size} onClick={onClick} />,
+    pessoa: (color, size, onClick) => <FaPerson fill={color} size={size} onClick={onClick} />,
 }
 
 const renderIcon = ({ name, color, size, onClick }) => iconGallery[name](color, size, onClick);
