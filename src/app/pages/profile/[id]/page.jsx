@@ -55,6 +55,13 @@ export default function Profile({ params }) {
                 </div>
 
                 <div className={styles.bar}>
+                    <div className={styles.dieta_info}>
+                        {icons.comida}
+                        <div>
+                            <h6>Dieta</h6>
+                            <h6>Completa</h6>
+                        </div>
+                    </div>
                     
                 </div>
             </main>
