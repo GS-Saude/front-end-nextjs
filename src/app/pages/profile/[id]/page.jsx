@@ -43,7 +43,10 @@ export default function Profile({ params }) {
                                 <p>3150 Kcal</p>
                             </div>
                         </div>
-                        
+                        <div className={styles.divButtons}>
+                            <ButtonDanger className={styles.delete_button}>{icons.logout}Logout</ButtonDanger>
+                            <ButtonSecondary className={styles.edit_button}>{icons.edit}Editar</ButtonSecondary>
+                        </div>
                     </div>
                 </div>
             </main>
