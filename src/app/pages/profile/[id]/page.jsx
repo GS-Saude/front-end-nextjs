@@ -16,6 +16,10 @@ export default function Profile({ params }) {
         next: renderIcon({ name: "next", size: 18, color: "#fff" }),
         user: renderIcon({ name: "user", size: 18, color: "#fff" }),
         edit: renderIcon({ name: "edit", size: 18, color: "#fff" }),
+        halter: renderIcon({ name: "halter", size: 28, color: "#fff" }),
+        comida: renderIcon({ name: "comida", size: 28, color: "#fff" }),
+        energia: renderIcon({ name: "energia", size: 28, color: "#fff" }),
+        pessoa: renderIcon({ name: "pessoa", size: 28, color: "#fff" }),
     }), []);
 
 
@@ -48,6 +52,10 @@ export default function Profile({ params }) {
                             <ButtonSecondary className={styles.edit_button}>{icons.edit}Editar</ButtonSecondary>
                         </div>
                     </div>
+                </div>
+
+                <div className={styles.bar}>
+                    
                 </div>
             </main>
         </div>
