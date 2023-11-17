@@ -40,7 +40,8 @@ export default function Login() {
                         label="Senha"
                         onChange={(e) => handleChange(e, "senha")}
                     />
-                    <Button onClick={onSubmit}>Entrar</Button>
+                    {/* <Button onClick={onSubmit}>Entrar</Button> */}
+                    <Button redirect="/pages/profile/0">Entrar</Button>
                     <ButtonLink redirect="/pages/auth/cadastro">Cadastrar</ButtonLink>
                 </form>
             </div>
