@@ -6,6 +6,7 @@ import Image from "next/image";
 import ButtonSecondary from "@/components/Button/variants/secondary";
 import ButtonDanger from "@/components/Button/variants/danger";
 import renderIcon from "@/utils/iconGallery";
+import ButtonLink from "@/components/Button/variants/link";
 
 export default function Profile({ params }) {
     const { id } = params;
@@ -20,6 +21,8 @@ export default function Profile({ params }) {
         comida: renderIcon({ name: "comida", size: 28, color: "#fff" }),
         energia: renderIcon({ name: "energia", size: 28, color: "#fff" }),
         pessoa: renderIcon({ name: "pessoa", size: 28, color: "#fff" }),
+        correndo: renderIcon({ name: "correndo", size: 28, color: "#fff" }),
+        add: renderIcon({ name: "add", size: 18, color: "#fff" }),
     }), []);
 
 
@@ -75,6 +78,18 @@ export default function Profile({ params }) {
                             <h6>Biotipo</h6>
                             <h6>Ectomorfo</h6>
                         </div>
+                    </div>
+                    <div className={styles.acessar_treino}>
+                        <ButtonLink onClick={() => console.log("acessando página de treino")}>{icons.correndo}Acessar Treino</ButtonLink>
+                    </div>
+                </div>
+
+                <div className={styles.bottom_profile}>
+                    <div className={styles.left_container}>
+                        
+                    </div>
+                    <div className={styles.right_container}>
+                        
                     </div>
                 </div>
             </main>
