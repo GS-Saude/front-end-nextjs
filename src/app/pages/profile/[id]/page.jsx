@@ -69,7 +69,13 @@ export default function Profile({ params }) {
                             <h6>Foco em Peitoral</h6>
                         </div>
                     </div>
-                    
+                    <div className={styles.biotipo_info}>
+                        {icons.pessoa}
+                        <div>
+                            <h6>Biotipo</h6>
+                            <h6>Ectomorfo</h6>
+                        </div>
+                    </div>
                 </div>
             </main>
         </div>

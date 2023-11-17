@@ -117,3 +117,12 @@
     text-align: center;
     gap: 4px;
 }
+
+.biotipo_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    text-align: center;
+}
