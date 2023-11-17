@@ -86,11 +86,34 @@ export default function Profile({ params }) {
 
                 <div className={styles.bottom_profile}>
                     <div className={styles.left_container}>
-                        
+                        <div className={styles.left_container_header}>
+                            <h1>Medidas</h1>
+                            <ButtonSecondary>{icons.add}Alterar</ButtonSecondary>
+                        </div>
+                        <div className={styles.medidas_container}>
+                            <div className={styles.medidas_info}>
+                                <h6>Peitoral:</h6>
+                                <h5>100 cm</h5>
+                            </div>
+                            <div className={styles.medidas_info}>
+                                <h6>Braços:</h6>
+                                <h5>35 cm</h5>
+                            </div>
+                            <div className={styles.medidas_info}>
+                                <h6>Cintura:</h6>
+                                <h5>80 cm</h5>
+                            </div>
+                            <div className={styles.medidas_info}>
+                                <h6>Coxa:</h6>
+                                <h5>55 cm</h5>
+                            </div>
+                            <div className={styles.medidas_info}>
+                                <h6>Panturrilha:</h6>
+                                <h5>35 cm</h5>
+                            </div>
+                        </div>
                     </div>
-                    <div className={styles.right_container}>
-                        
-                    </div>
+                    
                 </div>
             </main>
         </div>
