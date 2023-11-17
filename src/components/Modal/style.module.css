@@ -25,11 +25,12 @@
 .modal_content{
     width: 100%;
     max-width: 700px;
-    background-color: #fff;
+    background-color: #232323;
     padding: 24px;
     border-radius: 12px;
     position: relative;
     z-index: 1001;
+    margin: 12px;
 }
 
 .modal_content header{
