@@ -152,6 +152,30 @@
     padding: 24px;
     border-right: 1px solid rgb(33, 33, 33);
 }
+.left_container_header {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+.medidas_container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.medidas_info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.medidas_info h6 {
+    color: #d7d7d7;
+    font-weight: 600;
+    font-size: 1rem;
+}
+.medidas_info h5 {
+    color: #ffffff;
+    font-weight: 700;
+}
 
 
 
@@ -164,5 +188,3 @@
     padding: 24px;
     border-left: 1px solid rgb(33, 33, 33);
 }
-
-
