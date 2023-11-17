@@ -113,7 +113,26 @@ export default function Profile({ params }) {
                             </div>
                         </div>
                     </div>
-                    
+                    <div className={styles.right_container}>
+                        <div className={styles.right_container_header}>
+                            <h1>Objetivo</h1>
+                            <ButtonSecondary>{icons.add}Alterar</ButtonSecondary>
+                        </div>
+                        <div className={styles.objetivo_container}>
+                            <div className={styles.objetivo_info}>
+                                <h6>Objetivo</h6>
+                                <h5>Emagrecimento</h5>
+                            </div>
+                            <div className={styles.objetivo_info}>
+                                <h6>Tempo</h6>
+                                <h5>3 meses</h5>
+                            </div>
+                            <div className={styles.objetivo_info}>
+                                <h6>Calorias</h6>
+                                <h5>2500 Kcal</h5>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </main>
         </div>
