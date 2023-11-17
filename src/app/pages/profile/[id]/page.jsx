@@ -62,6 +62,13 @@ export default function Profile({ params }) {
                             <h6>Completa</h6>
                         </div>
                     </div>
+                    <div className={styles.treino_info}>
+                        {icons.halter}
+                        <div>
+                            <h6>Treino Avançado</h6>
+                            <h6>Foco em Peitoral</h6>
+                        </div>
+                    </div>
                     
                 </div>
             </main>
