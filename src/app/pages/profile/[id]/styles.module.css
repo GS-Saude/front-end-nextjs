@@ -56,3 +56,24 @@
     border: 2px solid #5e5e5e;
     border-radius: 6px;
 }
+
+.profile_info {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+
+.user_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.user_desc_info {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+}
+
