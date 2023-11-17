@@ -33,7 +33,18 @@ export default function Profile({ params }) {
             <main className={styles.main}>
                 <div className={styles.top_profile}>
                     <Image className={styles.profile_picture} priority={true} src="/woman_and_string.jpg" width={100} height={100} alt="Foto de perfil" />
-                    
+                    <div className={styles.profile_info}>
+                        <div className={styles.user_info}>
+                            <h1>Rodrigo Silva</h1>
+                            <div className={styles.user_desc_info}>
+                                <p>18 Anos</p>
+                                <p>175 cm</p>
+                                <p>70.5 kg</p>
+                                <p>3150 Kcal</p>
+                            </div>
+                        </div>
+                        
+                    </div>
                 </div>
             </main>
         </div>
