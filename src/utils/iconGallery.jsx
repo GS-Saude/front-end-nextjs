@@ -31,7 +31,7 @@ const iconGallery = {
     guincho: (color, size, onClick) => <FaTruckArrowRight fill={color} size={size} onClick={onClick} />,
     halter: (color, size, onClick) => <FaDumbbell fill={color} size={size} onClick={onClick} />, 
     comida: (color, size, onClick) => <FaBowlFood fill={color} size={size} onClick={onClick} />,
-    longevidade: (color, size, onClick) => <FaPersonRunning fill={color} size={size} onClick={onClick} />,
+    correndo: (color, size, onClick) => <FaPersonRunning fill={color} size={size} onClick={onClick} />,
     energia: (color, size, onClick) => <FaBolt fill={color} size={size} onClick={onClick} />,
     pessoa: (color, size, onClick) => <FaPerson fill={color} size={size} onClick={onClick} />,
 }
