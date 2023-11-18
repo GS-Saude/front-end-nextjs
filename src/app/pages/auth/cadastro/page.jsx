@@ -572,7 +572,7 @@ export default function Cadastro() {
                             </div>
 
                             <div className={styles.fim_boxes}>
-                                <h2>Gasto Calórico Diário</h2>
+                                <h2>Medidas</h2>
                                 <div className={styles.informacao}><h4>Peso:</h4> {metabolismo?.peso} kg</div>
                                 <div className={styles.informacao}><h4>Altura:</h4> {metabolismo?.altura} cm</div>
                                 <div className={styles.informacao}><h4>Consumir ao dia:</h4> {calcularMetabolismoBasal() == "Dados Incompletos" ? "" : parseInt(calcularMetabolismoBasal()) + " calorias"}</div>
@@ -583,13 +583,16 @@ export default function Cadastro() {
                                 <h2>Sua Dieta</h2>
                                 <div className={styles.informacao}><h4>Dieta:</h4> {dieta?.nm_dieta}</div>
                                 <div className={styles.informacao}><h4>Descrição:</h4> {dieta?.desc_dieta}</div>
-                            </div>
-
-                            <div className={styles.fim_boxes}>
                                 <h2>Seu Treino</h2>
                                 <div className={styles.informacao}><h4>Treino:</h4> {treino?.nm_treino}</div>
                                 <div className={styles.informacao}><h4>Tipo de Treino:</h4> {tipoTreino?.nm_tipo_treino}</div>
                                 <div className={styles.informacao}><h4>Biotipo:</h4>{biotipo?.nm_biotipo}</div>
+                            </div>
+
+                            <div className={styles.fim_boxes}>
+                                <h2>Objetivo</h2>
+                                <div className={styles.informacao}><h4>Objetivo: </h4>{objetivo?.nm_objetivo} em {objetivo?.tempo_objetivo + " meses"}</div>
+                                <div className={styles.informacao}><h4>Peso objetivo:</h4> {objetivo?.peso_objetivo + " kg"}</div>
                             </div>
                         </div>
                     </div>
