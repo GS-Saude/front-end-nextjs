@@ -70,26 +70,26 @@ export default function Cadastro() {
 
         if (cliente.genero.toLowerCase() === "masculino") {
             const calculo = (66.5 + (13.75 * metabolismo.peso) + (5.003 * metabolismo.altura) - (6.75 * cliente.idade)) * metabolismo.nivelAtividade;
-            if(cliente.objetivo.toLowerCase() === "perder gordura"){
+            if (cliente.objetivo.toLowerCase() === "perder gordura") {
                 return parseInt(calculo - 500);
             }
-            if(cliente.objetivo.toLowerCase() === "ganhar músculo"){
+            if (cliente.objetivo.toLowerCase() === "ganhar músculo") {
                 return parseInt(calculo + 400)
             }
             return parseInt(calculo);
         }
         if (cliente.genero.toLowerCase() === "feminino") {
             const calculo = (655.1 + (9.563 * metabolismo.peso) + (1.850 * metabolismo.altura) - (4.676 * cliente.idade)) * metabolismo.nivelAtividade
-            if(cliente.objetivo.toLowerCase() === "perder gordura"){
+            if (cliente.objetivo.toLowerCase() === "perder gordura") {
                 return parseInt(calculo - 500);
             }
-            if(cliente.objetivo.toLowerCase() === "ganhar músculo"){
+            if (cliente.objetivo.toLowerCase() === "ganhar músculo") {
                 return parseInt(calculo + 400)
             }
             return parseInt(calculo);
         }
     };
-    
+
     const onSubmit = () => {
         if (!cliente.nome || !cliente.email || !cliente.idade || !cliente.genero || !cliente.senha) {
             alert("Preencha todos os campos do cliente")
@@ -127,7 +127,7 @@ export default function Cadastro() {
             console.log(error);
         }
     };
-    
+
     return (
         <>
             <main className={styles.main}>
@@ -207,7 +207,7 @@ export default function Cadastro() {
                     )}
                     <div className={styles.divButton}>
                         <Button onClick={() => setStep(1)}>{icons.back}Voltar</Button>
-                        {cliente.objetivo && <Button onClick={() => setStep(3)}>Próxima Etapa {icons.next}</Button>}
+                        {cliente.objetivo && <Button onClick={() => setStep(3)}>Avançar {icons.next}</Button>}
                     </div>
                 </div>
                 <div className={step == 3 ? styles.metabolismo_container : styles.display_none}>
@@ -233,13 +233,15 @@ export default function Cadastro() {
                     </div>
                     <div className={styles.divButton}>
                         <Button onClick={() => setStep(2)}>{icons.back} Voltar</Button>
-                        <Button onClick={() => {
-                            // if(!metabolismo.peso || !metabolismo.altura || !metabolismo.nivelAtividade){
-                            //     alert("Preencha todos os campos do metabolismo")
-                            //     return;
-                            // }
-                            setStep(4)
-                        }}>Próxima Etapa {icons.next}</Button>
+                        {metabolismo.peso && metabolismo.altura && metabolismo.nivelAtividade && (
+                            <Button onClick={() => {
+                                // if(!metabolismo.peso || !metabolismo.altura || !metabolismo.nivelAtividade){
+                                //     alert("Preencha todos os campos do metabolismo")
+                                //     return;
+                                // }
+                                setStep(4)
+                            }}>Avançar {icons.next}</Button>
+                        )}
                     </div>
                 </div>
                 <div className={step == 4 ? styles.biotipo_container : styles.display_none}>
@@ -291,7 +293,7 @@ export default function Cadastro() {
                     <div className={styles.divButton}>
                         <Button onClick={() => setStep(3)}>{icons.back}Voltar</Button>
                         <ButtonSecondary onClick={() => {
-                            if(window.innerWidth < 768){
+                            if (window.innerWidth < 768) {
                                 setSmallerImage(true)
                                 setIsModalBiotipoOpen(true)
                             } else {
@@ -299,6 +301,7 @@ export default function Cadastro() {
                                 setIsModalBiotipoOpen(true)
                             }
                         }}>Descobrir Biotipo</ButtonSecondary>
+                        {biotipo.nm_biotipo && <Button onClick={() => setStep(5)}>Avançar {icons.next}</Button>}
                     </div>
                 </div>
                 <div className={step == 5 ? styles.treino_container : styles.display_none}>
@@ -493,6 +496,7 @@ export default function Cadastro() {
                     )}
                     <div className={styles.divButton}>
                         <Button onClick={() => setStep(4)}>{icons.back}Voltar</Button>
+                        {treino.nm_treino && tipoTreino.nm_tipo_treino && <Button onClick={() => setStep(6)}>Avançar {icons.next}</Button>}
                     </div>
                 </div>
                 <div className={step == 6 ? styles.dieta_container : styles.display_none}>
@@ -563,6 +567,7 @@ export default function Cadastro() {
                                 <h2>Seu Treino</h2>
                                 <div className={styles.informacao}><h4>Treino:</h4> {treino?.nm_treino}</div>
                                 <div className={styles.informacao}><h4>Tipo de Treino:</h4> {tipoTreino?.nm_tipo_treino}</div>
+                                <div className={styles.informacao}><h4>Biotipo:</h4>{biotipo?.nm_biotipo}</div>
                             </div>
                         </div>
                     </div>
