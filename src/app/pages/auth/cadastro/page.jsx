@@ -25,8 +25,12 @@ export default function Cadastro() {
         idade: "",
         genero: "",
         senha: "",
-        objetivo: "",
     });
+    const [objetivo, setObjetivo] = useState({
+        nm_objetivo: "",
+        tempo_objetivo: 0,
+        peso_objetivo: 0,
+    })
     const [metabolismo, setMetabolismo] = useState({
         peso: "",
         altura: "",
@@ -70,20 +74,20 @@ export default function Cadastro() {
 
         if (cliente.genero.toLowerCase() === "masculino") {
             const calculo = (66.5 + (13.75 * metabolismo.peso) + (5.003 * metabolismo.altura) - (6.75 * cliente.idade)) * metabolismo.nivelAtividade;
-            if (cliente.objetivo.toLowerCase() === "perder gordura") {
+            if (objetivo.nm_objetivo.toLowerCase() === "perder gordura") {
                 return parseInt(calculo - 500);
             }
-            if (cliente.objetivo.toLowerCase() === "ganhar músculo") {
+            if (objetivo.nm_objetivo.toLowerCase() === "ganhar músculo") {
                 return parseInt(calculo + 400)
             }
             return parseInt(calculo);
         }
         if (cliente.genero.toLowerCase() === "feminino") {
             const calculo = (655.1 + (9.563 * metabolismo.peso) + (1.850 * metabolismo.altura) - (4.676 * cliente.idade)) * metabolismo.nivelAtividade
-            if (cliente.objetivo.toLowerCase() === "perder gordura") {
+            if (objetivo.nm_objetivo.toLowerCase() === "perder gordura") {
                 return parseInt(calculo - 500);
             }
-            if (cliente.objetivo.toLowerCase() === "ganhar músculo") {
+            if (objetivo.nm_objetivo.toLowerCase() === "ganhar músculo") {
                 return parseInt(calculo + 400)
             }
             return parseInt(calculo);
@@ -176,38 +180,56 @@ export default function Cadastro() {
                 <div className={step == 2 ? styles.objetivo_container : styles.display_none}>
                     <h1>Selecione seu Objetivo</h1>
                     <div className={styles.objetivo_box}>
-                        <Card
-                            backgroundImage="/perder_peso.jpg"
-                            title="Perder Gordura"
-                            color="#fff"
-                            onClick={() => {
-                                setCliente({ ...cliente, objetivo: "Perder Gordura" })
-                                setTimeout(() => {
-                                    setStep(3)
-                                }, 500)
-                            }}
-                        />
-                        <Card
-                            backgroundImage="/ganhar_peso.jpg"
-                            title="Ganhar Músculo"
-                            color="#fff"
-                            onClick={() => {
-                                setCliente({ ...cliente, objetivo: "Ganhar Músculo" })
-                                setTimeout(() => {
-                                    setStep(3)
-                                }, 500)
-                            }}
-                        />
+                        <div className={styles.cards}>
+                            <Card
+                                backgroundImage="/perder_peso.jpg"
+                                title="Perder Gordura"
+                                color="#fff"
+                                onClick={() => {
+                                    setObjetivo({ ...objetivo, nm_objetivo: "Perder Gordura" })
+                                    // setTimeout(() => {
+                                    //     setStep(3)
+                                    // }, 500)
+                                }}
+                            />
+                            <Card
+                                backgroundImage="/ganhar_peso.jpg"
+                                title="Ganhar Músculo"
+                                color="#fff"
+                                onClick={() => {
+                                    setObjetivo({ ...objetivo, nm_objetivo: "Ganhar Músculo" })
+                                    // setTimeout(() => {
+                                    //     setStep(3)
+                                    // }, 500)
+                                }}
+                            />
+                        </div>
+                        <div className={styles.inputs}>
+                            <Input
+                                label="Peso objetivo"
+                                type="number"
+                                placeholder="Digite o tempo em meses"
+                                onChange={(e) => setObjetivo({ ...objetivo, peso_objetivo: e.target.value })}
+                            />
+                            <Input
+                                label="Meses para o Objetivo"
+                                type="number"
+                                placeholder="Digite o tempo em meses"
+                                onChange={(e) => setObjetivo({ ...objetivo, tempo_objetivo: e.target.value })}
+                            />
+                        </div>
                     </div>
-                    {cliente.objetivo && (
+                    {objetivo.nm_objetivo && (
                         <div className={styles.selected_objetivo}>
                             <h5>Objetivo selecionado:</h5>
-                            <h4>{cliente.objetivo.toUpperCase()}</h4>
+                            <h4>{objetivo.nm_objetivo.toUpperCase()}</h4>
+                            <h4>{objetivo.peso_objetivo.length > 0 && "Atingir " + objetivo.peso_objetivo + " kg"} </h4>
+                            <h4>{objetivo.tempo_objetivo.length > 0 && "Em " + objetivo.tempo_objetivo + " meses"} </h4>
                         </div>
                     )}
                     <div className={styles.divButton}>
                         <Button onClick={() => setStep(1)}>{icons.back}Voltar</Button>
-                        {cliente.objetivo && <Button onClick={() => setStep(3)}>Avançar {icons.next}</Button>}
+                        {objetivo.nm_objetivo && objetivo.tempo_objetivo && objetivo.peso_objetivo ? <Button onClick={() => setStep(3)}>Avançar {icons.next}</Button> : ""}
                     </div>
                 </div>
                 <div className={step == 3 ? styles.metabolismo_container : styles.display_none}>
@@ -532,7 +554,7 @@ export default function Cadastro() {
                         </div>
                     )}
                     <div className={styles.divButton}>
-                        <Button onClick={() => setStep(5)}>{icons.back}</Button>
+                        <Button onClick={() => setStep(5)}>{icons.back}Voltar</Button>
                         {dieta.nm_dieta && <Button onClick={() => setStep(7)}>Finalizar {icons.check}</Button>}
                     </div>
                 </div>

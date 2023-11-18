@@ -25,15 +25,6 @@ export default function Profile({ params }) {
         add: renderIcon({ name: "add", size: 18, color: "#fff" }),
     }), []);
 
-    const resultado = async () => {
-        const response = await fetch("/api/teste")
-        
-        if(response.ok){
-            const data = await response.json()
-            console.log(data)
-        }
-    };
-
 
     return (
         <div className={styles.background}>
@@ -97,9 +88,7 @@ export default function Profile({ params }) {
                     <div className={styles.left_container}>
                         <div className={styles.left_container_header}>
                             <h1>Medidas</h1>
-                            <ButtonSecondary onClick={() => {
-                                resultado();
-                            }}>{icons.add}Alterar</ButtonSecondary>
+                            <ButtonSecondary>{icons.add}Alterar</ButtonSecondary>
                         </div>
                         <div className={styles.medidas_container}>
                             <div className={styles.medidas_info}>
@@ -108,19 +97,19 @@ export default function Profile({ params }) {
                             </div>
                             <div className={styles.medidas_info}>
                                 <h6>Braços:</h6>
-                                <h5>35 cm</h5>
+                                <h5>R 40 cm | L 40 cm</h5>
                             </div>
                             <div className={styles.medidas_info}>
                                 <h6>Cintura:</h6>
                                 <h5>80 cm</h5>
                             </div>
                             <div className={styles.medidas_info}>
-                                <h6>Coxa:</h6>
-                                <h5>55 cm</h5>
+                                <h6>Coxas:</h6>
+                                <h5>R 55 cm | L 55 cm</h5>
                             </div>
                             <div className={styles.medidas_info}>
-                                <h6>Panturrilha:</h6>
-                                <h5>35 cm</h5>
+                                <h6>Panturrilhas:</h6>
+                                <h5>R 35 cm | L 35 cm</h5>
                             </div>
                         </div>
                     </div>
