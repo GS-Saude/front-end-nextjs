@@ -25,6 +25,7 @@ export default function Cadastro() {
         idade: "",
         genero: "",
         senha: "",
+        objetivo: "",
     });
     const [metabolismo, setMetabolismo] = useState({
         peso: "",
@@ -69,16 +70,26 @@ export default function Cadastro() {
 
         if (cliente.genero.toLowerCase() === "masculino") {
             const calculo = (66.5 + (13.75 * metabolismo.peso) + (5.003 * metabolismo.altura) - (6.75 * cliente.idade)) * metabolismo.nivelAtividade;
+            if(cliente.objetivo.toLowerCase() === "perder gordura"){
+                return parseInt(calculo - 500);
+            }
+            if(cliente.objetivo.toLowerCase() === "ganhar músculo"){
+                return parseInt(calculo + 400)
+            }
             return parseInt(calculo);
         }
         if (cliente.genero.toLowerCase() === "feminino") {
             const calculo = (655.1 + (9.563 * metabolismo.peso) + (1.850 * metabolismo.altura) - (4.676 * cliente.idade)) * metabolismo.nivelAtividade
+            if(cliente.objetivo.toLowerCase() === "perder gordura"){
+                return parseInt(calculo - 500);
+            }
+            if(cliente.objetivo.toLowerCase() === "ganhar músculo"){
+                return parseInt(calculo + 400)
+            }
             return parseInt(calculo);
         }
     };
     
-
-
     const onSubmit = () => {
         if (!cliente.nome || !cliente.email || !cliente.idade || !cliente.genero || !cliente.senha) {
             alert("Preencha todos os campos do cliente")
@@ -117,7 +128,6 @@ export default function Cadastro() {
         }
     };
     
-
     return (
         <>
             <main className={styles.main}>
@@ -154,16 +164,53 @@ export default function Cadastro() {
                             onChange={(e) => handleClienteChange(e.target.value, "senha")}
                         />
                         <Button onClick={() => {
-                            if (!cliente.nome || !cliente.email || !cliente.idade || !cliente.genero || !cliente.senha) {
-                                alert("Preencha todos os campos")
-                                return;
-                            }
+                            // if (!cliente.nome || !cliente.email || !cliente.idade || !cliente.genero || !cliente.senha) {
+                            //     alert("Preencha todos os campos")
+                            //     return;
+                            // }
                             setStep(2)
                         }}>Continuar {icons.next}</Button>
                         <ButtonLink redirect="/pages/auth/login">Já Possui Cadastro ?</ButtonLink>
                     </form>
                 </div>
-                <div className={step == 2 ? styles.metabolismo_container : styles.display_none}>
+                <div className={step == 2 ? styles.objetivo_container : styles.display_none}>
+                    <h1>Selecione seu Objetivo</h1>
+                    <div className={styles.objetivo_box}>
+                        <Card
+                            backgroundImage="/perder_peso.jpg"
+                            title="Perder Gordura"
+                            color="#fff"
+                            onClick={() => {
+                                setCliente({ ...cliente, objetivo: "Perder Gordura" })
+                                setTimeout(() => {
+                                    setStep(3)
+                                }, 500)
+                            }}
+                        />
+                        <Card
+                            backgroundImage="/ganhar_peso.jpg"
+                            title="Ganhar Músculo"
+                            color="#fff"
+                            onClick={() => {
+                                setCliente({ ...cliente, objetivo: "Ganhar Músculo" })
+                                setTimeout(() => {
+                                    setStep(3)
+                                }, 500)
+                            }}
+                        />
+                    </div>
+                    {cliente.objetivo && (
+                        <div className={styles.selected_objetivo}>
+                            <h5>Objetivo selecionado:</h5>
+                            <h4>{cliente.objetivo.toUpperCase()}</h4>
+                        </div>
+                    )}
+                    <div className={styles.divButton}>
+                        <Button onClick={() => setStep(1)}>{icons.back}Voltar</Button>
+                        {cliente.objetivo && <Button onClick={() => setStep(3)}>Próxima Etapa {icons.next}</Button>}
+                    </div>
+                </div>
+                <div className={step == 3 ? styles.metabolismo_container : styles.display_none}>
                     <h2>Calcule seu Metabolismo Basal</h2>
                     <div className={styles.metabolismo_box}>
                         <Input
@@ -185,17 +232,17 @@ export default function Cadastro() {
                         />
                     </div>
                     <div className={styles.divButton}>
-                        <Button onClick={() => setStep(1)}>{icons.back} Voltar</Button>
+                        <Button onClick={() => setStep(2)}>{icons.back} Voltar</Button>
                         <Button onClick={() => {
-                            if(!metabolismo.peso || !metabolismo.altura || !metabolismo.nivelAtividade){
-                                alert("Preencha todos os campos do metabolismo")
-                                return;
-                            }
-                            setStep(3)
+                            // if(!metabolismo.peso || !metabolismo.altura || !metabolismo.nivelAtividade){
+                            //     alert("Preencha todos os campos do metabolismo")
+                            //     return;
+                            // }
+                            setStep(4)
                         }}>Próxima Etapa {icons.next}</Button>
                     </div>
                 </div>
-                <div className={step == 3 ? styles.biotipo_container : styles.display_none}>
+                <div className={step == 4 ? styles.biotipo_container : styles.display_none}>
                     <h1>Selecione seu Biotipo</h1>
                     <div className={styles.biotipo_box}>
                         <Card
@@ -206,7 +253,7 @@ export default function Cadastro() {
                             onClick={() => {
                                 setBiotipo({ nm_biotipo: "Ectomorfo", desc_biotipo: "Ectomorfos são pessoas com metabolismo acelerado, que tem dificuldade em ganhar massa muscular e peso." })
                                 setTimeout(() => {
-                                    setStep(4)
+                                    setStep(5)
                                 }, 500)
                             }}
                         />
@@ -218,7 +265,7 @@ export default function Cadastro() {
                             onClick={() => {
                                 setBiotipo({ nm_biotipo: "Mesomorfo", desc_biotipo: "Mesomorfos são pessoas com metabolismo normal, que ganham massa muscular com facilidade e não acumulam tanta gordura corporal." })
                                 setTimeout(() => {
-                                    setStep(4)
+                                    setStep(5)
                                 }, 500)
                             }}
                         />
@@ -230,7 +277,7 @@ export default function Cadastro() {
                             onClick={() => {
                                 setBiotipo({ nm_biotipo: "Endomorfo", desc_biotipo: "Endomorfos são pessoas com metabolismo lento, que tem facilidade em ganhar peso e massa muscular." })
                                 setTimeout(() => {
-                                    setStep(4)
+                                    setStep(5)
                                 }, 500)
                             }}
                         />
@@ -242,7 +289,7 @@ export default function Cadastro() {
                         </div>
                     )}
                     <div className={styles.divButton}>
-                        <Button onClick={() => setStep(2)}>{icons.back}Voltar</Button>
+                        <Button onClick={() => setStep(3)}>{icons.back}Voltar</Button>
                         <ButtonSecondary onClick={() => {
                             if(window.innerWidth < 768){
                                 setSmallerImage(true)
@@ -254,7 +301,7 @@ export default function Cadastro() {
                         }}>Descobrir Biotipo</ButtonSecondary>
                     </div>
                 </div>
-                <div className={step == 4 ? styles.treino_container : styles.display_none}>
+                <div className={step == 5 ? styles.treino_container : styles.display_none}>
                     <h1>Selecione seu Treino</h1>
                     <div className={styles.treino_box}>
                         <Card
@@ -278,7 +325,7 @@ export default function Cadastro() {
                                             setTipoTreino({ nm_tipo_treino: "Superiores", desc_tipo_treino: "Treino focado em superiores" })
                                             setIsModalTreinoBasicoOpen(false);
                                             setTimeout(() => {
-                                                setStep(5)
+                                                setStep(6)
                                             }, 500)
                                         }}
                                     />
@@ -291,7 +338,7 @@ export default function Cadastro() {
                                             setTipoTreino({ nm_tipo_treino: "Inferiores", desc_tipo_treino: "Treino focado em inferiores" })
                                             setIsModalTreinoBasicoOpen(false);
                                             setTimeout(() => {
-                                                setStep(5)
+                                                setStep(6)
                                             }, 500)
                                         }}
                                     />
@@ -304,7 +351,7 @@ export default function Cadastro() {
                                             setTipoTreino({ nm_tipo_treino: "Full Body", desc_tipo_treino: "Treino focado no todo o corpo" })
                                             setIsModalTreinoBasicoOpen(false);
                                             setTimeout(() => {
-                                                setStep(5)
+                                                setStep(6)
                                             }, 500)
                                         }}
                                     />
@@ -333,7 +380,7 @@ export default function Cadastro() {
                                             setTipoTreino({ nm_tipo_treino: "Peitoral", desc_tipo_treino: "Treino focado em peitoral" })
                                             setIsModalTreinoIntermediarioOpen(false);
                                             setTimeout(() => {
-                                                setStep(5)
+                                                setStep(6)
                                             }, 500)
                                         }}
                                     />
@@ -346,7 +393,7 @@ export default function Cadastro() {
                                             setTipoTreino({ nm_tipo_treino: "Costas", desc_tipo_treino: "Treino focado em costas" })
                                             setIsModalTreinoIntermediarioOpen(false);
                                             setTimeout(() => {
-                                                setStep(5)
+                                                setStep(6)
                                             }, 500)
                                         }}
                                     />
@@ -359,7 +406,7 @@ export default function Cadastro() {
                                             setTipoTreino({ nm_tipo_treino: "Pernas", desc_tipo_treino: "Treino focado em pernas" })
                                             setIsModalTreinoIntermediarioOpen(false);
                                             setTimeout(() => {
-                                                setStep(5)
+                                                setStep(6)
                                             }, 500)
                                         }}
                                     />
@@ -388,7 +435,7 @@ export default function Cadastro() {
                                             setTipoTreino({ nm_tipo_treino: "Peitoral", desc_tipo_treino: "Treino focado em peitoral" })
                                             setIsModalTreinoAvancadoOpen(false);
                                             setTimeout(() => {
-                                                setStep(5)
+                                                setStep(6)
                                             }, 500)
                                         }}
                                     />
@@ -401,7 +448,7 @@ export default function Cadastro() {
                                             setTipoTreino({ nm_tipo_treino: "Costas", desc_tipo_treino: "Treino focado em costas" })
                                             setIsModalTreinoAvancadoOpen(false);
                                             setTimeout(() => {
-                                                setStep(5)
+                                                setStep(6)
                                             }, 500)
                                         }}
                                     />
@@ -414,7 +461,7 @@ export default function Cadastro() {
                                             setTipoTreino({ nm_tipo_treino: "Pernas", desc_tipo_treino: "Treino focado em pernas" })
                                             setIsModalTreinoAvancadoOpen(false);
                                             setTimeout(() => {
-                                                setStep(5)
+                                                setStep(6)
                                             }, 500)
                                         }}
                                     />
@@ -427,7 +474,7 @@ export default function Cadastro() {
                                             setTipoTreino({ nm_tipo_treino: "Braços", desc_tipo_treino: "Treino focado em braços" })
                                             setIsModalTreinoAvancadoOpen(false);
                                             setTimeout(() => {
-                                                setStep(5)
+                                                setStep(6)
                                             }, 500)
                                         }}
                                     />
@@ -445,10 +492,10 @@ export default function Cadastro() {
                         </div>
                     )}
                     <div className={styles.divButton}>
-                        <Button onClick={() => setStep(3)}>{icons.back}Voltar</Button>
+                        <Button onClick={() => setStep(4)}>{icons.back}Voltar</Button>
                     </div>
                 </div>
-                <div className={step == 5 ? styles.dieta_container : styles.display_none}>
+                <div className={step == 6 ? styles.dieta_container : styles.display_none}>
                     <h1>Selecione sua Dieta</h1>
                     <div className={styles.dieta_box}>
                         <Card
@@ -458,7 +505,7 @@ export default function Cadastro() {
                             onClick={() => {
                                 setDieta({ nm_dieta: "Dieta Básica", desc_dieta: "A dieta básica para iniciar uma alimentação saudável, evitando produtos industrializados e processados" })
                                 setTimeout(() => {
-                                    setStep(6)
+                                    setStep(7)
                                 }, 500)
                             }}
                         />
@@ -469,7 +516,7 @@ export default function Cadastro() {
                             onClick={() => {
                                 setDieta({ nm_dieta: "Dieta Completa", desc_dieta: "A dieta ideal para manter o corpo nutrido e saudável, com frutas, verduras, legumes, proteínas e carboidratos" })
                                 setTimeout(() => {
-                                    setStep(6)
+                                    setStep(7)
                                 }, 500)
                             }}
                         />
@@ -481,11 +528,11 @@ export default function Cadastro() {
                         </div>
                     )}
                     <div className={styles.divButton}>
-                        <Button onClick={() => setStep(4)}>{icons.back}</Button>
-                        {dieta.nm_dieta && <Button onClick={() => setStep(6)}>Finalizar {icons.check}</Button>}
+                        <Button onClick={() => setStep(5)}>{icons.back}</Button>
+                        {dieta.nm_dieta && <Button onClick={() => setStep(7)}>Finalizar {icons.check}</Button>}
                     </div>
                 </div>
-                <div className={step == 6 ? styles.fim_container : styles.display_none}>
+                <div className={step == 7 ? styles.fim_container : styles.display_none}>
                     <h1>Finalizar Cadastro</h1>
                     <div className={styles.fim_box}>
                         <div className={styles.box_left}>
@@ -499,10 +546,10 @@ export default function Cadastro() {
                             </div>
 
                             <div className={styles.fim_boxes}>
-                                <h2>Seu Metabolismo</h2>
+                                <h2>Gasto Calórico Diário</h2>
                                 <div className={styles.informacao}><h4>Peso:</h4> {metabolismo?.peso} kg</div>
                                 <div className={styles.informacao}><h4>Altura:</h4> {metabolismo?.altura} cm</div>
-                                <div className={styles.informacao}><h4>Gasto Calórico:</h4> {calcularMetabolismoBasal() == "Dados Incompletos" ? "" : parseInt(calcularMetabolismoBasal()) + " calorias"}</div>
+                                <div className={styles.informacao}><h4>Consumir ao dia:</h4> {calcularMetabolismoBasal() == "Dados Incompletos" ? "" : parseInt(calcularMetabolismoBasal()) + " calorias"}</div>
                             </div>
                         </div>
                         <div className={styles.box_right}>
@@ -520,7 +567,7 @@ export default function Cadastro() {
                         </div>
                     </div>
                     <div className={styles.divButton}>
-                        <Button onClick={() => setStep(5)}>{icons.back}</Button>
+                        <Button onClick={() => setStep(6)}>{icons.back}</Button>
                         <ButtonSuccess onClick={() => onSubmit()}>Cadastrar</ButtonSuccess>
                     </div>
                 </div>

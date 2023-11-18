@@ -6,6 +6,7 @@ import Image from "next/image";
 import ButtonSecondary from "@/components/Button/variants/secondary";
 import ButtonDanger from "@/components/Button/variants/danger";
 import renderIcon from "@/utils/iconGallery";
+import ButtonLink from "@/components/Button/variants/link";
 
 export default function Profile({ params }) {
     const { id } = params;
@@ -20,7 +21,18 @@ export default function Profile({ params }) {
         comida: renderIcon({ name: "comida", size: 28, color: "#fff" }),
         energia: renderIcon({ name: "energia", size: 28, color: "#fff" }),
         pessoa: renderIcon({ name: "pessoa", size: 28, color: "#fff" }),
+        correndo: renderIcon({ name: "correndo", size: 28, color: "#fff" }),
+        add: renderIcon({ name: "add", size: 18, color: "#fff" }),
     }), []);
+
+    const resultado = async () => {
+        const response = await fetch("/api/teste")
+        
+        if(response.ok){
+            const data = await response.json()
+            console.log(data)
+        }
+    };
 
 
     return (
@@ -74,6 +86,62 @@ export default function Profile({ params }) {
                         <div>
                             <h6>Biotipo</h6>
                             <h6>Ectomorfo</h6>
+                        </div>
+                    </div>
+                    <div className={styles.acessar_treino}>
+                        <ButtonLink onClick={() => console.log("acessando página de treino")}>{icons.correndo}Acessar Treino</ButtonLink>
+                    </div>
+                </div>
+
+                <div className={styles.bottom_profile}>
+                    <div className={styles.left_container}>
+                        <div className={styles.left_container_header}>
+                            <h1>Medidas</h1>
+                            <ButtonSecondary onClick={() => {
+                                resultado();
+                            }}>{icons.add}Alterar</ButtonSecondary>
+                        </div>
+                        <div className={styles.medidas_container}>
+                            <div className={styles.medidas_info}>
+                                <h6>Peitoral:</h6>
+                                <h5>100 cm</h5>
+                            </div>
+                            <div className={styles.medidas_info}>
+                                <h6>Braços:</h6>
+                                <h5>35 cm</h5>
+                            </div>
+                            <div className={styles.medidas_info}>
+                                <h6>Cintura:</h6>
+                                <h5>80 cm</h5>
+                            </div>
+                            <div className={styles.medidas_info}>
+                                <h6>Coxa:</h6>
+                                <h5>55 cm</h5>
+                            </div>
+                            <div className={styles.medidas_info}>
+                                <h6>Panturrilha:</h6>
+                                <h5>35 cm</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div className={styles.right_container}>
+                        <div className={styles.right_container_header}>
+                            <h1>Objetivo</h1>
+                            <ButtonSecondary>{icons.add}Alterar</ButtonSecondary>
+                        </div>
+                        <div className={styles.objetivo_container}>
+                            <div className={styles.objetivo_info}>
+                                <h6>Objetivo</h6>
+                                <h5>Emagrecimento</h5>
+                            </div>
+                            <div className={styles.objetivo_info}>
+                                <h6>Tempo</h6>
+                                <h5>3 meses</h5>
+                            </div>
+                            <div className={styles.objetivo_info}>
+                                <h6>Calorias</h6>
+                                <h5>2500 Kcal</h5>
+                            </div>
                         </div>
                     </div>
                 </div>
