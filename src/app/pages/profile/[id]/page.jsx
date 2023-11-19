@@ -7,11 +7,10 @@ import ButtonSecondary from "@/components/Button/variants/secondary";
 import ButtonDanger from "@/components/Button/variants/danger";
 import renderIcon from "@/utils/iconGallery";
 import ButtonLink from "@/components/Button/variants/link";
+import Card from "@/components/Card/page";
 
 export default function Profile({ params }) {
     const { id } = params;
-
-
     const icons = useMemo(() => ({
         logout: renderIcon({ name: "logout", size: 18, color: "#fff" }),
         next: renderIcon({ name: "next", size: 18, color: "#fff" }),
@@ -25,15 +24,12 @@ export default function Profile({ params }) {
         add: renderIcon({ name: "add", size: 18, color: "#fff" }),
     }), []);
 
-
     return (
         <div className={styles.background}>
             <header className={styles.header}>
                 <nav>
                     <ul>
-                        <li className={styles.selected_item}><Link href="/pages/profile/0">Usuário</Link></li>
-                        <li className={styles.not_selected_item}><Link href="">Dieta</Link></li>
-                        <li className={styles.not_selected_item}><Link href="">Treino</Link></li>
+                        <li className={styles.selected_item}><Link href="/pages/profile/0">Perfil do Usuário</Link></li>
                     </ul>
                 </nav>
             </header>
@@ -51,8 +47,8 @@ export default function Profile({ params }) {
                             </div>
                         </div>
                         <div className={styles.divButtons}>
-                            <ButtonDanger className={styles.delete_button}>{icons.logout}Logout</ButtonDanger>
-                            <ButtonSecondary className={styles.edit_button}>{icons.edit}Editar</ButtonSecondary>
+                            <ButtonDanger className={styles.delete_button}>{icons.logout}</ButtonDanger>
+                            <ButtonSecondary className={styles.edit_button}>{icons.edit}</ButtonSecondary>
                         </div>
                     </div>
                 </div>
@@ -79,8 +75,32 @@ export default function Profile({ params }) {
                             <h6>Ectomorfo</h6>
                         </div>
                     </div>
-                    <div className={styles.acessar_treino}>
-                        <ButtonLink onClick={() => console.log("acessando página de treino")}>{icons.correndo}Acessar Treino</ButtonLink>
+                </div>
+
+                <div className={styles.trainning}>
+                    <div className={styles.trainning_header}>
+                        <h1>Treinos</h1>
+                        <ButtonSecondary>{icons.next}Mudar</ButtonSecondary>
+                    </div>
+                    <div className={styles.cards}>
+                        <Card
+                            trainning={true}
+                            backgroundImage={"/ganhar_peso.jpg"}
+                            title="Treino A"
+                            onClick={() => console.log("acessando página de treino")}
+                        />
+                        <Card
+                            trainning={true}
+                            backgroundImage={"/treino_peitoral.jpg"}
+                            title="Treino B"
+                            onClick={() => console.log("acessando página de treino")}
+                        />
+                        <Card
+                            trainning={true}
+                            backgroundImage={"/treino_costas.jpg"}
+                            title="Treino C"
+                            onClick={() => console.log("acessando página de treino")}
+                        />
                     </div>
                 </div>
 
