@@ -31,16 +31,19 @@ export default function Training({ params }) {
                     <Card
                         backgroundImage="/treino_costas.jpg"
                         title="Puxada Alta"
+                        train_page={true}
                         onClick={() => setSeletedTraining(1)}
                     />
                     <Card
                         backgroundImage="/treino_bracos.jpg"
                         title="Rosca Unilateral"
+                        train_page={true}
                         onClick={() => setSeletedTraining(2)}
                     />
                     <Card
                         backgroundImage="/remada_curvada.jpg"
                         title="Remada Curvada"
+                        train_page={true}
                         onClick={() => setSeletedTraining(3)}
                     />
                 </div>
