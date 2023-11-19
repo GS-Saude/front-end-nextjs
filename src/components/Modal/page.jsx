@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from "./style.module.css";
-import ButtonSecondary from '../Button/variants/secondary';
+import ButtonLink from '../Button/variants/link';
 
 const Modal = ({ closeModal, children, title }) => {
 
@@ -14,7 +14,7 @@ const Modal = ({ closeModal, children, title }) => {
             <div className={styles.modal_content}>
                 <header>
                     <h2>{title && title}</h2>
-                    <ButtonSecondary onClick={handleClose}>X</ButtonSecondary>
+                    <ButtonLink onClick={handleClose}>X</ButtonLink>
                 </header>
                 {children}
             </div>
