@@ -8,6 +8,7 @@ export default function Card({
     iconSize = 18,
     iconColor = "#fff",
     backgroundImage,
+    trainning,
     title,
     children,
     cardSize,
@@ -43,8 +44,26 @@ export default function Card({
         };
     }, [backgroundImage]);
 
+    const cardTrainning = useMemo(() => {
+        return {
+            backgroundImage: `url(${backgroundImage})`,
+            backgroundPosition: "center",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            minWidth: "170px",
+            maxWidth: "200px",
+            minHeight: "90px",
+            maxHeight: "100px",
+            filter: "drop-shadow(0px 0px 10px rgba(39, 64, 100, 0.434))",
+            border: "1px solid #4e4e4e",
+        };
+    }, [trainning])
+
     return (
-        <div className={styles.container_card} style={cardSize == "vertical" ? smallCard : cardStyle} onClick={onClick}>
+        <div 
+            className={styles.container_card} 
+            style={cardSize == "vertical" ? smallCard : (trainning ? cardTrainning : cardStyle)} 
+            onClick={onClick}>
             {icon !== "user" && (
                 <div className={styles.icon}>{Icon}</div>
             )}

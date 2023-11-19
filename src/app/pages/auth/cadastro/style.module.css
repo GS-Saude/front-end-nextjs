@@ -82,9 +82,18 @@
 
 .objetivo_box {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
     gap: 24px;
+}
+.cards {
+    display: flex;
+    gap: 24px;
+}
+.inputs {
+    display: flex;
+    gap: 16px;
 }
 
 

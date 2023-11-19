@@ -16,7 +16,11 @@ export default function Login() {
 
     const onSubmit = () => {
         try {
+            const token = Math.random().toString(36).substring(2);
+            const id = 1
             console.log(login);
+            console.log(id+token);
+            // sessionStorage.setItem("token",  id+token);
         } catch (error) {
             console.log(error);
         }

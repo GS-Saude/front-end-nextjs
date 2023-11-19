@@ -25,8 +25,12 @@ export default function Cadastro() {
         idade: "",
         genero: "",
         senha: "",
-        objetivo: "",
     });
+    const [objetivo, setObjetivo] = useState({
+        nm_objetivo: "",
+        tempo_objetivo: 0,
+        peso_objetivo: 0,
+    })
     const [metabolismo, setMetabolismo] = useState({
         peso: "",
         altura: "",
@@ -70,26 +74,26 @@ export default function Cadastro() {
 
         if (cliente.genero.toLowerCase() === "masculino") {
             const calculo = (66.5 + (13.75 * metabolismo.peso) + (5.003 * metabolismo.altura) - (6.75 * cliente.idade)) * metabolismo.nivelAtividade;
-            if(cliente.objetivo.toLowerCase() === "perder gordura"){
+            if (objetivo.nm_objetivo.toLowerCase() === "perder gordura") {
                 return parseInt(calculo - 500);
             }
-            if(cliente.objetivo.toLowerCase() === "ganhar músculo"){
+            if (objetivo.nm_objetivo.toLowerCase() === "ganhar músculo") {
                 return parseInt(calculo + 400)
             }
             return parseInt(calculo);
         }
         if (cliente.genero.toLowerCase() === "feminino") {
             const calculo = (655.1 + (9.563 * metabolismo.peso) + (1.850 * metabolismo.altura) - (4.676 * cliente.idade)) * metabolismo.nivelAtividade
-            if(cliente.objetivo.toLowerCase() === "perder gordura"){
+            if (objetivo.nm_objetivo.toLowerCase() === "perder gordura") {
                 return parseInt(calculo - 500);
             }
-            if(cliente.objetivo.toLowerCase() === "ganhar músculo"){
+            if (objetivo.nm_objetivo.toLowerCase() === "ganhar músculo") {
                 return parseInt(calculo + 400)
             }
             return parseInt(calculo);
         }
     };
-    
+
     const onSubmit = () => {
         if (!cliente.nome || !cliente.email || !cliente.idade || !cliente.genero || !cliente.senha) {
             alert("Preencha todos os campos do cliente")
@@ -127,7 +131,7 @@ export default function Cadastro() {
             console.log(error);
         }
     };
-    
+
     return (
         <>
             <main className={styles.main}>
@@ -176,38 +180,56 @@ export default function Cadastro() {
                 <div className={step == 2 ? styles.objetivo_container : styles.display_none}>
                     <h1>Selecione seu Objetivo</h1>
                     <div className={styles.objetivo_box}>
-                        <Card
-                            backgroundImage="/perder_peso.jpg"
-                            title="Perder Gordura"
-                            color="#fff"
-                            onClick={() => {
-                                setCliente({ ...cliente, objetivo: "Perder Gordura" })
-                                setTimeout(() => {
-                                    setStep(3)
-                                }, 500)
-                            }}
-                        />
-                        <Card
-                            backgroundImage="/ganhar_peso.jpg"
-                            title="Ganhar Músculo"
-                            color="#fff"
-                            onClick={() => {
-                                setCliente({ ...cliente, objetivo: "Ganhar Músculo" })
-                                setTimeout(() => {
-                                    setStep(3)
-                                }, 500)
-                            }}
-                        />
+                        <div className={styles.cards}>
+                            <Card
+                                backgroundImage="/perder_peso.jpg"
+                                title="Perder Gordura"
+                                color="#fff"
+                                onClick={() => {
+                                    setObjetivo({ ...objetivo, nm_objetivo: "Perder Gordura" })
+                                    // setTimeout(() => {
+                                    //     setStep(3)
+                                    // }, 500)
+                                }}
+                            />
+                            <Card
+                                backgroundImage="/ganhar_peso.jpg"
+                                title="Ganhar Músculo"
+                                color="#fff"
+                                onClick={() => {
+                                    setObjetivo({ ...objetivo, nm_objetivo: "Ganhar Músculo" })
+                                    // setTimeout(() => {
+                                    //     setStep(3)
+                                    // }, 500)
+                                }}
+                            />
+                        </div>
+                        <div className={styles.inputs}>
+                            <Input
+                                label="Peso objetivo"
+                                type="number"
+                                placeholder="Digite o tempo em meses"
+                                onChange={(e) => setObjetivo({ ...objetivo, peso_objetivo: e.target.value })}
+                            />
+                            <Input
+                                label="Meses para o Objetivo"
+                                type="number"
+                                placeholder="Digite o tempo em meses"
+                                onChange={(e) => setObjetivo({ ...objetivo, tempo_objetivo: e.target.value })}
+                            />
+                        </div>
                     </div>
-                    {cliente.objetivo && (
+                    {objetivo.nm_objetivo && (
                         <div className={styles.selected_objetivo}>
                             <h5>Objetivo selecionado:</h5>
-                            <h4>{cliente.objetivo.toUpperCase()}</h4>
+                            <h4>{objetivo.nm_objetivo.toUpperCase()}</h4>
+                            <h4>{objetivo.peso_objetivo.length > 0 && "Atingir " + objetivo.peso_objetivo + " kg"} </h4>
+                            <h4>{objetivo.tempo_objetivo.length > 0 && "Em " + objetivo.tempo_objetivo + " meses"} </h4>
                         </div>
                     )}
                     <div className={styles.divButton}>
                         <Button onClick={() => setStep(1)}>{icons.back}Voltar</Button>
-                        {cliente.objetivo && <Button onClick={() => setStep(3)}>Próxima Etapa {icons.next}</Button>}
+                        {objetivo.nm_objetivo && objetivo.tempo_objetivo && objetivo.peso_objetivo ? <Button onClick={() => setStep(3)}>Avançar {icons.next}</Button> : ""}
                     </div>
                 </div>
                 <div className={step == 3 ? styles.metabolismo_container : styles.display_none}>
@@ -233,13 +255,15 @@ export default function Cadastro() {
                     </div>
                     <div className={styles.divButton}>
                         <Button onClick={() => setStep(2)}>{icons.back} Voltar</Button>
-                        <Button onClick={() => {
-                            // if(!metabolismo.peso || !metabolismo.altura || !metabolismo.nivelAtividade){
-                            //     alert("Preencha todos os campos do metabolismo")
-                            //     return;
-                            // }
-                            setStep(4)
-                        }}>Próxima Etapa {icons.next}</Button>
+                        {metabolismo.peso && metabolismo.altura && metabolismo.nivelAtividade && (
+                            <Button onClick={() => {
+                                // if(!metabolismo.peso || !metabolismo.altura || !metabolismo.nivelAtividade){
+                                //     alert("Preencha todos os campos do metabolismo")
+                                //     return;
+                                // }
+                                setStep(4)
+                            }}>Avançar {icons.next}</Button>
+                        )}
                     </div>
                 </div>
                 <div className={step == 4 ? styles.biotipo_container : styles.display_none}>
@@ -291,7 +315,7 @@ export default function Cadastro() {
                     <div className={styles.divButton}>
                         <Button onClick={() => setStep(3)}>{icons.back}Voltar</Button>
                         <ButtonSecondary onClick={() => {
-                            if(window.innerWidth < 768){
+                            if (window.innerWidth < 768) {
                                 setSmallerImage(true)
                                 setIsModalBiotipoOpen(true)
                             } else {
@@ -299,6 +323,7 @@ export default function Cadastro() {
                                 setIsModalBiotipoOpen(true)
                             }
                         }}>Descobrir Biotipo</ButtonSecondary>
+                        {biotipo.nm_biotipo && <Button onClick={() => setStep(5)}>Avançar {icons.next}</Button>}
                     </div>
                 </div>
                 <div className={step == 5 ? styles.treino_container : styles.display_none}>
@@ -493,6 +518,7 @@ export default function Cadastro() {
                     )}
                     <div className={styles.divButton}>
                         <Button onClick={() => setStep(4)}>{icons.back}Voltar</Button>
+                        {treino.nm_treino && tipoTreino.nm_tipo_treino && <Button onClick={() => setStep(6)}>Avançar {icons.next}</Button>}
                     </div>
                 </div>
                 <div className={step == 6 ? styles.dieta_container : styles.display_none}>
@@ -528,7 +554,7 @@ export default function Cadastro() {
                         </div>
                     )}
                     <div className={styles.divButton}>
-                        <Button onClick={() => setStep(5)}>{icons.back}</Button>
+                        <Button onClick={() => setStep(5)}>{icons.back}Voltar</Button>
                         {dieta.nm_dieta && <Button onClick={() => setStep(7)}>Finalizar {icons.check}</Button>}
                     </div>
                 </div>
@@ -546,7 +572,7 @@ export default function Cadastro() {
                             </div>
 
                             <div className={styles.fim_boxes}>
-                                <h2>Gasto Calórico Diário</h2>
+                                <h2>Medidas</h2>
                                 <div className={styles.informacao}><h4>Peso:</h4> {metabolismo?.peso} kg</div>
                                 <div className={styles.informacao}><h4>Altura:</h4> {metabolismo?.altura} cm</div>
                                 <div className={styles.informacao}><h4>Consumir ao dia:</h4> {calcularMetabolismoBasal() == "Dados Incompletos" ? "" : parseInt(calcularMetabolismoBasal()) + " calorias"}</div>
@@ -557,12 +583,16 @@ export default function Cadastro() {
                                 <h2>Sua Dieta</h2>
                                 <div className={styles.informacao}><h4>Dieta:</h4> {dieta?.nm_dieta}</div>
                                 <div className={styles.informacao}><h4>Descrição:</h4> {dieta?.desc_dieta}</div>
-                            </div>
-
-                            <div className={styles.fim_boxes}>
                                 <h2>Seu Treino</h2>
                                 <div className={styles.informacao}><h4>Treino:</h4> {treino?.nm_treino}</div>
                                 <div className={styles.informacao}><h4>Tipo de Treino:</h4> {tipoTreino?.nm_tipo_treino}</div>
+                                <div className={styles.informacao}><h4>Biotipo:</h4>{biotipo?.nm_biotipo}</div>
+                            </div>
+
+                            <div className={styles.fim_boxes}>
+                                <h2>Objetivo</h2>
+                                <div className={styles.informacao}><h4>Objetivo: </h4>{objetivo?.nm_objetivo} em {objetivo?.tempo_objetivo + " meses"}</div>
+                                <div className={styles.informacao}><h4>Peso objetivo:</h4> {objetivo?.peso_objetivo + " kg"}</div>
                             </div>
                         </div>
                     </div>
