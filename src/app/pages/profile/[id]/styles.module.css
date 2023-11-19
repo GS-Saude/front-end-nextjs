@@ -252,6 +252,26 @@
 
 
 
+
+.medidas_modal {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.side_inputs {
+    display: flex;
+    gap: 16px;
+}
+
+
+.objetivo_modal {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+
+
 @media (max-width: 1300px){
     .header {
         margin: 0 100px;

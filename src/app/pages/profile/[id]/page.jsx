@@ -1,18 +1,38 @@
 'use client'
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
 import Link from "next/link"
 import styles from "./styles.module.css"
 import Image from "next/image";
+import ButtonPrimary from "@/components/Button/variants/primary";
 import ButtonSecondary from "@/components/Button/variants/secondary";
 import ButtonDanger from "@/components/Button/variants/danger";
 import renderIcon from "@/utils/iconGallery";
-import ButtonLink from "@/components/Button/variants/link";
 import Card from "@/components/Card/page";
 import { useRouter } from "next/navigation";
+import Modal from "@/components/Modal/page";
+import Input from "@/components/Input/page";
+import Select from "@/components/Select/page";
 
 export default function Profile({ params }) {
     const router = useRouter();
     const { id } = params;
+    const [isChangeMeasures, setIsChangeMeasures] = useState();
+    const [medidas, setMedidas] = useState({
+        peitoral: "",
+        braco_direito: "",
+        braco_esquerdo: "",
+        cintura: "",
+        coxa_direita: "",
+        coxa_esquerda: "",
+        panturrilha_direita: "",
+        panturrilha_esquerda: "",
+    })
+    const [isChangeObjective, setIsChangeObjective] = useState();
+    const [objetivo, setObjetivo] = useState({
+        nm_objetivo: "",
+        tempo_objetivo: "",
+        peso_objetivo: "",
+    })
     const icons = useMemo(() => ({
         logout: renderIcon({ name: "logout", size: 18, color: "#fff" }),
         next: renderIcon({ name: "next", size: 18, color: "#fff" }),
@@ -106,7 +126,68 @@ export default function Profile({ params }) {
                     <div className={styles.left_container}>
                         <div className={styles.left_container_header}>
                             <h1>Medidas</h1>
-                            <ButtonSecondary>{icons.add}Alterar</ButtonSecondary>
+                            <ButtonSecondary onClick={() => setIsChangeMeasures(true)}>{icons.add}Alterar</ButtonSecondary>
+                            {isChangeMeasures && (
+                                <Modal title="Atualizar Medidas" closeModal={() => setIsChangeMeasures(false)}>
+                                    <div className={styles.medidas_modal}>
+                                        <Input
+                                            label="Peitoral (cm)"
+                                            placeholder="Nova medida peitoral"
+                                            type="number"
+                                            onChange={(e) => setMedidas({ ...medidas, peitoral: parseInt(e.target.value) })}
+                                        />
+                                        <div className={styles.side_inputs}>
+                                            <Input
+                                                label="Braço Direito (cm)"
+                                                placeholder="Nova medida braço direito"
+                                                type="number"
+                                                onChange={(e) => setMedidas({ ...medidas, braco_direito: parseInt(e.target.value) })}
+                                            />
+                                            <Input
+                                                label="Braço Esquerdo (cm)"
+                                                placeholder="Nova medida braço esquerdo"
+                                                type="number"
+                                                onChange={(e) => setMedidas({ ...medidas, braco_esquerdo: parseInt(e.target.value) })}
+                                            />
+                                        </div>
+                                        <Input
+                                            label="Cintura (cm)"
+                                            placeholder="Nova medida cintura (cm)"
+                                            type="number"
+                                            onChange={(e) => setMedidas({ ...medidas, cintura: parseInt(e.target.value) })}
+                                        />
+                                        <div className={styles.side_inputs}>
+                                            <Input
+                                                label="Coxa Direita (cm)"
+                                                placeholder="Nova medida coxa direita"
+                                                type="number"
+                                                onChange={(e) => setMedidas({ ...medidas, coxa_direita: parseInt(e.target.value) })}
+                                            />
+                                            <Input
+                                                label="Coxa Esquerda (cm)"
+                                                placeholder="Nova medida coxa esquerda"
+                                                type="number"
+                                                onChange={(e) => setMedidas({ ...medidas, coxa_esquerda: parseInt(e.target.value) })}
+                                            />
+                                        </div>
+                                        <div className={styles.side_inputs}>
+                                            <Input
+                                                label="Panturrilha Direita (cm)"
+                                                placeholder="Nova medida panturrilha direita"
+                                                type="number"
+                                                onChange={(e) => setMedidas({ ...medidas, panturrilha_direita: parseInt(e.target.value) })}
+                                            />
+                                            <Input
+                                                label="Panturrilha Esquerda (cm)"
+                                                placeholder="Nova medida panturrilha esquerda"
+                                                type="number"
+                                                onChange={(e) => setMedidas({ ...medidas, panturrilha_esquerda: parseInt(e.target.value) })}
+                                            />
+                                        </div>
+                                        <ButtonPrimary onClick={() => console.log(medidas)}>Atualizar</ButtonPrimary>
+                                    </div>
+                                </Modal>
+                            )}
                         </div>
                         <div className={styles.medidas_container}>
                             <div className={styles.medidas_info}>
@@ -134,7 +215,31 @@ export default function Profile({ params }) {
                     <div className={styles.right_container}>
                         <div className={styles.right_container_header}>
                             <h1>Objetivo</h1>
-                            <ButtonSecondary>{icons.add}Alterar</ButtonSecondary>
+                            <ButtonSecondary onClick={() => setIsChangeObjective(true)}>{icons.add}Alterar</ButtonSecondary>
+                            {isChangeObjective && (
+                                <Modal title="Atualizar Objetivo" closeModal={() => setIsChangeObjective(false)}>
+                                    <div className={styles.objetivo_modal}>
+                                        <Select
+                                            label="Objetivo"
+                                            options={[{ value: "", label: "" }, { value: "Perder Gordura", label: "Perder Gordura" }, { value: "Ganhar Músculo", label: "Ganhar Músculo" }]}
+                                            onChange={(e) => setObjetivo({ ...objetivo, nm_objetivo: e.target.value })}
+                                        />
+                                        <Input
+                                            label="Tempo (meses)"
+                                            type="number"
+                                            placeholder="Tempo para atingir o objetivo"
+                                            onChange={(e) => setObjetivo({ ...objetivo, tempo_objetivo: parseInt(e.target.value) })}
+                                        />
+                                        <Input
+                                            label="Peso (kg)"
+                                            type="number"
+                                            placeholder="Novo peso objetivo"
+                                            onChange={(e) => setObjetivo({ ...objetivo, peso_objetivo: parseInt(e.target.value) })}
+                                        />
+                                        <ButtonPrimary onClick={() => console.log(objetivo)}>Atualizar</ButtonPrimary>
+                                    </div>
+                                </Modal>
+                            )}
                         </div>
                         <div className={styles.objetivo_container}>
                             <div className={styles.objetivo_info}>
