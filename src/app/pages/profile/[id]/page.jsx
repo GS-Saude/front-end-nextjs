@@ -8,8 +8,10 @@ import ButtonDanger from "@/components/Button/variants/danger";
 import renderIcon from "@/utils/iconGallery";
 import ButtonLink from "@/components/Button/variants/link";
 import Card from "@/components/Card/page";
+import { useRouter } from "next/navigation";
 
 export default function Profile({ params }) {
+    const router = useRouter();
     const { id } = params;
     const icons = useMemo(() => ({
         logout: renderIcon({ name: "logout", size: 18, color: "#fff" }),
@@ -26,13 +28,9 @@ export default function Profile({ params }) {
 
     return (
         <div className={styles.background}>
-            <header className={styles.header}>
-                <nav>
-                    <ul>
-                        <li className={styles.selected_item}><Link href="/pages/profile/0">Perfil do Usuário</Link></li>
-                    </ul>
-                </nav>
-            </header>
+            <div className={styles.header}>
+                <h1 className={styles.selected_item}><Link href="/pages/profile/0">Perfil do Usuário</Link></h1>
+            </div>
             <main className={styles.main}>
                 <div className={styles.top_profile}>
                     <Image className={styles.profile_picture} priority={true} src="/woman_and_string.jpg" width={100} height={100} alt="Foto de perfil" />
@@ -87,19 +85,19 @@ export default function Profile({ params }) {
                             trainning={true}
                             backgroundImage={"/ganhar_peso.jpg"}
                             title="Treino A"
-                            onClick={() => console.log("acessando página de treino")}
+                            onClick={() => router.push("/pages/profile/training/1")}
                         />
                         <Card
                             trainning={true}
                             backgroundImage={"/treino_peitoral.jpg"}
                             title="Treino B"
-                            onClick={() => console.log("acessando página de treino")}
+                            onClick={() => router.push("/pages/profile/training/2")}
                         />
                         <Card
                             trainning={true}
                             backgroundImage={"/treino_costas.jpg"}
                             title="Treino C"
-                            onClick={() => console.log("acessando página de treino")}
+                            onClick={() => router.push("/pages/profile/training/3")}
                         />
                     </div>
                 </div>
