@@ -224,18 +224,20 @@ export default function Profile({ params }) {
                                             options={[{ value: "", label: "" }, { value: "Perder Gordura", label: "Perder Gordura" }, { value: "Ganhar Músculo", label: "Ganhar Músculo" }]}
                                             onChange={(e) => setObjetivo({ ...objetivo, nm_objetivo: e.target.value })}
                                         />
-                                        <Input
-                                            label="Tempo (meses)"
-                                            type="number"
-                                            placeholder="Tempo para atingir o objetivo"
-                                            onChange={(e) => setObjetivo({ ...objetivo, tempo_objetivo: parseInt(e.target.value) })}
-                                        />
-                                        <Input
-                                            label="Peso (kg)"
-                                            type="number"
-                                            placeholder="Novo peso objetivo"
-                                            onChange={(e) => setObjetivo({ ...objetivo, peso_objetivo: parseInt(e.target.value) })}
-                                        />
+                                        <div className={styles.side_inputs}>
+                                            <Input
+                                                label="Tempo (meses)"
+                                                type="number"
+                                                placeholder="Tempo para atingir o objetivo"
+                                                onChange={(e) => setObjetivo({ ...objetivo, tempo_objetivo: parseInt(e.target.value) })}
+                                            />
+                                            <Input
+                                                label="Peso (kg)"
+                                                type="number"
+                                                placeholder="Novo peso objetivo"
+                                                onChange={(e) => setObjetivo({ ...objetivo, peso_objetivo: parseInt(e.target.value) })}
+                                            />
+                                        </div>
                                         <ButtonPrimary onClick={() => console.log(objetivo)}>Atualizar</ButtonPrimary>
                                     </div>
                                 </Modal>
