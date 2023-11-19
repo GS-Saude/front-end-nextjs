@@ -53,7 +53,7 @@ export default function Home() {
             alt="Musculação com Halter" />
 
           <div className={styles.second_description_right}>
-            <h6>corpo</h6>
+            <h6>mente</h6>
             <h3 className={styles.decorated_text}>SAUDÁVEL</h3>
           </div>
         </div>

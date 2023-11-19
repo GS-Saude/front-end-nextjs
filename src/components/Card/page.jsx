@@ -9,6 +9,7 @@ export default function Card({
     iconColor = "#fff",
     backgroundImage,
     trainning,
+    train_page,
     title,
     children,
     cardSize,
@@ -57,20 +58,33 @@ export default function Card({
             filter: "drop-shadow(0px 0px 10px rgba(39, 64, 100, 0.434))",
             border: "1px solid #4e4e4e",
         };
-    }, [trainning])
+    }, [backgroundImage])
+
+    const cardTrainPage = useMemo(() => {
+        return {
+            backgroundImage: `url(${backgroundImage})`,
+            backgroundPosition: "center",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            minWidth: "100px",
+            maxWidth: "1000px",
+            minHeight: "110px",
+            maxHeight: "110px",
+            filter: "drop-shadow(0px 0px 10px rgba(39, 64, 100, 0.434))",
+            border: "1px solid #4e4e4e",
+        };
+    }, [backgroundImage])
 
     return (
         <div 
             className={styles.container_card} 
-            style={cardSize == "vertical" ? smallCard : (trainning ? cardTrainning : cardStyle)} 
+            style={cardSize == "vertical" ? smallCard : (trainning ? cardTrainning : (train_page ? cardTrainPage : cardStyle))} 
             onClick={onClick}>
-            {icon !== "user" && (
-                <div className={styles.icon}>{Icon}</div>
-            )}
-            {title && (
-                <h3 className={styles.title} style={color && ({ color: color })}>{title}</h3>
-            )}
+
+            {icon !== "user" && <div className={styles.icon}>{Icon}</div>}
+            {title && <h3 className={styles.title} style={color && ({ color: color })}>{title}</h3>}
             {children}
+
         </div>
     )
 }
