@@ -35,6 +35,7 @@ export default function Profile({ params }) {
         peso_objetivo: "",
     })
     const [isChangeTraining, setIsChangeTraining] = useState(false);
+    const [isChangeDiet, setIsChangeDiet] = useState(false);
     const icons = useMemo(() => ({
         logout: renderIcon({ name: "logout", size: 18, color: "#fff" }),
         next: renderIcon({ name: "next", size: 18, color: "#fff" }),
@@ -139,7 +140,25 @@ export default function Profile({ params }) {
                     <div className={styles.diet}>
                         <div className={styles.diet_header}>
                             <h1>Dieta</h1>
-                            <ButtonLink>{icons.edit}</ButtonLink>
+                            <ButtonLink onClick={() => setIsChangeDiet(true)}>{icons.edit}</ButtonLink>
+                            {isChangeDiet && (
+                                <Modal title="Mudar Dieta" closeModal={() => setIsChangeDiet(false)}>
+                                    <div className={styles.modal_diet}>
+                                        <Card
+                                            trainning={true}
+                                            backgroundImage={"/diet.jpg"}
+                                            title="Dieta de Perda de Gordura"
+                                            onClick={() => console.log("oi")}
+                                        />
+                                        <Card
+                                            trainning={true}
+                                            backgroundImage={"/treino_superiores.jpg"}
+                                            title="Dieta de Ganho de Músculo"
+                                            onClick={() => console.log("oi")}
+                                        />
+                                    </div>
+                                </Modal>
+                            )}
                         </div>
                         <div className={styles.cards}>
                             <Card

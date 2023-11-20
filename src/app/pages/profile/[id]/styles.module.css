@@ -225,6 +225,12 @@
     overflow-x: auto;
 }
 
+.modal_diet {
+    display: flex;
+    gap: 8px;
+    height: 200px;
+}
+
 
 
 
@@ -401,6 +407,11 @@
         align-items: center;
     }
     .modal_training {
+        flex-wrap: wrap;
+        height: 100%;
+        justify-content: center;
+    }
+    .modal_diet {
         flex-wrap: wrap;
         height: 100%;
         justify-content: center;
