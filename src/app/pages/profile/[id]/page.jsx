@@ -5,6 +5,7 @@ import styles from "./styles.module.css"
 import Image from "next/image";
 import ButtonPrimary from "@/components/Button/variants/primary";
 import ButtonSecondary from "@/components/Button/variants/secondary";
+import ButtonLink from "@/components/Button/variants/link";
 import ButtonDanger from "@/components/Button/variants/danger";
 import renderIcon from "@/utils/iconGallery";
 import Card from "@/components/Card/page";
@@ -16,7 +17,7 @@ import Select from "@/components/Select/page";
 export default function Profile({ params }) {
     const router = useRouter();
     const { id } = params;
-    const [isChangeMeasures, setIsChangeMeasures] = useState();
+    const [isChangeMeasures, setIsChangeMeasures] = useState(false);
     const [medidas, setMedidas] = useState({
         peitoral: "",
         braco_direito: "",
@@ -27,12 +28,13 @@ export default function Profile({ params }) {
         panturrilha_direita: "",
         panturrilha_esquerda: "",
     })
-    const [isChangeObjective, setIsChangeObjective] = useState();
+    const [isChangeObjective, setIsChangeObjective] = useState(false);
     const [objetivo, setObjetivo] = useState({
         nm_objetivo: "",
         tempo_objetivo: "",
         peso_objetivo: "",
     })
+    const [isChangeTraining, setIsChangeTraining] = useState(false);
     const icons = useMemo(() => ({
         logout: renderIcon({ name: "logout", size: 18, color: "#fff" }),
         next: renderIcon({ name: "next", size: 18, color: "#fff" }),
@@ -95,30 +97,58 @@ export default function Profile({ params }) {
                     </div>
                 </div>
 
-                <div className={styles.trainning}>
-                    <div className={styles.trainning_header}>
-                        <h1>Treinos</h1>
-                        <ButtonSecondary>{icons.next}Mudar</ButtonSecondary>
+                <div className={styles.middle_profile}>
+                    <div className={styles.trainning}>
+                        <div className={styles.trainning_header}>
+                            <h1>Treino</h1>
+                            <ButtonLink onClick={() => setIsChangeTraining(true)}>{icons.edit}</ButtonLink>
+                            {isChangeTraining && (
+                                <Modal title="Mudar Treino" closeModal={() => setIsChangeTraining(false)}>
+                                    <div className={styles.modal_training}>
+                                        <Card
+                                            trainning={true}
+                                            backgroundImage={"/treino_iniciante.jpg"}
+                                            title="Treino Iniciante"
+                                            onClick={() => console.log("oi")}
+                                        />
+                                        <Card
+                                            trainning={true}
+                                            backgroundImage={"/treino_intermediario.jpg"}
+                                            title="Treino Intermediário"
+                                            onClick={() => console.log("oi")}
+                                        />
+                                        <Card
+                                            trainning={true}
+                                            backgroundImage={"/treino_avancado.png"}
+                                            title="Treino Avançado"
+                                            onClick={() => console.log("oi")}
+                                        />
+                                    </div>
+                                </Modal>
+                            )}
+                        </div>
+                        <div className={styles.cards}>
+                            <Card
+                                trainning={true}
+                                backgroundImage={"/ganhar_peso.jpg"}
+                                title="Treino A"
+                                onClick={() => router.push("/pages/profile/training/1")}
+                            />
+                        </div>
                     </div>
-                    <div className={styles.cards}>
-                        <Card
-                            trainning={true}
-                            backgroundImage={"/ganhar_peso.jpg"}
-                            title="Treino A"
-                            onClick={() => router.push("/pages/profile/training/1")}
-                        />
-                        <Card
-                            trainning={true}
-                            backgroundImage={"/treino_peitoral.jpg"}
-                            title="Treino B"
-                            onClick={() => router.push("/pages/profile/training/2")}
-                        />
-                        <Card
-                            trainning={true}
-                            backgroundImage={"/treino_costas.jpg"}
-                            title="Treino C"
-                            onClick={() => router.push("/pages/profile/training/3")}
-                        />
+                    <div className={styles.diet}>
+                        <div className={styles.diet_header}>
+                            <h1>Dieta</h1>
+                            <ButtonLink>{icons.edit}</ButtonLink>
+                        </div>
+                        <div className={styles.cards}>
+                            <Card
+                                trainning={true}
+                                backgroundImage={"/diet.jpg"}
+                                title="Dieta de Ganho de Músculo"
+                                onClick={() => console.log("oi")}
+                            />
+                        </div>
                     </div>
                 </div>
 
@@ -126,7 +156,7 @@ export default function Profile({ params }) {
                     <div className={styles.left_container}>
                         <div className={styles.left_container_header}>
                             <h1>Medidas</h1>
-                            <ButtonSecondary onClick={() => setIsChangeMeasures(true)}>{icons.add}Alterar</ButtonSecondary>
+                            <ButtonLink onClick={() => setIsChangeMeasures(true)}>{icons.edit}</ButtonLink>
                             {isChangeMeasures && (
                                 <Modal title="Atualizar Medidas" closeModal={() => setIsChangeMeasures(false)}>
                                     <div className={styles.medidas_modal}>
@@ -215,7 +245,7 @@ export default function Profile({ params }) {
                     <div className={styles.right_container}>
                         <div className={styles.right_container_header}>
                             <h1>Objetivo</h1>
-                            <ButtonSecondary onClick={() => setIsChangeObjective(true)}>{icons.add}Alterar</ButtonSecondary>
+                            <ButtonLink onClick={() => setIsChangeObjective(true)}>{icons.edit}</ButtonLink>
                             {isChangeObjective && (
                                 <Modal title="Atualizar Objetivo" closeModal={() => setIsChangeObjective(false)}>
                                     <div className={styles.objetivo_modal}>

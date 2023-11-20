@@ -51,10 +51,10 @@ export default function Card({
             backgroundPosition: "center",
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
+            width: "calc(100% - 180px)",
+            height: "90%",
             minWidth: "170px",
-            maxWidth: "200px",
-            minHeight: "90px",
-            maxHeight: "100px",
+            minHeight: "120px",
             filter: "drop-shadow(0px 0px 10px rgba(39, 64, 100, 0.434))",
             border: "1px solid #4e4e4e",
         };
