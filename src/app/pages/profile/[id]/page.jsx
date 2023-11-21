@@ -91,6 +91,23 @@ export default function Profile({ params }) {
         setIsChangeMeasures(false);
     }
 
+    const updateObjetivo = async () => {
+        const schema = {
+            nome: objetivo.nome ? objetivo.nome : cliente?.objetivo?.nome,
+            tempo: objetivo.tempo ? objetivo.tempo : cliente?.objetivo?.tempo,
+            peso: objetivo.peso ? objetivo.peso : cliente?.objetivo?.peso,
+        }
+        await fetch(`http://localhost:8080/api/objetivo/${cliente?.objetivo?.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(schema),
+        });
+        fetchUser();
+        setIsChangeObjective(false);
+    }
+
 
     useEffect(() => {
         sessionStorage.getItem("token") ? fetchUser() : router.push("/pages/auth/login");
@@ -341,23 +358,32 @@ export default function Profile({ params }) {
                                         <Select
                                             label="Objetivo"
                                             options={[{ value: "", label: "" }, { value: "Perder Gordura", label: "Perder Gordura" }, { value: "Ganhar Músculo", label: "Ganhar Músculo" }]}
-                                            onChange={(e) => setObjetivo({ ...objetivo, nm_objetivo: e.target.value })}
+                                            onChange={(e) => setObjetivo({ ...objetivo, nome: e.target.value })}
                                         />
                                         <div className={styles.side_inputs}>
                                             <Input
-                                                label="Tempo (meses)"
-                                                type="number"
-                                                placeholder="Tempo para atingir o objetivo"
-                                                onChange={(e) => setObjetivo({ ...objetivo, tempo_objetivo: parseInt(e.target.value) })}
+                                                label="Data limite"
+                                                placeholder="Digite o tempo em meses"
+                                                value={objetivo.tempo}
+                                                onChange={(e) => {
+                                                    const inputValue = e.target.value;
+                                                    const formattedValue = inputValue.replace(/\D/g, '').slice(0, 8).replace(/(\d{2})(\d{2})?(\d{4})?/, (_, dia, mes, ano) => {
+                                                        let result = dia;
+                                                        if (mes) result += `/${mes}`;
+                                                        if (ano) result += `/${ano}`;
+                                                        return result;
+                                                    });
+                                                    setObjetivo({ ...objetivo, tempo: formattedValue });
+                                                }}
                                             />
                                             <Input
                                                 label="Peso (kg)"
                                                 type="number"
                                                 placeholder="Novo peso objetivo"
-                                                onChange={(e) => setObjetivo({ ...objetivo, peso_objetivo: parseInt(e.target.value) })}
+                                                onChange={(e) => setObjetivo({ ...objetivo, peso: parseInt(e.target.value) })}
                                             />
                                         </div>
-                                        <ButtonPrimary onClick={() => console.log(objetivo)}>Atualizar</ButtonPrimary>
+                                        <ButtonPrimary onClick={() => updateObjetivo()}>Atualizar</ButtonPrimary>
                                     </div>
                                 </Modal>
                             )}

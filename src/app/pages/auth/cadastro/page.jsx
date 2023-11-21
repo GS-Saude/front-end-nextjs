@@ -250,7 +250,6 @@ export default function Cadastro() {
                                     setObjetivo({ ...objetivo, tempo: formattedValue });
                                 }}
                             />
-
                         </div>
                     </div>
                     {objetivo.nome && (
