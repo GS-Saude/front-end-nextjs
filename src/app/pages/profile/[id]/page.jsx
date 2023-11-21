@@ -81,7 +81,6 @@ export default function Profile({ params }) {
             biotipo: { id: cliente.biotipo.id },
             medida: { id: cliente.medida.id },
         }
-        console.log(schema);
         await fetch(`http://localhost:8080/api/cliente/${id}`, {
             method: "PUT",
             headers: {
@@ -107,7 +106,6 @@ export default function Profile({ params }) {
             biotipo: { id: cliente.biotipo.id },
             medida: { id: cliente.medida.id },
         }
-        console.log(schema);
         await fetch(`http://localhost:8080/api/cliente/${id}`, {
             method: "PUT",
             headers: {
@@ -133,7 +131,6 @@ export default function Profile({ params }) {
             biotipo: { id: cliente.biotipo.id },
             medida: { id: cliente.medida.id },
         }
-        console.log(schema);
         await fetch(`http://localhost:8080/api/cliente/${id}`, {
             method: "PUT",
             headers: {
