@@ -65,15 +65,14 @@ export default function Profile({ params }) {
         });
         const responseAPI = await response.json();
         setCliente(responseAPI);
-        console.log(responseAPI);
     }
 
     const updateCliente = async () => {
         const schema = {
             nome: updateClient?.nome ? updateClient?.nome : cliente.nome,
             idade: updateClient?.idade ? updateClient?.idade : cliente.idade,
-            email: cliente.email ? cliente.email : updateClient?.email,
-            senha: cliente.senha ? cliente.senha : updateClient?.senha,
+            email: updateClient?.email ? updateClient?.email : cliente.email,
+            senha: updateClient?.senha ? updateClient?.senha : cliente.senha,
             metabolismo: updateClient?.metabolismo ? updateClient?.metabolismo : cliente.metabolismo,
             genero: updateClient?.genero ? updateClient?.genero : cliente.genero,
             objetivo: { id: cliente.objetivo.id },
@@ -92,6 +91,32 @@ export default function Profile({ params }) {
         });
         fetchUser();
         setIsChangeClient(false);
+    }
+
+    const updateTraining = async (idParam) => {
+        const schema = {
+            nome: cliente.nome,
+            idade: cliente.idade,
+            email: cliente.email,
+            senha: cliente.senha,
+            metabolismo: cliente.metabolismo,
+            genero: cliente.genero,
+            objetivo: { id: cliente.objetivo.id },
+            treino: { id: idParam },
+            dieta: { id: cliente.dieta.id },
+            biotipo: { id: cliente.biotipo.id },
+            medida: { id: cliente.medida.id },
+        }
+        console.log(schema);
+        await fetch(`http://localhost:8080/api/cliente/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(schema),
+        });
+        fetchUser();
+        setIsChangeTraining(false);
     }
 
     const updateMeasures = async () => {
@@ -160,7 +185,13 @@ export default function Profile({ params }) {
                             </div>
                         </div>
                         <div className={styles.divButtons}>
-                            <ButtonDanger className={styles.delete_button}>{icons.logout}</ButtonDanger>
+                            <ButtonDanger className={styles.delete_button} onClick={() => {
+                                sessionStorage.removeItem("token");
+                                router.push("/pages/auth/login");
+                                setTimeout(() => {
+                                    window.location.reload();
+                                }, 1500);
+                            }}>{icons.logout}</ButtonDanger>
                             <ButtonSecondary className={styles.edit_button} onClick={() => setIsChangeClient(true)}>{icons.edit}</ButtonSecondary>
                             {isChangeClient && (
                                 <Modal title="Atualizar Cliente" closeModal={() => setIsChangeClient(false)}>
@@ -243,19 +274,19 @@ export default function Profile({ params }) {
                                             trainning={true}
                                             backgroundImage={"/treino_iniciante.jpg"}
                                             title="Treino Iniciante"
-                                            onClick={() => console.log("oi")}
+                                            onClick={() => updateTraining(1)}
                                         />
                                         <Card
                                             trainning={true}
                                             backgroundImage={"/treino_intermediario.jpg"}
                                             title="Treino Intermediário"
-                                            onClick={() => console.log("oi")}
+                                            onClick={() => updateTraining(2)}
                                         />
                                         <Card
                                             trainning={true}
                                             backgroundImage={"/treino_avancado.png"}
                                             title="Treino Avançado"
-                                            onClick={() => console.log("oi")}
+                                            onClick={() => updateTraining(3)}
                                         />
                                     </div>
                                 </Modal>

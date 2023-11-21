@@ -16,7 +16,8 @@ export default function Login() {
         setLogin({ ...login, [fieldName]: value });
     };
 
-    const onSubmit = async () => {
+    const onSubmit = async (e) => {
+        e.preventDefault();
         try {
             const response = await fetch("http://localhost:8080/api/cliente/login", {
                 method: "POST",
@@ -50,7 +51,7 @@ export default function Login() {
                     <Image src="/illustration_login.svg" priority={true} width={200} height={200} alt="Ilustração de Login" />
                     <p className={styles.description}>Seja uma pessoa mais saudável</p>
                 </div>
-                <form className={styles.form_box}>
+                <form className={styles.form_box} onSubmit={(e) => onSubmit(e)}>
                     <h1>Login</h1>
                     <Input
                         label="Email"
@@ -58,9 +59,10 @@ export default function Login() {
                     />
                     <Input
                         label="Senha"
+                        type="password"
                         onChange={(e) => handleChange(e, "senha")}
                     />
-                    <Button onClick={onSubmit}>Entrar</Button>
+                    <Button type="submit">Entrar</Button>
                     {/* <Button redirect="/pages/profile/0">Entrar</Button> */}
                     <ButtonLink redirect="/pages/auth/cadastro">Cadastrar</ButtonLink>
                 </form>
