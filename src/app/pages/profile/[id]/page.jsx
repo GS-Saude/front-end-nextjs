@@ -119,6 +119,32 @@ export default function Profile({ params }) {
         setIsChangeTraining(false);
     }
 
+    const updateDiet = async (idParam) => {
+        const schema = {
+            nome: cliente.nome,
+            idade: cliente.idade,
+            email: cliente.email,
+            senha: cliente.senha,
+            metabolismo: cliente.metabolismo,
+            genero: cliente.genero,
+            objetivo: { id: cliente.objetivo.id },
+            treino: { id: cliente.treino.id },
+            dieta: { id: idParam },
+            biotipo: { id: cliente.biotipo.id },
+            medida: { id: cliente.medida.id },
+        }
+        console.log(schema);
+        await fetch(`http://localhost:8080/api/cliente/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(schema),
+        });
+        fetchUser();
+        setIsChangeDiet(false);
+    }
+
     const updateMeasures = async () => {
         const schema = {
             torax: medidas.torax ? medidas.torax : cliente?.medida?.torax,
@@ -312,13 +338,13 @@ export default function Profile({ params }) {
                                             trainning={true}
                                             backgroundImage={"/diet.jpg"}
                                             title="Dieta de Perda de Gordura"
-                                            onClick={() => console.log("oi")}
+                                            onClick={() => updateDiet(1)}
                                         />
                                         <Card
                                             trainning={true}
                                             backgroundImage={"/treino_superiores.jpg"}
                                             title="Dieta de Ganho de Músculo"
-                                            onClick={() => console.log("oi")}
+                                            onClick={() => updateDiet(2)}
                                         />
                                     </div>
                                 </Modal>
