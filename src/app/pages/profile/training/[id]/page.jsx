@@ -23,6 +23,18 @@ export default function Training({ params }) {
     }), []);
 
 
+    const fetchTraining = () => {
+        fetch(`http://localhost:8080/api/treino/${id}`)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data)
+            });
+    }
+
+    useEffect(() => {
+        fetchTraining();
+    }, []);
+
     return (
         <main className={styles.background}>
             <div className={styles.sidebar}>

@@ -196,6 +196,11 @@ export default function Profile({ params }) {
             </div>
             <main className={styles.main}>
                 <div className={styles.top_profile}>
+                    <ButtonPrimary onClick={() => {
+                        fetch("/api/cliente")
+                            .then((response) => response.json())
+                            .then((data) => console.log(data));
+                    }}>Testar</ButtonPrimary>
                     <Image className={styles.profile_picture} priority={true} src="/woman_and_string.jpg" width={100} height={100} alt="Foto de perfil" />
                     <div className={styles.profile_info}>
                         <div className={styles.user_info}>
@@ -334,13 +339,13 @@ export default function Profile({ params }) {
                                         <Card
                                             trainning={true}
                                             backgroundImage={"/diet.jpg"}
-                                            title="Dieta de Perda de Gordura"
+                                            title="Emagrecimento"
                                             onClick={() => updateDiet(1)}
                                         />
                                         <Card
                                             trainning={true}
                                             backgroundImage={"/treino_superiores.jpg"}
-                                            title="Dieta de Ganho de Músculo"
+                                            title="Ganho de Músculo"
                                             onClick={() => updateDiet(2)}
                                         />
                                     </div>
