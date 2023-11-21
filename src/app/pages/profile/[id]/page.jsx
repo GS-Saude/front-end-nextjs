@@ -1,5 +1,5 @@
 'use client'
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import styles from "./styles.module.css"
 import Image from "next/image";
@@ -13,11 +13,13 @@ import { useRouter } from "next/navigation";
 import Modal from "@/components/Modal/page";
 import Input from "@/components/Input/page";
 import Select from "@/components/Select/page";
+import { formatDate } from "@/utils/Date";
 
 export default function Profile({ params }) {
     const router = useRouter();
     const { id } = params;
     const [isChangeMeasures, setIsChangeMeasures] = useState(false);
+    const [cliente, setCliente] = useState({});
     const [medidas, setMedidas] = useState({
         peitoral: "",
         braco_direito: "",
@@ -49,6 +51,25 @@ export default function Profile({ params }) {
         add: renderIcon({ name: "add", size: 18, color: "#fff" }),
     }), []);
 
+
+    const fetchUser = async () => {
+        const response = await fetch(`http://localhost:8080/api/cliente/${id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        const responseAPI = await response.json();
+        setCliente(responseAPI);
+        console.log(responseAPI);
+    }
+    
+
+    useEffect(() => {
+        fetchUser();
+    }, [])
+
+
     return (
         <div className={styles.background}>
             <div className={styles.header}>
@@ -59,12 +80,12 @@ export default function Profile({ params }) {
                     <Image className={styles.profile_picture} priority={true} src="/woman_and_string.jpg" width={100} height={100} alt="Foto de perfil" />
                     <div className={styles.profile_info}>
                         <div className={styles.user_info}>
-                            <h1>Rodrigo Silva</h1>
+                            <h1>{cliente?.nome}</h1>
                             <div className={styles.user_desc_info}>
-                                <p>18 Anos</p>
-                                <p>175 cm</p>
-                                <p>70.5 kg</p>
-                                <p>3150 Kcal</p>
+                                <p>{cliente?.idade} Anos</p>
+                                <p>{cliente?.medida?.altura} cm</p>
+                                <p>{cliente?.medida?.peso} kg</p>
+                                <p>{cliente?.metabolismo} Kcal</p>
                             </div>
                         </div>
                         <div className={styles.divButtons}>
@@ -79,21 +100,21 @@ export default function Profile({ params }) {
                         {icons.comida}
                         <div>
                             <h6>Dieta</h6>
-                            <h6>Completa</h6>
+                            <h6>{cliente?.dieta?.nome}</h6>
                         </div>
                     </div>
                     <div className={styles.treino_info}>
                         {icons.halter}
                         <div>
-                            <h6>Treino Avançado</h6>
-                            <h6>Foco em Peitoral</h6>
+                            <h6>Treino</h6>
+                            <h6>{cliente?.treino?.nome}</h6>
                         </div>
                     </div>
                     <div className={styles.biotipo_info}>
                         {icons.pessoa}
                         <div>
                             <h6>Biotipo</h6>
-                            <h6>Ectomorfo</h6>
+                            <h6>{cliente?.biotipo?.nome}</h6>
                         </div>
                     </div>
                 </div>
@@ -132,8 +153,8 @@ export default function Profile({ params }) {
                             <Card
                                 trainning={true}
                                 backgroundImage={"/ganhar_peso.jpg"}
-                                title="Treino A"
-                                onClick={() => router.push("/pages/profile/training/1")}
+                                title={cliente?.treino?.nome}
+                                onClick={() => router.push(`/pages/profile/training/${cliente?.treino?.id}`)}
                             />
                         </div>
                     </div>
@@ -164,8 +185,8 @@ export default function Profile({ params }) {
                             <Card
                                 trainning={true}
                                 backgroundImage={"/diet.jpg"}
-                                title="Dieta de Ganho de Músculo"
-                                onClick={() => console.log("oi")}
+                                title={cliente?.dieta?.nome}
+                                onClick={() => router.push(`/pages/profile/diet/${cliente?.dieta?.id}`)}
                             />
                         </div>
                     </div>
@@ -241,23 +262,23 @@ export default function Profile({ params }) {
                         <div className={styles.medidas_container}>
                             <div className={styles.medidas_info}>
                                 <h6>Peitoral:</h6>
-                                <h5>100 cm</h5>
+                                <h5>{cliente?.medidas?.torax ? cliente?.medidas?.torax : 0} cm</h5>
                             </div>
                             <div className={styles.medidas_info}>
                                 <h6>Braços:</h6>
-                                <h5>R 40 cm | L 40 cm</h5>
+                                <h5>L {cliente?.medidas?.bracoEsquerdo ? cliente?.medidas?.bracoEsquerdo : 0} cm | R {cliente?.medidas?.bracoDireito ? cliente?.medidas?.bracoDireito : 0} cm</h5>
                             </div>
                             <div className={styles.medidas_info}>
                                 <h6>Cintura:</h6>
-                                <h5>80 cm</h5>
+                                <h5>{cliente?.medidas?.cintura ? cliente?.medidas?.cintura : 0} cm</h5>
                             </div>
                             <div className={styles.medidas_info}>
                                 <h6>Coxas:</h6>
-                                <h5>R 55 cm | L 55 cm</h5>
+                                <h5>L {cliente?.medidas?.coxaEsquerda ? cliente?.medidas?.coxaEsquerda : 0} cm | R {cliente?.medidas?.coxaDireita ? cliente?.medidas?.coxaDireita : 0} cm</h5>
                             </div>
                             <div className={styles.medidas_info}>
                                 <h6>Panturrilhas:</h6>
-                                <h5>R 35 cm | L 35 cm</h5>
+                                <h5>L {cliente?.medidas?.paturrilhaEsquerda ? cliente?.medidas?.paturrilhaEsquerda : 0} cm | R {cliente?.medidas?.paturrilhaDireita ? cliente?.medidas?.paturrilhaDireita : 0} cm</h5>
                             </div>
                         </div>
                     </div>
@@ -294,16 +315,16 @@ export default function Profile({ params }) {
                         </div>
                         <div className={styles.objetivo_container}>
                             <div className={styles.objetivo_info}>
-                                <h6>Objetivo</h6>
-                                <h5>Emagrecimento</h5>
+                                <h6>Objetivo:</h6>
+                                <h5>{cliente?.objetivo?.nome}</h5>
                             </div>
                             <div className={styles.objetivo_info}>
-                                <h6>Tempo</h6>
-                                <h5>3 meses</h5>
+                                <h6>Data:</h6>
+                                <h5>{formatDate(cliente?.objetivo?.tempo)}</h5>
                             </div>
                             <div className={styles.objetivo_info}>
-                                <h6>Calorias</h6>
-                                <h5>2500 Kcal</h5>
+                                <h6>Peso:</h6>
+                                <h5>{cliente?.objetivo?.peso} Kg</h5>
                             </div>
                         </div>
                     </div>
