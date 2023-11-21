@@ -11,12 +11,11 @@ import Select from "@/components/Select/page"
 import renderIcon from "@/utils/iconGallery"
 import Card from "@/components/Card/page"
 import Modal from "@/components/Modal/page"
+import { useRouter } from 'next/navigation'
 
 export default function Cadastro() {
+    const route = useRouter();
     const [isModalBiotipoOpen, setIsModalBiotipoOpen] = useState(false);
-    const [isModalTreinoBasicoOpen, setIsModalTreinoBasicoOpen] = useState(false);
-    const [isModalTreinoIntermediarioOpen, setIsModalTreinoIntermediarioOpen] = useState(false);
-    const [isModalTreinoAvancadoOpen, setIsModalTreinoAvancadoOpen] = useState(false);
     const [smallerImage, setSmallerImage] = useState(false);
     const [step, setStep] = useState(1);
     const [cliente, setCliente] = useState({
@@ -24,34 +23,22 @@ export default function Cadastro() {
         email: "",
         idade: "",
         genero: "",
+        metabolismo: "",
         senha: "",
     });
     const [objetivo, setObjetivo] = useState({
-        nm_objetivo: "",
-        tempo_objetivo: 0,
-        peso_objetivo: 0,
-    })
-    const [metabolismo, setMetabolismo] = useState({
-        peso: "",
-        altura: "",
-        nivelAtividade: "",
-    })
-    const [biotipo, setBiotipo] = useState({
-        nm_biotipo: "",
-        desc_biotipo: "",
+        nome: "",
+        tempo: 0,
+        peso: 0,
     });
-    const [treino, setTreino] = useState({
-        nm_treino: "",
-        desc_treino: "",
-    })
-    const [tipoTreino, setTipoTreino] = useState({
-        nm_tipo_treino: "",
-        desc_tipo_treino: "",
-    })
-    const [dieta, setDieta] = useState({
-        nm_dieta: "",
-        desc_dieta: "",
-    })
+    const [dieta, setDieta] = useState(0);
+    const [medida, setMedida] = useState({
+        peso: 0,
+        altura: 0,
+    });
+    const [nivelAtividade, setNivelAtividade] = useState("");
+    const [biotipo, setBiotipo] = useState(0);
+    const [treino, setTreino] = useState(0);
 
     const icons = useMemo(() => ({
         next: renderIcon({ name: "next", size: 18, color: "#fff" }),
@@ -59,74 +46,115 @@ export default function Cadastro() {
         check: renderIcon({ name: "check", size: 18, color: "#fff" }),
     }), []);
 
-    const handleClienteChange = (value, fieldName) => {
-        setCliente({ ...cliente, [fieldName]: value });
-    };
-
-    const handleMetabolismoChange = (value, fieldName) => {
-        setMetabolismo({ ...metabolismo, [fieldName]: value });
-    }
-
     const calcularMetabolismoBasal = () => {
-        if (!cliente.idade || !cliente.genero || !metabolismo.peso || !metabolismo.altura || !metabolismo.nivelAtividade) {
+        if (!cliente.idade || !cliente.genero || !medida.peso || !medida.altura || !nivelAtividade) {
             return "Dados Incompletos";
         }
 
         if (cliente.genero.toLowerCase() === "masculino") {
-            const calculo = (66.5 + (13.75 * metabolismo.peso) + (5.003 * metabolismo.altura) - (6.75 * cliente.idade)) * metabolismo.nivelAtividade;
-            if (objetivo.nm_objetivo.toLowerCase() === "perder gordura") {
-                return parseInt(calculo - 500);
+            const calculo = (66.5 + (13.75 * medida.peso) + (5.003 * medida.altura) - (6.75 * cliente.idade)) * nivelAtividade;
+            if (objetivo.nome.toLowerCase() === "perder gordura") {
+                setCliente({ ...cliente, metabolismo: parseInt(calculo - 500) })
             }
-            if (objetivo.nm_objetivo.toLowerCase() === "ganhar músculo") {
-                return parseInt(calculo + 400)
+            if (objetivo.nome.toLowerCase() === "ganhar músculo") {
+                setCliente({ ...cliente, metabolismo: parseInt(calculo + 400) })
             }
-            return parseInt(calculo);
         }
+
         if (cliente.genero.toLowerCase() === "feminino") {
-            const calculo = (655.1 + (9.563 * metabolismo.peso) + (1.850 * metabolismo.altura) - (4.676 * cliente.idade)) * metabolismo.nivelAtividade
-            if (objetivo.nm_objetivo.toLowerCase() === "perder gordura") {
-                return parseInt(calculo - 500);
+            const calculo = (655.1 + (9.563 * medida.peso) + (1.850 * medida.altura) - (4.676 * cliente.idade)) * nivelAtividade
+            if (objetivo.nome.toLowerCase() === "perder gordura") {
+                setCliente({ ...cliente, metabolismo: parseInt(calculo - 500) })
             }
-            if (objetivo.nm_objetivo.toLowerCase() === "ganhar músculo") {
-                return parseInt(calculo + 400)
+            if (objetivo.nome.toLowerCase() === "ganhar músculo") {
+                setCliente({ ...cliente, metabolismo: parseInt(calculo + 400) })
             }
-            return parseInt(calculo);
         }
     };
 
-    const onSubmit = () => {
-        if (!cliente.nome || !cliente.email || !cliente.idade || !cliente.genero || !cliente.senha) {
+    const onSubmit = async () => {
+        if (!cliente.nome || !cliente.email || !cliente.idade || !cliente.genero || !cliente.senha || !cliente.metabolismo) {
             alert("Preencha todos os campos do cliente")
             return;
         }
-        if (!metabolismo.peso || !metabolismo.altura || !metabolismo.nivelAtividade) {
-            alert("Preencha todos os campos do metabolismo")
+        if (!objetivo.nome || !objetivo.tempo || !objetivo.peso) {
+            alert("Preencha todos os campos do objetivo")
             return;
         }
-        if (!biotipo.nm_biotipo || !biotipo.desc_biotipo) {
-            alert("Selecione um biotipo")
+        if (!nivelAtividade) {
+            alert("Campo de nível de atividade não preenchido")
             return;
         }
-        if (!treino.nm_treino || !treino.desc_treino) {
-            alert("Selecione um treino")
+        if (!medida.peso || !medida.altura) {
+            alert("Preencha todos os campos de medida")
             return;
         }
-        if (!tipoTreino.nm_tipo_treino || !tipoTreino.desc_tipo_treino) {
-            alert("Selecione um tipo de treino")
+        if (!biotipo) {
+            alert("Preencha todos os campos de biotipo")
             return;
         }
-        if (!dieta.nm_dieta || !dieta.desc_dieta) {
-            alert("Selecione uma dieta")
+        if (!treino) {
+            alert("Preencha todos os campos de treino")
             return;
         }
 
         try {
-            console.log(cliente);
-            console.log(metabolismo);
-            console.log(biotipo);
-            console.log(treino);
-            console.log(tipoTreino);
-            console.log(dieta);
+            const responseObjetivo = await fetch("http://localhost:8080/api/objetivo", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(objetivo),
+            });
+            const responseObjetivoJson = await responseObjetivo.json();
+
+            const schemaMedida = {
+                altura: medida.altura,
+                bracoDireito: 0,
+                bracoEsquerdo: 0,
+                cintura: 0,
+                coxaDireita: 0,
+                coxaEsquerda: 0,
+                panturrilhaDireita: 0,
+                panturrilhaEsquerda: 0,
+                peso: medida.peso,
+                torax: 0
+            }
+            const responseMedida = await fetch("http://localhost:8080/api/medida", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(schemaMedida),
+            });
+            const responseMedidaJson = await responseMedida.json();
+
+            const shemaCliente = {
+                medida: { id: responseMedidaJson.id },
+                objetivo: { id: responseObjetivoJson.id },
+                biotipo: { id: biotipo },
+                dieta: { id: dieta },
+                treino: { id: treino },
+                nome: cliente.nome,
+                email: cliente.email,
+                idade: cliente.idade,
+                genero: cliente.genero,
+                metabolismo: cliente.metabolismo,
+                senha: cliente.senha,
+            };
+            const responseCliente = await fetch("http://localhost:8080/api/cliente", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(shemaCliente),
+            });
+            const responseClienteJson = await responseCliente.json();
+
+            if (responseClienteJson.id) {
+                alert("Cadastro realizado com sucesso");
+                route.push("/pages/auth/login")
+            }
         } catch (error) {
             console.log(error);
         }
@@ -145,33 +173,33 @@ export default function Cadastro() {
                         <h1>Cadastro</h1>
                         <Input
                             label="Nome Completo"
-                            onChange={(e) => handleClienteChange(e.target.value, "nome")}
+                            onChange={(e) => setCliente({ ...cliente, nome: e.target.value })}
                         />
                         <Input
                             label="Email"
                             type="email"
-                            onChange={(e) => handleClienteChange(e.target.value, "email")}
+                            onChange={(e) => setCliente({ ...cliente, email: e.target.value })}
                         />
                         <Input
                             label="Idade"
                             type="number"
-                            onChange={(e) => handleClienteChange(parseInt(e.target.value), "idade")}
+                            onChange={(e) => setCliente({ ...cliente, idade: parseInt(e.target.value) })}
                         />
                         <Select
                             label="Gênero"
                             options={[{ label: "", value: "" }, { label: "Masculino", value: "Masculino" }, { label: "Feminino", value: "Feminino" }]}
-                            onChange={(e) => handleClienteChange(e.target.value, "genero")}
+                            onChange={(e) => setCliente({ ...cliente, genero: e.target.value })}
                         />
                         <Input
                             label="Senha"
                             type="password"
-                            onChange={(e) => handleClienteChange(e.target.value, "senha")}
+                            onChange={(e) => setCliente({ ...cliente, senha: e.target.value })}
                         />
                         <Button onClick={() => {
-                            // if (!cliente.nome || !cliente.email || !cliente.idade || !cliente.genero || !cliente.senha) {
-                            //     alert("Preencha todos os campos")
-                            //     return;
-                            // }
+                            if (!cliente.nome || !cliente.email || !cliente.idade || !cliente.genero || !cliente.senha) {
+                                alert("Preencha todos os campos do cliente")
+                                return;
+                            }
                             setStep(2)
                         }}>Continuar {icons.next}</Button>
                         <ButtonLink redirect="/pages/auth/login">Já Possui Cadastro ?</ButtonLink>
@@ -186,10 +214,8 @@ export default function Cadastro() {
                                 title="Perder Gordura"
                                 color="#fff"
                                 onClick={() => {
-                                    setObjetivo({ ...objetivo, nm_objetivo: "Perder Gordura" })
-                                    // setTimeout(() => {
-                                    //     setStep(3)
-                                    // }, 500)
+                                    setObjetivo({ ...objetivo, nome: "Perder Gordura" });
+                                    setDieta(1);
                                 }}
                             />
                             <Card
@@ -197,10 +223,8 @@ export default function Cadastro() {
                                 title="Ganhar Músculo"
                                 color="#fff"
                                 onClick={() => {
-                                    setObjetivo({ ...objetivo, nm_objetivo: "Ganhar Músculo" })
-                                    // setTimeout(() => {
-                                    //     setStep(3)
-                                    // }, 500)
+                                    setObjetivo({ ...objetivo, nome: "Ganhar Músculo" });
+                                    setDieta(2);
                                 }}
                             />
                         </div>
@@ -209,27 +233,37 @@ export default function Cadastro() {
                                 label="Peso objetivo"
                                 type="number"
                                 placeholder="Digite o tempo em meses"
-                                onChange={(e) => setObjetivo({ ...objetivo, peso_objetivo: e.target.value })}
+                                onChange={(e) => setObjetivo({ ...objetivo, peso: e.target.value })}
                             />
                             <Input
-                                label="Meses para o Objetivo"
-                                type="number"
+                                label="Data limite"
                                 placeholder="Digite o tempo em meses"
-                                onChange={(e) => setObjetivo({ ...objetivo, tempo_objetivo: e.target.value })}
+                                value={objetivo.tempo}
+                                onChange={(e) => {
+                                    const inputValue = e.target.value;
+                                    const formattedValue = inputValue.replace(/\D/g, '').slice(0, 8).replace(/(\d{2})(\d{2})?(\d{4})?/, (_, dia, mes, ano) => {
+                                        let result = dia;
+                                        if (mes) result += `/${mes}`;
+                                        if (ano) result += `/${ano}`;
+                                        return result;
+                                    });
+                                    setObjetivo({ ...objetivo, tempo: formattedValue });
+                                }}
                             />
+
                         </div>
                     </div>
-                    {objetivo.nm_objetivo && (
+                    {objetivo.nome && (
                         <div className={styles.selected_objetivo}>
                             <h5>Objetivo selecionado:</h5>
-                            <h4>{objetivo.nm_objetivo.toUpperCase()}</h4>
-                            <h4>{objetivo.peso_objetivo.length > 0 && "Atingir " + objetivo.peso_objetivo + " kg"} </h4>
-                            <h4>{objetivo.tempo_objetivo.length > 0 && "Em " + objetivo.tempo_objetivo + " meses"} </h4>
+                            <h4>{objetivo.nome.toUpperCase()}</h4>
+                            <h4>{objetivo.peso.length > 0 && "Atingir " + objetivo.peso + " kg"} </h4>
+                            <h4>{objetivo.tempo.length > 0 && "Até " + objetivo.tempo} </h4>
                         </div>
                     )}
                     <div className={styles.divButton}>
                         <Button onClick={() => setStep(1)}>{icons.back}Voltar</Button>
-                        {objetivo.nm_objetivo && objetivo.tempo_objetivo && objetivo.peso_objetivo ? <Button onClick={() => setStep(3)}>Avançar {icons.next}</Button> : ""}
+                        {objetivo.nome && objetivo.tempo && objetivo.peso ? <Button onClick={() => setStep(3)}>Avançar {icons.next}</Button> : ""}
                     </div>
                 </div>
                 <div className={step == 3 ? styles.metabolismo_container : styles.display_none}>
@@ -239,28 +273,28 @@ export default function Cadastro() {
                             label="Peso (kg)"
                             placeholder="Digite seu peso em kg"
                             type="number"
-                            onChange={(e) => handleMetabolismoChange(parseFloat(e.target.value), "peso")}
+                            onChange={(e) => setMedida({ ...medida, peso: parseFloat(e.target.value) })}
                         />
                         <Input
                             label="Estatura (cm)"
                             type="number"
                             placeholder="Digite sua altura em cm"
-                            onChange={(e) => handleMetabolismoChange(parseInt(e.target.value), "altura")}
+                            onChange={(e) => setMedida({ ...medida, altura: parseInt(e.target.value) })}
                         />
                         <Select
                             label="Nível de Atividade"
                             options={[{ label: "", value: "" }, { label: "Sedentário", value: 1.2 }, { label: "Levemente Ativo (1x por semana)", value: 1.375 }, { label: "Moderadamente Ativo (3x por semana)", value: 1.55 }, { label: "Altamente Ativo (5x na semana)", value: 1.725 }, { label: "Extremamente Ativo (todos os dias)", value: 1.9 }]}
-                            onChange={(e) => handleMetabolismoChange(parseFloat(e.target.value), "nivelAtividade")}
+                            onChange={(e) => setNivelAtividade(e.target.value)}
                         />
                     </div>
                     <div className={styles.divButton}>
                         <Button onClick={() => setStep(2)}>{icons.back} Voltar</Button>
-                        {metabolismo.peso && metabolismo.altura && metabolismo.nivelAtividade && (
+                        {medida.peso && medida.altura && nivelAtividade && (
                             <Button onClick={() => {
-                                // if(!metabolismo.peso || !metabolismo.altura || !metabolismo.nivelAtividade){
-                                //     alert("Preencha todos os campos do metabolismo")
-                                //     return;
-                                // }
+                                if (!medida.peso || !medida.altura || !nivelAtividade) {
+                                    alert("Preencha todos os campos")
+                                    return;
+                                }
                                 setStep(4)
                             }}>Avançar {icons.next}</Button>
                         )}
@@ -275,7 +309,7 @@ export default function Cadastro() {
                             color="#000"
                             cardSize="vertical"
                             onClick={() => {
-                                setBiotipo({ nm_biotipo: "Ectomorfo", desc_biotipo: "Ectomorfos são pessoas com metabolismo acelerado, que tem dificuldade em ganhar massa muscular e peso." })
+                                setBiotipo(1)
                                 setTimeout(() => {
                                     setStep(5)
                                 }, 500)
@@ -287,7 +321,7 @@ export default function Cadastro() {
                             color="#000"
                             cardSize="vertical"
                             onClick={() => {
-                                setBiotipo({ nm_biotipo: "Mesomorfo", desc_biotipo: "Mesomorfos são pessoas com metabolismo normal, que ganham massa muscular com facilidade e não acumulam tanta gordura corporal." })
+                                setBiotipo(2)
                                 setTimeout(() => {
                                     setStep(5)
                                 }, 500)
@@ -299,17 +333,17 @@ export default function Cadastro() {
                             color="#000"
                             cardSize="vertical"
                             onClick={() => {
-                                setBiotipo({ nm_biotipo: "Endomorfo", desc_biotipo: "Endomorfos são pessoas com metabolismo lento, que tem facilidade em ganhar peso e massa muscular." })
+                                setBiotipo(3)
                                 setTimeout(() => {
                                     setStep(5)
                                 }, 500)
                             }}
                         />
                     </div>
-                    {biotipo.nm_biotipo && (
+                    {biotipo && (
                         <div className={styles.selected_biotipo}>
                             <h5>Biotipo selecionado:</h5>
-                            <h4>{biotipo.nm_biotipo.toUpperCase()}</h4>
+                            <h4>{biotipo == 1 ? "ECTOMORFO" : (biotipo == 2 ? "MESOMORFO" : (biotipo == 3 && "ENDOMORFO"))}</h4>
                         </div>
                     )}
                     <div className={styles.divButton}>
@@ -323,7 +357,7 @@ export default function Cadastro() {
                                 setIsModalBiotipoOpen(true)
                             }
                         }}>Descobrir Biotipo</ButtonSecondary>
-                        {biotipo.nm_biotipo && <Button onClick={() => setStep(5)}>Avançar {icons.next}</Button>}
+                        {biotipo && <Button onClick={() => setStep(5)}>Avançar {icons.next}</Button>}
                     </div>
                 </div>
                 <div className={step == 5 ? styles.treino_container : styles.display_none}>
@@ -334,231 +368,50 @@ export default function Cadastro() {
                             title="Treino Básico"
                             color="#fff"
                             onClick={() => {
-                                setTreino({ nm_treino: "Treino Básico", desc_treino: "Treino básico para iniciantes, com exercícios simples, para começar a ter uma vida mais saudável." })
-                                setIsModalTreinoBasicoOpen(true);
+                                setTreino(1);
+                                calcularMetabolismoBasal();
+                                setTimeout(() => {
+                                    setStep(6)
+                                }, 500)
                             }}
                         />
-                        {isModalTreinoBasicoOpen && (
-                            <Modal title="Treinos Básicos" closeModal={() => setIsModalTreinoBasicoOpen(false)}>
-                                <div className={styles.modal_treino}>
-                                    <Card
-                                        title="Foco em Superiores"
-                                        color="#fff"
-                                        cardSize="vertical"
-                                        backgroundImage="/treino_superiores.jpg"
-                                        onClick={() => {
-                                            setTipoTreino({ nm_tipo_treino: "Superiores", desc_tipo_treino: "Treino focado em superiores" })
-                                            setIsModalTreinoBasicoOpen(false);
-                                            setTimeout(() => {
-                                                setStep(6)
-                                            }, 500)
-                                        }}
-                                    />
-                                    <Card
-                                        title="Foco em Inferiores"
-                                        color="#fff"
-                                        cardSize="vertical"
-                                        backgroundImage="/treino_inferiores.jpg"
-                                        onClick={() => {
-                                            setTipoTreino({ nm_tipo_treino: "Inferiores", desc_tipo_treino: "Treino focado em inferiores" })
-                                            setIsModalTreinoBasicoOpen(false);
-                                            setTimeout(() => {
-                                                setStep(6)
-                                            }, 500)
-                                        }}
-                                    />
-                                    <Card
-                                        title="Full Body"
-                                        color="#fff"
-                                        cardSize="vertical"
-                                        backgroundImage="/treino_fullbody.jpg"
-                                        onClick={() => {
-                                            setTipoTreino({ nm_tipo_treino: "Full Body", desc_tipo_treino: "Treino focado no todo o corpo" })
-                                            setIsModalTreinoBasicoOpen(false);
-                                            setTimeout(() => {
-                                                setStep(6)
-                                            }, 500)
-                                        }}
-                                    />
-                                </div>
-                            </Modal>
-                        )}
-
                         <Card
                             backgroundImage="/treino_intermediario.jpg"
                             title="Treino Intermediário"
                             color="#fff"
                             onClick={() => {
-                                setTreino({ nm_treino: "Treino Intermediário", desc_treino: "Treino intermediário para quem já tem uma certa experiência com exercícios físicos, com exercícios mais complexos." })
-                                setIsModalTreinoIntermediarioOpen(true);
+                                setTreino(2);
+                                calcularMetabolismoBasal();
+                                setTimeout(() => {
+                                    setStep(6)
+                                }, 500)
                             }}
                         />
-                        {isModalTreinoIntermediarioOpen && (
-                            <Modal title="Treinos Intermediários" closeModal={() => setIsModalTreinoIntermediarioOpen(false)}>
-                                <div className={styles.modal_treino}>
-                                    <Card
-                                        title="Foco em Peitoral"
-                                        color="#fff"
-                                        cardSize="vertical"
-                                        backgroundImage="/treino_peitoral.jpg"
-                                        onClick={() => {
-                                            setTipoTreino({ nm_tipo_treino: "Peitoral", desc_tipo_treino: "Treino focado em peitoral" })
-                                            setIsModalTreinoIntermediarioOpen(false);
-                                            setTimeout(() => {
-                                                setStep(6)
-                                            }, 500)
-                                        }}
-                                    />
-                                    <Card
-                                        title="Foco em Costas"
-                                        color="#fff"
-                                        cardSize="vertical"
-                                        backgroundImage="/treino_costas.jpg"
-                                        onClick={() => {
-                                            setTipoTreino({ nm_tipo_treino: "Costas", desc_tipo_treino: "Treino focado em costas" })
-                                            setIsModalTreinoIntermediarioOpen(false);
-                                            setTimeout(() => {
-                                                setStep(6)
-                                            }, 500)
-                                        }}
-                                    />
-                                    <Card
-                                        title="Foco em Pernas"
-                                        color="#fff"
-                                        cardSize="vertical"
-                                        backgroundImage="/treino_pernas.jpg"
-                                        onClick={() => {
-                                            setTipoTreino({ nm_tipo_treino: "Pernas", desc_tipo_treino: "Treino focado em pernas" })
-                                            setIsModalTreinoIntermediarioOpen(false);
-                                            setTimeout(() => {
-                                                setStep(6)
-                                            }, 500)
-                                        }}
-                                    />
-                                </div>
-                            </Modal>
-                        )}
-
                         <Card
                             backgroundImage="/treino_avancado.png"
                             title="Treino Avançado"
                             color="#fff"
                             onClick={() => {
-                                setTreino({ nm_treino: "Treino Avançado", desc_treino: "Treino avançado para quem já tem uma boa experiência com exercícios físicos, com exercícios complexos." })
-                                setIsModalTreinoAvancadoOpen(true);
+                                setTreino(3);
+                                calcularMetabolismoBasal();
+                                setTimeout(() => {
+                                    setStep(6)
+                                }, 500)
                             }}
                         />
-                        {isModalTreinoAvancadoOpen && (
-                            <Modal title="Treinos Avançados" closeModal={() => setIsModalTreinoAvancadoOpen(false)}>
-                                <div className={styles.modal_treino}>
-                                    <Card
-                                        title="Foco em Peitoral"
-                                        color="#fff"
-                                        cardSize="vertical"
-                                        backgroundImage="/treino_peitoral.jpg"
-                                        onClick={() => {
-                                            setTipoTreino({ nm_tipo_treino: "Peitoral", desc_tipo_treino: "Treino focado em peitoral" })
-                                            setIsModalTreinoAvancadoOpen(false);
-                                            setTimeout(() => {
-                                                setStep(6)
-                                            }, 500)
-                                        }}
-                                    />
-                                    <Card
-                                        title="Foco em Costas"
-                                        color="#fff"
-                                        cardSize="vertical"
-                                        backgroundImage="/treino_costas.jpg"
-                                        onClick={() => {
-                                            setTipoTreino({ nm_tipo_treino: "Costas", desc_tipo_treino: "Treino focado em costas" })
-                                            setIsModalTreinoAvancadoOpen(false);
-                                            setTimeout(() => {
-                                                setStep(6)
-                                            }, 500)
-                                        }}
-                                    />
-                                    <Card
-                                        title="Foco em Pernas"
-                                        color="#fff"
-                                        cardSize="vertical"
-                                        backgroundImage="/treino_pernas.jpg"
-                                        onClick={() => {
-                                            setTipoTreino({ nm_tipo_treino: "Pernas", desc_tipo_treino: "Treino focado em pernas" })
-                                            setIsModalTreinoAvancadoOpen(false);
-                                            setTimeout(() => {
-                                                setStep(6)
-                                            }, 500)
-                                        }}
-                                    />
-                                    <Card
-                                        title="Foco em Braços"
-                                        color="#fff"
-                                        cardSize="vertical"
-                                        backgroundImage="/treino_bracos.jpg"
-                                        onClick={() => {
-                                            setTipoTreino({ nm_tipo_treino: "Braços", desc_tipo_treino: "Treino focado em braços" })
-                                            setIsModalTreinoAvancadoOpen(false);
-                                            setTimeout(() => {
-                                                setStep(6)
-                                            }, 500)
-                                        }}
-                                    />
-                                </div>
-                            </Modal>
-                        )}
                     </div>
-                    {treino.nm_treino && tipoTreino.nm_tipo_treino && (
+                    {treino ? (
                         <div className={styles.selected_treino}>
-                            <div>
-                                <h5>Treino selecionado:</h5>
-                                <h4>{treino.nm_treino.toUpperCase()}</h4>
-                                <h4>{tipoTreino.nm_tipo_treino.toUpperCase()}</h4>
-                            </div>
+                            <h5>Treino selecionado:</h5>
+                            <h4>{treino == 1 ? "INICIANTE" : (treino == 2 ? "INTERMEDIÁRIO" : (treino == 3 && "AVANÇADO"))}</h4>
                         </div>
-                    )}
+                    ) : ""}
                     <div className={styles.divButton}>
                         <Button onClick={() => setStep(4)}>{icons.back}Voltar</Button>
-                        {treino.nm_treino && tipoTreino.nm_tipo_treino && <Button onClick={() => setStep(6)}>Avançar {icons.next}</Button>}
+                        {treino ? <Button onClick={() => { setStep(6); calcularMetabolismoBasal(); }}>Finalizar {icons.check}</Button> : ""}
                     </div>
                 </div>
-                <div className={step == 6 ? styles.dieta_container : styles.display_none}>
-                    <h1>Selecione sua Dieta</h1>
-                    <div className={styles.dieta_box}>
-                        <Card
-                            backgroundImage="/dieta_basica.jpg"
-                            title="Dieta Básica"
-                            color="#fff"
-                            onClick={() => {
-                                setDieta({ nm_dieta: "Dieta Básica", desc_dieta: "A dieta básica para iniciar uma alimentação saudável, evitando produtos industrializados e processados" })
-                                setTimeout(() => {
-                                    setStep(7)
-                                }, 500)
-                            }}
-                        />
-                        <Card
-                            backgroundImage="/dieta_completa.jpg"
-                            title="Dieta Completa"
-                            color="#fff"
-                            onClick={() => {
-                                setDieta({ nm_dieta: "Dieta Completa", desc_dieta: "A dieta ideal para manter o corpo nutrido e saudável, com frutas, verduras, legumes, proteínas e carboidratos" })
-                                setTimeout(() => {
-                                    setStep(7)
-                                }, 500)
-                            }}
-                        />
-                    </div>
-                    {dieta.nm_dieta && (
-                        <div className={styles.selected_dieta}>
-                            <h5>Dieta selecionada:</h5>
-                            <h4>{dieta.nm_dieta.toUpperCase()}</h4>
-                        </div>
-                    )}
-                    <div className={styles.divButton}>
-                        <Button onClick={() => setStep(5)}>{icons.back}Voltar</Button>
-                        {dieta.nm_dieta && <Button onClick={() => setStep(7)}>Finalizar {icons.check}</Button>}
-                    </div>
-                </div>
-                <div className={step == 7 ? styles.fim_container : styles.display_none}>
+                <div className={step == 6 ? styles.fim_container : styles.display_none}>
                     <h1>Finalizar Cadastro</h1>
                     <div className={styles.fim_box}>
                         <div className={styles.box_left}>
@@ -573,31 +426,29 @@ export default function Cadastro() {
 
                             <div className={styles.fim_boxes}>
                                 <h2>Medidas</h2>
-                                <div className={styles.informacao}><h4>Peso:</h4> {metabolismo?.peso} kg</div>
-                                <div className={styles.informacao}><h4>Altura:</h4> {metabolismo?.altura} cm</div>
-                                <div className={styles.informacao}><h4>Consumir ao dia:</h4> {calcularMetabolismoBasal() == "Dados Incompletos" ? "" : parseInt(calcularMetabolismoBasal()) + " calorias"}</div>
+                                <div className={styles.informacao}><h4>Peso:</h4> {medida?.peso} kg</div>
+                                <div className={styles.informacao}><h4>Altura:</h4> {medida?.altura} cm</div>
+                                <div className={styles.informacao}><h4>Consumir ao dia:</h4>{cliente.metabolismo + " calorias"}</div>
                             </div>
                         </div>
                         <div className={styles.box_right}>
                             <div className={styles.fim_boxes}>
                                 <h2>Sua Dieta</h2>
-                                <div className={styles.informacao}><h4>Dieta:</h4> {dieta?.nm_dieta}</div>
-                                <div className={styles.informacao}><h4>Descrição:</h4> {dieta?.desc_dieta}</div>
+                                <div className={styles.informacao}><h4>Dieta:</h4> {dieta == 1 ? "Dieta para emagrecimento e perca de gordura corporal" : (dieta == 2 && "Dieta para ganho de massa muscular")}</div>
                                 <h2>Seu Treino</h2>
-                                <div className={styles.informacao}><h4>Treino:</h4> {treino?.nm_treino}</div>
-                                <div className={styles.informacao}><h4>Tipo de Treino:</h4> {tipoTreino?.nm_tipo_treino}</div>
-                                <div className={styles.informacao}><h4>Biotipo:</h4>{biotipo?.nm_biotipo}</div>
+                                <div className={styles.informacao}><h4>Treino:</h4> {treino == 1 ? "INICIANTE" : (treino == 2 ? "INTERMEDIÁRIO" : (treino == 3 && "AVANÇADO"))}</div>
+                                <div className={styles.informacao}><h4>Biotipo:</h4>{biotipo == 1 ? "ECTOMORFO" : (biotipo == 2 ? "MESOMORFO" : (treino == 3 && "ENDOMORFO"))}</div>
                             </div>
 
                             <div className={styles.fim_boxes}>
                                 <h2>Objetivo</h2>
-                                <div className={styles.informacao}><h4>Objetivo: </h4>{objetivo?.nm_objetivo} em {objetivo?.tempo_objetivo + " meses"}</div>
-                                <div className={styles.informacao}><h4>Peso objetivo:</h4> {objetivo?.peso_objetivo + " kg"}</div>
+                                <div className={styles.informacao}><h4>Objetivo: </h4>{objetivo?.nome}</div>
+                                <div className={styles.informacao}><h4>Peso objetivo:</h4> {objetivo?.peso + " kg até " + objetivo?.tempo}</div>
                             </div>
                         </div>
                     </div>
                     <div className={styles.divButton}>
-                        <Button onClick={() => setStep(6)}>{icons.back}</Button>
+                        <Button onClick={() => setStep(5)}>{icons.back}</Button>
                         <ButtonSuccess onClick={() => onSubmit()}>Cadastrar</ButtonSuccess>
                     </div>
                 </div>

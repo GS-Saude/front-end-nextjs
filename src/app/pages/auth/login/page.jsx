@@ -5,8 +5,10 @@ import ButtonLink from "@/components/Button/variants/link"
 import Input from "@/components/Input/page"
 import React, { useState, useEffect } from "react"
 import Image from "next/image"
+import { useRouter } from 'next/navigation'
 
 export default function Login() {
+    const route = useRouter();
     const [login, setLogin] = useState({ email: "", senha: "" });
 
     const handleChange = (e, fieldName) => {
@@ -14,17 +16,31 @@ export default function Login() {
         setLogin({ ...login, [fieldName]: value });
     };
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
         try {
-            const token = Math.random().toString(36).substring(2);
-            const id = 1
-            console.log(login);
-            console.log(id+token);
-            // sessionStorage.setItem("token",  id+token);
+            const response = await fetch("http://localhost:8080/api/cliente/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(login),
+            });
+
+            if (response.ok) {
+                const responseAPI = await response.json();
+                const token = Math.random().toString(36).substring(2);
+                const id = responseAPI.id;
+                sessionStorage.setItem("token", id+token);
+                route.push(`/pages/profile/${id}`)
+            } else {
+                console.log("Erro ao realizar o login");
+                alert("Email ou senha Inválidos");
+            }
         } catch (error) {
             console.log(error);
         }
     };
+
 
     return (
         <main className={styles.main}>
@@ -44,8 +60,8 @@ export default function Login() {
                         label="Senha"
                         onChange={(e) => handleChange(e, "senha")}
                     />
-                    {/* <Button onClick={onSubmit}>Entrar</Button> */}
-                    <Button redirect="/pages/profile/0">Entrar</Button>
+                    <Button onClick={onSubmit}>Entrar</Button>
+                    {/* <Button redirect="/pages/profile/0">Entrar</Button> */}
                     <ButtonLink redirect="/pages/auth/cadastro">Cadastrar</ButtonLink>
                 </form>
             </div>

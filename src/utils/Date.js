@@ -1,5 +1,5 @@
 export function formatTime(time) {
-  const date = new Date(time);
+  const data = new Date(time + 'T12:00');
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const day = date.getDate();
