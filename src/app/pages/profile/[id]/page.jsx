@@ -21,20 +21,22 @@ export default function Profile({ params }) {
     const [isChangeMeasures, setIsChangeMeasures] = useState(false);
     const [cliente, setCliente] = useState({});
     const [medidas, setMedidas] = useState({
-        peitoral: "",
-        braco_direito: "",
-        braco_esquerdo: "",
+        torax: "",
+        bracoDireito: "",
+        bracoEsquerdo: "",
         cintura: "",
-        coxa_direita: "",
-        coxa_esquerda: "",
-        panturrilha_direita: "",
-        panturrilha_esquerda: "",
+        coxaDireita: "",
+        coxaEsquerda: "",
+        panturrilhaDireita: "",
+        panturrilhaEsquerda: "",
+        peso: "",
+        altura: "",
     })
     const [isChangeObjective, setIsChangeObjective] = useState(false);
     const [objetivo, setObjetivo] = useState({
-        nm_objetivo: "",
-        tempo_objetivo: "",
-        peso_objetivo: "",
+        nome: "",
+        tempo: "",
+        peso: "",
     })
     const [isChangeTraining, setIsChangeTraining] = useState(false);
     const [isChangeDiet, setIsChangeDiet] = useState(false);
@@ -63,10 +65,35 @@ export default function Profile({ params }) {
         setCliente(responseAPI);
         console.log(responseAPI);
     }
-    
+
+
+    const updateMeasures = async () => {
+        const schema = {
+            torax: medidas.torax ? medidas.torax : cliente?.medida?.torax,
+            bracoDireito: medidas.bracoDireito ? medidas.bracoDireito : cliente?.medida?.bracoDireito,
+            bracoEsquerdo: medidas.bracoEsquerdo ? medidas.bracoEsquerdo : cliente?.medida?.bracoEsquerdo,
+            cintura: medidas.cintura ? medidas.cintura : cliente?.medida?.cintura,
+            coxaDireita: medidas.coxaDireita ? medidas.coxaDireita : cliente?.medida?.coxaDireita,
+            coxaEsquerda: medidas.coxaEsquerda ? medidas.coxaEsquerda : cliente?.medida?.coxaEsquerda,
+            panturrilhaDireita: medidas.panturrilhaDireita ? medidas.panturrilhaDireita : cliente?.medida?.panturrilhaDireita,
+            panturrilhaEsquerda: medidas.panturrilhaEsquerda ? medidas.panturrilhaEsquerda : cliente?.medida?.panturrilhaEsquerda,
+            peso: medidas.peso ? medidas.peso : cliente?.medida?.peso,
+            altura: medidas.altura ? medidas.altura : cliente?.medida?.altura,
+        }
+        await fetch(`http://localhost:8080/api/medida/${cliente?.medida?.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(schema),
+        });
+        fetchUser();
+        setIsChangeMeasures(false);
+    }
+
 
     useEffect(() => {
-        fetchUser();
+        sessionStorage.getItem("token") ? fetchUser() : router.push("/pages/auth/login");
     }, [])
 
 
@@ -200,24 +227,38 @@ export default function Profile({ params }) {
                             {isChangeMeasures && (
                                 <Modal title="Atualizar Medidas" closeModal={() => setIsChangeMeasures(false)}>
                                     <div className={styles.medidas_modal}>
+                                        <div className={styles.side_inputs}>
+                                            <Input
+                                                label="Altura (cm)"
+                                                placeholder="Nova altura"
+                                                type="number"
+                                                onChange={(e) => setMedidas({ ...medidas, altura: parseInt(e.target.value) })}
+                                            />
+                                            <Input
+                                                label="Peso (kg)"
+                                                placeholder="Novo peso"
+                                                type="number"
+                                                onChange={(e) => setMedidas({ ...medidas, peso: parseInt(e.target.value) })}
+                                            />
+                                        </div>
                                         <Input
-                                            label="Peitoral (cm)"
-                                            placeholder="Nova medida peitoral"
+                                            label="Tórax (cm)"
+                                            placeholder="Nova medida tórax"
                                             type="number"
-                                            onChange={(e) => setMedidas({ ...medidas, peitoral: parseInt(e.target.value) })}
+                                            onChange={(e) => setMedidas({ ...medidas, torax: parseInt(e.target.value) })}
                                         />
                                         <div className={styles.side_inputs}>
                                             <Input
                                                 label="Braço Direito (cm)"
                                                 placeholder="Nova medida braço direito"
                                                 type="number"
-                                                onChange={(e) => setMedidas({ ...medidas, braco_direito: parseInt(e.target.value) })}
+                                                onChange={(e) => setMedidas({ ...medidas, bracoDireito: parseInt(e.target.value) })}
                                             />
                                             <Input
                                                 label="Braço Esquerdo (cm)"
                                                 placeholder="Nova medida braço esquerdo"
                                                 type="number"
-                                                onChange={(e) => setMedidas({ ...medidas, braco_esquerdo: parseInt(e.target.value) })}
+                                                onChange={(e) => setMedidas({ ...medidas, bracoEsquerdo: parseInt(e.target.value) })}
                                             />
                                         </div>
                                         <Input
@@ -231,13 +272,13 @@ export default function Profile({ params }) {
                                                 label="Coxa Direita (cm)"
                                                 placeholder="Nova medida coxa direita"
                                                 type="number"
-                                                onChange={(e) => setMedidas({ ...medidas, coxa_direita: parseInt(e.target.value) })}
+                                                onChange={(e) => setMedidas({ ...medidas, coxaDireita: parseInt(e.target.value) })}
                                             />
                                             <Input
                                                 label="Coxa Esquerda (cm)"
                                                 placeholder="Nova medida coxa esquerda"
                                                 type="number"
-                                                onChange={(e) => setMedidas({ ...medidas, coxa_esquerda: parseInt(e.target.value) })}
+                                                onChange={(e) => setMedidas({ ...medidas, coxaEsquerda: parseInt(e.target.value) })}
                                             />
                                         </div>
                                         <div className={styles.side_inputs}>
@@ -245,40 +286,48 @@ export default function Profile({ params }) {
                                                 label="Panturrilha Direita (cm)"
                                                 placeholder="Nova medida panturrilha direita"
                                                 type="number"
-                                                onChange={(e) => setMedidas({ ...medidas, panturrilha_direita: parseInt(e.target.value) })}
+                                                onChange={(e) => setMedidas({ ...medidas, panturrilhaDireita: parseInt(e.target.value) })}
                                             />
                                             <Input
                                                 label="Panturrilha Esquerda (cm)"
                                                 placeholder="Nova medida panturrilha esquerda"
                                                 type="number"
-                                                onChange={(e) => setMedidas({ ...medidas, panturrilha_esquerda: parseInt(e.target.value) })}
+                                                onChange={(e) => setMedidas({ ...medidas, panturrilhaEsquerda: parseInt(e.target.value) })}
                                             />
                                         </div>
-                                        <ButtonPrimary onClick={() => console.log(medidas)}>Atualizar</ButtonPrimary>
+                                        <ButtonPrimary onClick={() => updateMeasures()}>Atualizar</ButtonPrimary>
                                     </div>
                                 </Modal>
                             )}
                         </div>
                         <div className={styles.medidas_container}>
                             <div className={styles.medidas_info}>
-                                <h6>Peitoral:</h6>
-                                <h5>{cliente?.medidas?.torax ? cliente?.medidas?.torax : 0} cm</h5>
+                                <h6>Altura:</h6>
+                                <h5>{cliente?.medida?.altura ? cliente?.medida?.altura : 0} cm</h5>
+                            </div>
+                            <div className={styles.medidas_info}>
+                                <h6>Peso:</h6>
+                                <h5>{cliente?.medida?.peso ? cliente?.medida?.peso : 0} Kg</h5>
+                            </div>
+                            <div className={styles.medidas_info}>
+                                <h6>Tórax:</h6>
+                                <h5>{cliente?.medida?.torax ? cliente?.medida?.torax : 0} cm</h5>
                             </div>
                             <div className={styles.medidas_info}>
                                 <h6>Braços:</h6>
-                                <h5>L {cliente?.medidas?.bracoEsquerdo ? cliente?.medidas?.bracoEsquerdo : 0} cm | R {cliente?.medidas?.bracoDireito ? cliente?.medidas?.bracoDireito : 0} cm</h5>
+                                <h5>L {cliente?.medida?.bracoEsquerdo ? cliente?.medida?.bracoEsquerdo : 0} cm | R {cliente?.medida?.bracoDireito ? cliente?.medida?.bracoDireito : 0} cm</h5>
                             </div>
                             <div className={styles.medidas_info}>
                                 <h6>Cintura:</h6>
-                                <h5>{cliente?.medidas?.cintura ? cliente?.medidas?.cintura : 0} cm</h5>
+                                <h5>{cliente?.medida?.cintura ? cliente?.medida?.cintura : 0} cm</h5>
                             </div>
                             <div className={styles.medidas_info}>
                                 <h6>Coxas:</h6>
-                                <h5>L {cliente?.medidas?.coxaEsquerda ? cliente?.medidas?.coxaEsquerda : 0} cm | R {cliente?.medidas?.coxaDireita ? cliente?.medidas?.coxaDireita : 0} cm</h5>
+                                <h5>L {cliente?.medida?.coxaEsquerda ? cliente?.medida?.coxaEsquerda : 0} cm | R {cliente?.medida?.coxaDireita ? cliente?.medida?.coxaDireita : 0} cm</h5>
                             </div>
                             <div className={styles.medidas_info}>
                                 <h6>Panturrilhas:</h6>
-                                <h5>L {cliente?.medidas?.paturrilhaEsquerda ? cliente?.medidas?.paturrilhaEsquerda : 0} cm | R {cliente?.medidas?.paturrilhaDireita ? cliente?.medidas?.paturrilhaDireita : 0} cm</h5>
+                                <h5>L {cliente?.medida?.panturrilhaEsquerda ? cliente?.medida?.panturrilhaEsquerda : 0} cm | R {cliente?.medida?.panturrilhaDireita ? cliente?.medida?.panturrilhaDireita : 0} cm</h5>
                             </div>
                         </div>
                     </div>
