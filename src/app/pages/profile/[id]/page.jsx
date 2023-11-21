@@ -18,8 +18,10 @@ import { formatDate } from "@/utils/Date";
 export default function Profile({ params }) {
     const router = useRouter();
     const { id } = params;
-    const [isChangeMeasures, setIsChangeMeasures] = useState(false);
+    const [isChangeClient, setIsChangeClient] = useState(false);
+    const [updateClient, setUpdateClient] = useState({});
     const [cliente, setCliente] = useState({});
+    const [isChangeMeasures, setIsChangeMeasures] = useState(false);
     const [medidas, setMedidas] = useState({
         torax: "",
         bracoDireito: "",
@@ -66,6 +68,31 @@ export default function Profile({ params }) {
         console.log(responseAPI);
     }
 
+    const updateCliente = async () => {
+        const schema = {
+            nome: updateClient?.nome ? updateClient?.nome : cliente.nome,
+            idade: updateClient?.idade ? updateClient?.idade : cliente.idade,
+            email: cliente.email ? cliente.email : updateClient?.email,
+            senha: cliente.senha ? cliente.senha : updateClient?.senha,
+            metabolismo: updateClient?.metabolismo ? updateClient?.metabolismo : cliente.metabolismo,
+            genero: updateClient?.genero ? updateClient?.genero : cliente.genero,
+            objetivo: { id: cliente.objetivo.id },
+            treino: { id: cliente.treino.id },
+            dieta: { id: cliente.dieta.id },
+            biotipo: { id: cliente.biotipo.id },
+            medida: { id: cliente.medida.id },
+        }
+        console.log(schema);
+        await fetch(`http://localhost:8080/api/cliente/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(schema),
+        });
+        fetchUser();
+        setIsChangeClient(false);
+    }
 
     const updateMeasures = async () => {
         const schema = {
@@ -117,7 +144,7 @@ export default function Profile({ params }) {
     return (
         <div className={styles.background}>
             <div className={styles.header}>
-                <h1 className={styles.selected_item}><Link href="/pages/profile/0">Perfil do Usuário</Link></h1>
+                <h1 className={styles.selected_item}>Perfil do Usuário</h1>
             </div>
             <main className={styles.main}>
                 <div className={styles.top_profile}>
@@ -134,7 +161,48 @@ export default function Profile({ params }) {
                         </div>
                         <div className={styles.divButtons}>
                             <ButtonDanger className={styles.delete_button}>{icons.logout}</ButtonDanger>
-                            <ButtonSecondary className={styles.edit_button}>{icons.edit}</ButtonSecondary>
+                            <ButtonSecondary className={styles.edit_button} onClick={() => setIsChangeClient(true)}>{icons.edit}</ButtonSecondary>
+                            {isChangeClient && (
+                                <Modal title="Atualizar Cliente" closeModal={() => setIsChangeClient(false)}>
+                                    <div className={styles.modal_client}>
+                                        <Input
+                                            label="Nome"
+                                            placeholder="Novo nome"
+                                            onChange={(e) => setUpdateClient({ ...updateClient, nome: e.target.value })}
+                                        />
+                                        <Input
+                                            label="Idade"
+                                            placeholder="Nova idade"
+                                            type="number"
+                                            onChange={(e) => setUpdateClient({ ...updateClient, idade: parseInt(e.target.value) })}
+                                        />
+                                        <Input
+                                            label="Metabolismo"
+                                            placeholder="Novo metabolismo"
+                                            type="number"
+                                            onChange={(e) => setUpdateClient({ ...updateClient, metabolismo: parseInt(e.target.value) })}
+                                        />
+                                        <Select
+                                            label="Gênero"
+                                            options={[{ value: "", label: "" }, { value: "Masculino", label: "Masculino" }, { value: "Feminino", label: "Feminino" }]}
+                                            onChange={(e) => setUpdateClient({ ...updateClient, genero: e.target.value })}
+                                        />
+                                        <Input
+                                            label="Email"
+                                            type="email"
+                                            placeholder="Novo email"
+                                            onChange={(e) => setUpdateClient({ ...updateClient, email: e.target.value })}
+                                        />
+                                        <Input
+                                            label="Senha"
+                                            placeholder="Nova senha"
+                                            onChange={(e) => setUpdateClient({ ...updateClient, senha: e.target.value })}
+                                        />
+
+                                        <ButtonPrimary onClick={() => updateCliente()}>Atualizar</ButtonPrimary>
+                                    </div>
+                                </Modal>
+                            )}
                         </div>
                     </div>
                 </div>
