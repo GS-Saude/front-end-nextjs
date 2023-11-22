@@ -57,7 +57,7 @@ export default function Profile({ params }) {
 
 
     const fetchUser = async () => {
-        const response = await fetch(`http://localhost:8080/api/cliente/${id}`, {
+        const response = await fetch(`/api/cliente/${id}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -67,6 +67,7 @@ export default function Profile({ params }) {
         setCliente(responseAPI);
     }
 
+    //arrumado
     const updateCliente = async () => {
         const schema = {
             nome: updateClient?.nome ? updateClient?.nome : cliente.nome,
@@ -81,7 +82,7 @@ export default function Profile({ params }) {
             biotipo: { id: cliente.biotipo.id },
             medida: { id: cliente.medida.id },
         }
-        await fetch(`http://localhost:8080/api/cliente/${id}`, {
+        await fetch(`/api/cliente/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -92,6 +93,7 @@ export default function Profile({ params }) {
         setIsChangeClient(false);
     }
 
+    //arrumado
     const updateTraining = async (idParam) => {
         const schema = {
             nome: cliente.nome,
@@ -106,7 +108,7 @@ export default function Profile({ params }) {
             biotipo: { id: cliente.biotipo.id },
             medida: { id: cliente.medida.id },
         }
-        await fetch(`http://localhost:8080/api/cliente/${id}`, {
+        await fetch(`/api/treino/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -117,6 +119,7 @@ export default function Profile({ params }) {
         setIsChangeTraining(false);
     }
 
+    //arrumado
     const updateDiet = async (idParam) => {
         const schema = {
             nome: cliente.nome,
@@ -131,7 +134,7 @@ export default function Profile({ params }) {
             biotipo: { id: cliente.biotipo.id },
             medida: { id: cliente.medida.id },
         }
-        await fetch(`http://localhost:8080/api/cliente/${id}`, {
+        await fetch(`/api/dieta/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -142,6 +145,7 @@ export default function Profile({ params }) {
         setIsChangeDiet(false);
     }
 
+    //arrumado
     const updateMeasures = async () => {
         const schema = {
             torax: medidas.torax ? medidas.torax : cliente?.medida?.torax,
@@ -155,7 +159,7 @@ export default function Profile({ params }) {
             peso: medidas.peso ? medidas.peso : cliente?.medida?.peso,
             altura: medidas.altura ? medidas.altura : cliente?.medida?.altura,
         }
-        await fetch(`http://localhost:8080/api/medida/${cliente?.medida?.id}`, {
+        await fetch(`/api/medida/${cliente?.medida?.id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -166,13 +170,14 @@ export default function Profile({ params }) {
         setIsChangeMeasures(false);
     }
 
+    //arrumado
     const updateObjetivo = async () => {
         const schema = {
             nome: objetivo.nome ? objetivo.nome : cliente?.objetivo?.nome,
-            tempo: objetivo.tempo ? objetivo.tempo : cliente?.objetivo?.tempo,
+            tempo: objetivo.tempo ? objetivo.tempo : formatDate(cliente?.objetivo?.tempo),
             peso: objetivo.peso ? objetivo.peso : cliente?.objetivo?.peso,
         }
-        await fetch(`http://localhost:8080/api/objetivo/${cliente?.objetivo?.id}`, {
+        await fetch(`/api/objetivo/${cliente?.objetivo?.id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -486,7 +491,7 @@ export default function Profile({ params }) {
                                         <div className={styles.side_inputs}>
                                             <Input
                                                 label="Data limite"
-                                                placeholder="Digite o tempo em meses"
+                                                placeholder="Digite a data do objetivo"
                                                 value={objetivo.tempo}
                                                 onChange={(e) => {
                                                     const inputValue = e.target.value;

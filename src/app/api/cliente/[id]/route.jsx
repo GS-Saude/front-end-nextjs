@@ -1,15 +1,14 @@
 import { NextResponse } from "next/server";
 
-export async function GET({ params }) {
+
+// arrumado
+export async function GET(request, { params }) {
     const { id } = params;
     if (id) {
         const response = await fetch(`http://127.0.0.1:8080/api/cliente/${id}`)
         const data = await response.json()
         return NextResponse.json(data)
     }
-    const response = await fetch("http://127.0.0.1:8080/api/cliente")
-    const data = await response.json()
-    return NextResponse.json(data)
 }
 
 
@@ -25,13 +24,17 @@ export async function POST({ request }) {
     return NextResponse.json(data)
 }
 
-export async function PUT({ request }) {
-    const response = await fetch(`http://127.0.0.1:8080/api/cliente`, {
+// arrumado
+export async function PUT( request, { params } ) {
+    const responseData = await request.json()
+    const { id } = params;
+
+    const response = await fetch(`http://127.0.0.1:8080/api/cliente/${id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(request.body),
+        body: JSON.stringify(responseData),
     });
     const data = await response.json()
     return NextResponse.json(data)

@@ -30,14 +30,10 @@ export default function Login() {
 
             if (response.ok) {
                 const responseAPI = await response.json();
-                console.log(responseAPI);
-                // const token = Math.random().toString(36).substring(2);
-                // const id = responseAPI.id;
-                // sessionStorage.setItem("token", id+token);
-                // route.push(`/profile/${id}`)
-                // setTimeout(() => {
-                //     window.location.reload();
-                // }, 1500);
+                const token = Math.random().toString(36).substring(2);
+                const id = responseAPI.id;
+                sessionStorage.setItem("token", id+token);
+                route.push(`/profile/${id}`)
             } else {
                 console.log("Erro ao realizar o login");
                 alert("Email ou senha Inválidos");

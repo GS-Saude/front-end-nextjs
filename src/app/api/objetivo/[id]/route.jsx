@@ -8,10 +8,6 @@ export async function GET({ params }) {
         const data = await response.json()
         return NextResponse.json(data)
     }
-
-    const response = await fetch("http://127.0.0.1:8080/api/objetivo")
-    const data = await response.json()
-    return NextResponse.json(data)
 }
 
 
@@ -27,15 +23,18 @@ export async function POST({ request }){
     return NextResponse.json(data)
 }
 
-
-export async function PUT({ params, request }){
+//arrumada
+export async function PUT( request, { params }){
     const { id } = params;
-    const response = await fetch(`http://127.0.0.1:8080/api/cliente/${id}`, {
+    const responseData = await request.json()
+    console.log(responseData)
+
+    const response = await fetch(`http://127.0.0.1:8080/api/objetivo/${id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(request.body),
+        body: JSON.stringify(responseData),
     });
     const data = await response.json()
     return NextResponse.json(data)
