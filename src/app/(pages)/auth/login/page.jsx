@@ -34,6 +34,9 @@ export default function Login() {
                 const id = responseAPI.id;
                 sessionStorage.setItem("token", id+token);
                 route.push(`/profile/${id}`)
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3000);
             } else {
                 console.log("Erro ao realizar o login");
                 alert("Email ou senha Inválidos");

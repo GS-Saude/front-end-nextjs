@@ -1,0 +1,112 @@
+.background {
+    background-color: rgb(24, 24, 24);
+    display: flex;
+    justify-content: center;
+    height: calc(100vh - 100px);
+    gap: 24px;
+}
+
+.content {
+    background-color: rgb(32, 32, 32);
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    max-height: calc(100vh - 124px);
+    overflow-y: auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+.header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: rgb(255, 255, 255);
+}
+.header h5 {
+    font-size: 18px;
+    font-weight: 700;
+    color: rgb(255, 255, 255);
+    background-color: rgb(25, 25, 25);
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgb(255, 255, 255, 0.2);
+}
+
+
+
+.subtitle {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    color: rgb(255, 255, 255);
+    margin-bottom: 32px;
+    padding: 0 0 24px 0;
+    border-bottom: 2px solid rgb(255, 255, 255, 0.2);
+}
+
+.dieta_body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.refeicao {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.refeicao .titulo_refeicao {
+    text-align: center;
+    font-size: 18px;
+    padding: 12px 0 0 0;
+}
+
+
+.description {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background-color: rgb(25, 25, 25);
+    border: 1px solid rgb(121, 121, 121);
+    border-radius: 8px;
+    padding: 32px;
+}
+
+.nome_refeicao {
+    font-size: 18px;
+    font-weight: 700;
+    color: rgb(164, 164, 164);
+    text-align: start;
+    text-transform: uppercase;
+}
+
+.info_dieta {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    padding: 0 24px;
+}
+.info_dieta h4 {
+    font-weight: 500;
+}
+.info_dieta h5 {
+    font-weight: 400;
+}
+
+
+
+
+
+
+
+@media (max-width: 768px){
+    .content{
+        width: 95%;
+        padding: 24px 12px;
+    }
+}
