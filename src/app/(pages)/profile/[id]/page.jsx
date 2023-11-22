@@ -56,6 +56,7 @@ export default function Profile({ params }) {
     }), []);
 
 
+    //arrumado
     const fetchUser = async () => {
         const response = await fetch(`/api/cliente/${id}`, {
             method: "GET",
@@ -216,7 +217,7 @@ export default function Profile({ params }) {
                         <div className={styles.divButtons}>
                             <ButtonDanger className={styles.delete_button} onClick={() => {
                                 sessionStorage.removeItem("token");
-                                router.push("/pages/auth/login");
+                                router.push("/auth/login");
                                 setTimeout(() => {
                                     window.location.reload();
                                 }, 1500);
@@ -326,7 +327,7 @@ export default function Profile({ params }) {
                                 trainning={true}
                                 backgroundImage={"/ganhar_peso.jpg"}
                                 title={cliente?.treino?.nome}
-                                onClick={() => router.push(`/pages/profile/training/${cliente?.treino?.id}`)}
+                                onClick={() => router.push(`/profile/training/${cliente?.treino?.id}`)}
                             />
                         </div>
                     </div>
@@ -358,7 +359,7 @@ export default function Profile({ params }) {
                                 trainning={true}
                                 backgroundImage={"/diet.jpg"}
                                 title={cliente?.dieta?.nome}
-                                onClick={() => router.push(`/pages/profile/diet/${cliente?.dieta?.id}`)}
+                                onClick={() => router.push(`/profile/diet/${cliente?.dieta?.id}`)}
                             />
                         </div>
                     </div>
