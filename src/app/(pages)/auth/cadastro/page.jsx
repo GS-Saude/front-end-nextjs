@@ -153,7 +153,7 @@ export default function Cadastro() {
 
             if (responseClienteJson.id) {
                 alert("Cadastro realizado com sucesso");
-                route.push("/pages/auth/login")
+                route.push("/auth/login")
             }
         } catch (error) {
             console.log(error);
@@ -202,7 +202,7 @@ export default function Cadastro() {
                             }
                             setStep(2)
                         }}>Continuar {icons.next}</Button>
-                        <ButtonLink redirect="/pages/auth/login">Já Possui Cadastro ?</ButtonLink>
+                        <ButtonLink redirect="/auth/login">Já Possui Cadastro ?</ButtonLink>
                     </form>
                 </div>
                 <div className={step == 2 ? styles.objetivo_container : styles.display_none}>

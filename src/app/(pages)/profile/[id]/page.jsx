@@ -185,7 +185,8 @@ export default function Profile({ params }) {
 
 
     useEffect(() => {
-        sessionStorage.getItem("token") ? fetchUser() : router.push("/pages/auth/login");
+        // sessionStorage.getItem("token") ? fetchUser() : router.push("/auth/login");
+        fetchUser();
     }, [])
 
 
@@ -196,11 +197,6 @@ export default function Profile({ params }) {
             </div>
             <main className={styles.main}>
                 <div className={styles.top_profile}>
-                    <ButtonPrimary onClick={() => {
-                        fetch("/api/cliente")
-                            .then((response) => response.json())
-                            .then((data) => console.log(data));
-                    }}>Testar</ButtonPrimary>
                     <Image className={styles.profile_picture} priority={true} src="/woman_and_string.jpg" width={100} height={100} alt="Foto de perfil" />
                     <div className={styles.profile_info}>
                         <div className={styles.user_info}>

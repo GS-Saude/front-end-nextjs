@@ -2,7 +2,6 @@
 import styles from "./styles.module.css";
 import React, { useMemo, useEffect, useState } from "react";
 import renderIcon from "@/utils/iconGallery";
-import Link from "next/link";
 import Card from "@/components/Card/page";
 import Image from "next/image";
 

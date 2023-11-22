@@ -18,6 +18,7 @@ export default function Login() {
 
     const onSubmit = async (e) => {
         e.preventDefault();
+        if(!login.email || !login.senha) return alert("Preencha todos os campos");
         try {
             const response = await fetch("http://localhost:8080/api/cliente/login", {
                 method: "POST",
@@ -32,7 +33,7 @@ export default function Login() {
                 const token = Math.random().toString(36).substring(2);
                 const id = responseAPI.id;
                 sessionStorage.setItem("token", id+token);
-                route.push(`/pages/profile/${id}`)
+                route.push(`/profile/${id}`)
                 setTimeout(() => {
                     window.location.reload();
                 }, 1500);
@@ -66,8 +67,7 @@ export default function Login() {
                         onChange={(e) => handleChange(e, "senha")}
                     />
                     <Button type="submit">Entrar</Button>
-                    {/* <Button redirect="/pages/profile/0">Entrar</Button> */}
-                    <ButtonLink redirect="/pages/auth/cadastro">Cadastrar</ButtonLink>
+                    <ButtonLink redirect="/auth/cadastro">Cadastrar</ButtonLink>
                 </form>
             </div>
         </main>

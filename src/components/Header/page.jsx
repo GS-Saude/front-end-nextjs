@@ -30,9 +30,9 @@ export default function Header() {
                 <ul className={styles.ul}>
                     <Link href="/"><Image src="/logo.png" width={40} height={40} alt="Logo" /></Link>
                     {!hasToken ? (
-                        <li className={styles.li}><ButtonPrimary redirect="/pages/auth/login">{icons.login}Login</ButtonPrimary></li>
+                        <li className={styles.li}><ButtonPrimary redirect="/auth/login">{icons.login}Login</ButtonPrimary></li>
                     ) : (
-                        <li className={styles.li}><ButtonPrimary redirect={"/pages/profile/" + hasToken}>{icons.login}Perfil</ButtonPrimary></li>
+                        <li className={styles.li}><ButtonPrimary redirect={"/profile/" + hasToken}>{icons.login}Perfil</ButtonPrimary></li>
                     )}
                 </ul>
             </nav>
