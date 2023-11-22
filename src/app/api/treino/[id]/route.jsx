@@ -8,10 +8,6 @@ export async function GET({ params }) {
         const data = await response.json()
         return NextResponse.json(data)
     }
-
-    const response = await fetch("http://127.0.0.1:8080/api/treino")
-    const data = await response.json()
-    return NextResponse.json(data)
 }
 
 
@@ -19,9 +15,6 @@ export async function GET({ params }) {
 export async function PUT( request, { params } ) {
     const { id } = params;
     const responseData = await request.json()
-    console.log(responseData)
-    console.log(id)
-
     const response = await fetch(`http://127.0.0.1:8080/api/cliente/${id}`, {
         method: "PUT",
         headers: {

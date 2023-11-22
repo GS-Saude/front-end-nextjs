@@ -99,7 +99,7 @@ export default function Cadastro() {
         }
 
         try {
-            const responseObjetivo = await fetch("http://localhost:8080/api/objetivo", {
+            const responseObjetivo = await fetch("/api/objetivo/0", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -120,7 +120,7 @@ export default function Cadastro() {
                 peso: medida.peso,
                 torax: 0
             }
-            const responseMedida = await fetch("http://localhost:8080/api/medida", {
+            const responseMedida = await fetch("/api/medida/0", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -142,7 +142,7 @@ export default function Cadastro() {
                 metabolismo: cliente.metabolismo,
                 senha: cliente.senha,
             };
-            const responseCliente = await fetch("http://localhost:8080/api/cliente", {
+            const responseCliente = await fetch("/api/cliente/0", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

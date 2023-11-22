@@ -191,8 +191,7 @@ export default function Profile({ params }) {
 
 
     useEffect(() => {
-        // sessionStorage.getItem("token") ? fetchUser() : router.push("/auth/login");
-        fetchUser();
+        sessionStorage.getItem("token") ? fetchUser() : router.push("/auth/login");
     }, [])
 
 

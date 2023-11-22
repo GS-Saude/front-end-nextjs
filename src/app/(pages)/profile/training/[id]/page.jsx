@@ -8,6 +8,7 @@ import Image from "next/image";
 export default function Training({ params }) {
     const { id } = params;
     const [seletedTraining, setSeletedTraining] = useState();
+    const [trainings, setTrainings] = useState([]);
     const icons = useMemo(() => ({
         logout: renderIcon({ name: "logout", size: 18, color: "#fff" }),
         next: renderIcon({ name: "next", size: 18, color: "#fff" }),
@@ -22,13 +23,21 @@ export default function Training({ params }) {
     }), []);
 
 
-    const fetchTraining = () => {
-        fetch(`http://localhost:8080/api/treino/${id}`)
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data)
-            });
+    const fetchTraining = async () => {
+        console.log(id)
+        const responseApi = await fetch(`/api/treino/tipo/${id}`)
+        const data = await responseApi.json()
+        console.log(data)
+        setTrainings(data)
     }
+
+    const fetchExercise = async (id) => {
+        const responseAPI = await fetch(`/api/treino/exercicios/${id}`)
+        const data = await responseAPI.json()
+        console.log(data)
+    }
+
+
 
     useEffect(() => {
         fetchTraining();
@@ -37,9 +46,22 @@ export default function Training({ params }) {
     return (
         <main className={styles.background}>
             <div className={styles.sidebar}>
-                <h1 className={styles.title}>Treino A</h1>
+                <h1 className={styles.title}>Treino</h1>
                 <div className={styles.cards}>
-                    <Card
+                    {trainings.map((training) => (
+                        <Card
+                            key={training.id}
+                            backgroundImage={training.imagem}
+                            title={training.nome}
+                            train_page={true}
+                            onClick={() => {
+                                setSeletedTraining(training.id)
+                                fetchExercise(training.id)
+                                console.log(training.id)
+                            }}
+                        />
+                    ))}
+                    {/* <Card
                         backgroundImage="/treino_costas.jpg"
                         title="Puxada Alta"
                         train_page={true}
@@ -56,7 +78,7 @@ export default function Training({ params }) {
                         title="Remada Curvada"
                         train_page={true}
                         onClick={() => setSeletedTraining(3)}
-                    />
+                    /> */}
                 </div>
             </div>
             <div className={styles.container}>
