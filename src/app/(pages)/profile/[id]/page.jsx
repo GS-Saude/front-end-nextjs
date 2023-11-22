@@ -55,8 +55,6 @@ export default function Profile({ params }) {
         add: renderIcon({ name: "add", size: 18, color: "#fff" }),
     }), []);
 
-
-    //arrumado
     const fetchUser = async () => {
         const response = await fetch(`/api/cliente/${id}`, {
             method: "GET",
@@ -68,7 +66,6 @@ export default function Profile({ params }) {
         setCliente(responseAPI);
     }
 
-    //arrumado
     const updateCliente = async () => {
         const schema = {
             nome: updateClient?.nome ? updateClient?.nome : cliente.nome,
@@ -94,7 +91,6 @@ export default function Profile({ params }) {
         setIsChangeClient(false);
     }
 
-    //arrumado
     const updateTraining = async (idParam) => {
         const schema = {
             nome: cliente.nome,
@@ -120,7 +116,6 @@ export default function Profile({ params }) {
         setIsChangeTraining(false);
     }
 
-    //arrumado
     const updateDiet = async (idParam) => {
         const schema = {
             nome: cliente.nome,
@@ -146,7 +141,6 @@ export default function Profile({ params }) {
         setIsChangeDiet(false);
     }
 
-    //arrumado
     const updateMeasures = async () => {
         const schema = {
             torax: medidas.torax ? medidas.torax : cliente?.medida?.torax,
@@ -171,7 +165,6 @@ export default function Profile({ params }) {
         setIsChangeMeasures(false);
     }
 
-    //arrumado
     const updateObjetivo = async () => {
         const schema = {
             nome: objetivo.nome ? objetivo.nome : cliente?.objetivo?.nome,
@@ -189,11 +182,9 @@ export default function Profile({ params }) {
         setIsChangeObjective(false);
     }
 
-
     useEffect(() => {
         sessionStorage.getItem("token") ? fetchUser() : router.push("/auth/login");
     }, [])
-
 
     return (
         <div className={styles.background}>
@@ -202,7 +193,7 @@ export default function Profile({ params }) {
             </div>
             <main className={styles.main}>
                 <div className={styles.top_profile}>
-                    <Image className={styles.profile_picture} priority={true} src="/woman_and_string.jpg" width={100} height={100} alt="Foto de perfil" />
+                    <Image className={styles.profile_picture} priority={true} src="/treino_superiores.jpg" width={100} height={100} alt="Foto de perfil" />
                     <div className={styles.profile_info}>
                         <div className={styles.user_info}>
                             <h1>{cliente?.nome}</h1>

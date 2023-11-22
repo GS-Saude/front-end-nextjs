@@ -173,4 +173,8 @@
     .cards {
         max-height: 350px;
     }
+    .container {
+        max-height: None;
+        overflow-y: hidden;
+    }
 }
