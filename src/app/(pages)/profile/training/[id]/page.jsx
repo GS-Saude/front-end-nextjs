@@ -10,6 +10,7 @@ export default function Training({ params }) {
     const [seletedTraining, setSeletedTraining] = useState();
     const [exercise, setExercise] = useState([]);
     const [trainings, setTrainings] = useState([]);
+    const [loading, setLoading] = useState(false);
     const icons = useMemo(() => ({
         logout: renderIcon({ name: "logout", size: 18, color: "#fff" }),
         next: renderIcon({ name: "next", size: 18, color: "#fff" }),
@@ -33,6 +34,7 @@ export default function Training({ params }) {
         const responseAPI = await fetch(`/api/treino/exercicios/${id}`)
         const data = await responseAPI.json()
         setExercise(data)
+        setLoading(false);
     }
 
     useEffect(() => {
@@ -52,11 +54,13 @@ export default function Training({ params }) {
                     {trainings.map((training) => (
                         <Card
                             key={training.id}
-                            backgroundImage="/treino_costas.jpg"
+                            backgroundImage="/home_bg.jpg"
                             title={training.nome}
                             train_page={true}
                             onClick={() => {
-                                fetchExercise(training.id)
+                                setExercise([]);
+                                setLoading(true);
+                                fetchExercise(training.id);
                             }}
                         />
                     ))}
@@ -64,10 +68,9 @@ export default function Training({ params }) {
             </div>
 
             <div className={styles.container}>
-                {exercise.map((exercicio) => (
+                {exercise && !loading && exercise.map((exercicio) => (
                     <div key={exercicio.id} className={styles.body_container}>
                         <div className={styles.exercise_header}>
-                            <Image priority={true} src="/woman_and_string.jpg" width={100} height={100} alt={"Imagem de " + exercicio.nome} />
                             <h1>{exercicio.nome}</h1>
                         </div>
                         <div className={styles.exercise_body}>
@@ -85,7 +88,12 @@ export default function Training({ params }) {
                         </div>
                     </div>
                 ))}
-
+                {loading && exercise.length < 1 && (
+                    <div className={styles.loading}>
+                        <h2>Carregando Treino</h2>
+                        <div className={styles.spinner}></div>
+                    </div>
+                )}
             </div>
         </main>
     )
