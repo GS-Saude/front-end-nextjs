@@ -20,7 +20,7 @@ export default function Login() {
         e.preventDefault();
         if(!login.email || !login.senha) return alert("Preencha todos os campos");
         try {
-            const response = await fetch("http://localhost:8080/api/cliente/login", {
+            const response = await fetch("/api/cliente/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -30,13 +30,14 @@ export default function Login() {
 
             if (response.ok) {
                 const responseAPI = await response.json();
-                const token = Math.random().toString(36).substring(2);
-                const id = responseAPI.id;
-                sessionStorage.setItem("token", id+token);
-                route.push(`/profile/${id}`)
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1500);
+                console.log(responseAPI);
+                // const token = Math.random().toString(36).substring(2);
+                // const id = responseAPI.id;
+                // sessionStorage.setItem("token", id+token);
+                // route.push(`/profile/${id}`)
+                // setTimeout(() => {
+                //     window.location.reload();
+                // }, 1500);
             } else {
                 console.log("Erro ao realizar o login");
                 alert("Email ou senha Inválidos");
