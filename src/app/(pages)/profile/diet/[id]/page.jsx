@@ -1,8 +1,10 @@
 'use client'
 import styles from "./styles.module.css";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Diet({ params }) {
+    const router = useRouter();
     const { id } = params;
     const [dieta, setDieta] = useState([]);
 
@@ -18,9 +20,13 @@ export default function Diet({ params }) {
         }
     };
     
-
     useEffect(() => {
-        fetchDieta();
+        const token = sessionStorage.getItem('token');
+        if (!token) {
+            router.push("/auth/login");
+        } else {
+            fetchDieta();
+        }
     }, []);
 
     return (

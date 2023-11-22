@@ -39,6 +39,8 @@
     flex: 9;
     border-radius: 12px 0 0 0;
     background-color: rgb(33, 33, 33);
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
 }
 
 .centered {
@@ -73,67 +75,61 @@
     flex-direction: column;
     flex: 1;
     padding: 24px;
-    gap: 16px;
-    overflow-y: auto;
     animation: fadeIn 1s ease-out;
 }
 
-
-
-.image_container {
-    width: 100%;
-    height: 60%;
-    object-fit: contain;
+.exercise_header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    background-color: rgb(31, 31, 31);
+    padding: 16px;
     border-radius: 12px;
 }
-
-.title_info {
-    background-color: rgb(31, 31, 31);
-    padding: 12px;
+.exercise_header img{
     border-radius: 8px;
-    font-size: 28px;
+    width: 30%;
+    height: auto;
 }
 
-.body_info {
+.exercise_header h1 {
+    font-size: 24px;
+    color: rgb(173, 173, 173);
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.exercise_body {
     display: flex;
-    gap: 48px;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 16px;
+    background-color: rgb(31, 31, 31);
+    border-radius: 12px;
 }
 
-.series_info {
+.exercise_reps {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    background-color: rgb(31, 31, 31);
-    padding: 16px;
+    background-color: rgb(27, 26, 26);
+    padding: 12px;
     border-radius: 12px;
-}
-.series_info h4 {
-    font-size: 18px;
-    color: rgb(107, 107, 107);
-    text-transform: uppercase;
-}
-.series_info h6 {
-    font-size: 16px;
-    color: #fff;
+    border: 1px solid rgba(50, 50, 50, 0.519);
 }
 
-.descanso {
+.exercise_info_item_descanso {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 8px;
-    background-color: rgb(31, 31, 31);
-    padding: 16px;
+    background-color: rgb(27, 26, 26);
+    padding: 12px;
     border-radius: 12px;
+    border: 1px solid rgba(50, 50, 50, 0.519);
 }
-.descanso h4 {
-    font-size: 18px;
-    color: rgb(107, 107, 107);
-    text-transform: uppercase;
-}
-.descanso h6 {
-    font-size: 16px;
-    color: #fff;
-}
+
 
 
 
