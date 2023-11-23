@@ -5,8 +5,10 @@ import ButtonLink from "@/components/Button/variants/link"
 import Input from "@/components/Input/page"
 import React, { useState, useEffect } from "react"
 import Image from "next/image"
+import { useRouter } from 'next/navigation'
 
 export default function Login() {
+    const route = useRouter();
     const [login, setLogin] = useState({ email: "", senha: "" });
 
     const handleChange = (e, fieldName) => {
@@ -14,17 +16,36 @@ export default function Login() {
         setLogin({ ...login, [fieldName]: value });
     };
 
-    const onSubmit = () => {
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        if(!login.email || !login.senha) return alert("Preencha todos os campos");
         try {
-            const token = Math.random().toString(36).substring(2);
-            const id = 1
-            console.log(login);
-            console.log(id+token);
-            // sessionStorage.setItem("token",  id+token);
+            const response = await fetch("/api/cliente/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(login),
+            });
+
+            if (response.ok) {
+                const responseAPI = await response.json();
+                const token = Math.random().toString(36).substring(2);
+                const id = responseAPI.id;
+                sessionStorage.setItem("token", id+token);
+                route.push(`/profile/${id}`)
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3000);
+            } else {
+                console.log("Erro ao realizar o login");
+                alert("Email ou senha Inválidos");
+            }
         } catch (error) {
             console.log(error);
         }
     };
+
 
     return (
         <main className={styles.main}>
@@ -34,7 +55,7 @@ export default function Login() {
                     <Image src="/illustration_login.svg" priority={true} width={200} height={200} alt="Ilustração de Login" />
                     <p className={styles.description}>Seja uma pessoa mais saudável</p>
                 </div>
-                <form className={styles.form_box}>
+                <form className={styles.form_box} onSubmit={(e) => onSubmit(e)}>
                     <h1>Login</h1>
                     <Input
                         label="Email"
@@ -42,11 +63,11 @@ export default function Login() {
                     />
                     <Input
                         label="Senha"
+                        type="password"
                         onChange={(e) => handleChange(e, "senha")}
                     />
-                    {/* <Button onClick={onSubmit}>Entrar</Button> */}
-                    <Button redirect="/pages/profile/0">Entrar</Button>
-                    <ButtonLink redirect="/pages/auth/cadastro">Cadastrar</ButtonLink>
+                    <Button type="submit">Entrar</Button>
+                    <ButtonLink redirect="/auth/cadastro">Cadastrar</ButtonLink>
                 </form>
             </div>
         </main>

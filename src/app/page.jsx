@@ -24,7 +24,7 @@ export default function Home() {
             nosso sistema de criação de
             treinos e dietas inteligênte.
           </p>
-          <ButtonPrimary redirect='/pages/auth/login'>Começe Agora</ButtonPrimary>
+          <ButtonPrimary redirect='/auth/login'>Começe Agora</ButtonPrimary>
         </div>
         <div className={styles.cards}>
           <Card icon='halter' iconSize={64} backgroundImage="/woman_and_string2.jpg">
