@@ -160,8 +160,6 @@ export default function Cadastro() {
         }
     };
 
-    console.log(biotipo)
-
     return (
         <>
             <main className={styles.main}>
