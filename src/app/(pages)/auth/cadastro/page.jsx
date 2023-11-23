@@ -160,6 +160,8 @@ export default function Cadastro() {
         }
     };
 
+    console.log(biotipo)
+
     return (
         <>
             <main className={styles.main}>
@@ -436,7 +438,7 @@ export default function Cadastro() {
                                 <div className={styles.informacao}><h4>Dieta:</h4> {dieta == 1 ? "Dieta para emagrecimento e perca de gordura corporal" : (dieta == 2 && "Dieta para ganho de massa muscular")}</div>
                                 <h2>Seu Treino</h2>
                                 <div className={styles.informacao}><h4>Treino:</h4> {treino == 1 ? "INICIANTE" : (treino == 2 ? "INTERMEDIÁRIO" : (treino == 3 && "AVANÇADO"))}</div>
-                                <div className={styles.informacao}><h4>Biotipo:</h4>{biotipo == 1 ? "ECTOMORFO" : (biotipo == 2 ? "MESOMORFO" : (treino == 3 && "ENDOMORFO"))}</div>
+                                <div className={styles.informacao}><h4>Biotipo:</h4>{biotipo == 1 ? "ECTOMORFO" : (biotipo == 2 ? "MESOMORFO" : (biotipo == 3 && "ENDOMORFO"))}</div>
                             </div>
 
                             <div className={styles.fim_boxes}>
