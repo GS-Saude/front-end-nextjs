@@ -1,5 +1,10 @@
-## DICAS PARA UTILIZAR A PLATAFORMA VIVA BEM
+> ## INSTALAÇÃO e UTILIZAÇÃO
+```
+INSTALAR PACOTES NECESSÁRIOS - npm install
+PARA RODAR O SISTEMA - npm run dev
+```
 
+# DICAS PARA UTILIZAR A PLATAFORMA VIVA BEM
 > #### ACESSO A PLATAFORMA (caso queira testar com um usuário cadastrado no sistema)
 ```
 EMAIL: edu@gmail.com
